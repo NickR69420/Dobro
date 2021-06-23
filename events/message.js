@@ -11,6 +11,9 @@ module.exports = (bot) => {
         if(message.content === "Prorok") {
             return message.channel.send("Best.");
         }
+        if (message.content === `Electrum`) {
+            return message.channel.send(`has a HUGE fucking penis`)
+        }
         if (message.content.toLowerCase().startsWith("d!8ball")) {
             let replies = ["Yes","No","Maybe","Not sure","Shut up you rat!","sure, why not","when you grow a braincell, yes","THAT'S A SOLID ****NO****","Nah that sucks tbh"]
             let randomized = replies[Math.floor(Math.random() * replies.length)]
