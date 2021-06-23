@@ -31,7 +31,7 @@ module.exports = (bot) => {
 const notowner = new Discord.MessageEmbed()
 .setDescription("Only the bot owner can use this command")
 .setColor("RED")
-const owners_id = ["YOURID"];
+const owners_id = ["734331898339524630", ["775265751954096138"]];
  if (!owners_id.includes(message.author.id))
  return message.channel.send(notowner); const args2 = message.content.split(" ").slice(1);
 

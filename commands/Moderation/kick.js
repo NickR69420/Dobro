@@ -2,11 +2,11 @@ const Discord = require('discord.js')
 
 
 module.exports = {
-    name: "ban",
-    aliases: ["rekt", "bean"],
-    usage: "{prefix}ban",
-    description: "bans the provided user",
-    permsneeded: "BAN_MEMBERS",
+    name: "kick",
+    aliases: [],
+    usage: "{prefix}kick",
+    description: "kicks a provided user",
+    permsneeded: "KICK_MEMBERS",
     run: async(bot, message, args) => {
         const {member, mentions } = message
         const tag = `<@${member.id}>`
@@ -14,10 +14,10 @@ module.exports = {
         const msg = message
         if (target) {
             const targetMember = message.guild.members.cache.get(target.id) 
-            message.channel.send(`${tag} That user has been banned`)
-            targetMember.ban() 
+            message.channel.send(`${tag} That user has been kicked`)
+            targetMember.kick() 
         } else {
-            message.channel.send('Failed to ban, no provided user/Invaild args.')
+            message.channel.send('Failed to kick, no provided user/Invaild args.')
         }
     }
 }
