@@ -18,7 +18,7 @@ module.exports = (bot) => {
     if (command) {
       if (command.permsneeded != "none" && !message.member.hasPermission(`${command.permsneeded}`)) {
         message.delete();
-        return message.channel.send("You don't have permission to use this command!").then(msg => msg.delete(5000));
+        return message.channel.send("You don't have permission to use this command!").then(message => message.delete(5000));
       }
       command.run(bot, message, args);
     }
