@@ -23,13 +23,12 @@ module.exports = (bot) => {
       command.run(bot, message, args);
     }
   });
- 
+
   bot.on("ready", () => {
     function randomStatus() {
       let status = ["the chat", "Netflix & Chill", "The sun go down", "anime", `chilling in ${bot.guilds.cache.size} servers`, "d!help"]
       let rstatus = Math.floor(Math.random() * status.length);
-      console.log("Bot came online, using token: " + config.bot.token);
-      console.log(`Username = ${bot.user.tag}`)
+      console.log("Im online lol!");
       bot.user.setActivity(status[rstatus], { type: "WATCHING" });
     }; setInterval(randomStatus, 3000)
   });
