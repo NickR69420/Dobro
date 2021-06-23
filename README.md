@@ -2,5 +2,5 @@
 
 A Proper Discord Bot made by me with the help of friends
 
-Made entirely with JavaScript
+Made entirely with JavaScript, using Discord.js v12
 
