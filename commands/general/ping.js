@@ -23,6 +23,6 @@ module.exports = {
                 value: `**\`${wsLatency}\`** ms`,
                 inline: true
             })
-        message.edit(embed);
+        msg.edit(embed);
 })  }
 }
