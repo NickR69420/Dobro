@@ -24,13 +24,23 @@ module.exports = (bot) => {
     }
   });
 
-  bot.on("ready", () => {
-    function randomStatus() {
-      let status = ["the chat", "Netflix & Chill", "The sun go down", "anime", `chilling in ${bot.guilds.cache.size} servers`, "d!help"]
-      let rstatus = Math.floor(Math.random() * status.length);
-      console.log("Im online lol!");
-      bot.user.setActivity(status[rstatus], { type: "WATCHING" });
-    }; setInterval(randomStatus, 3000)
-  });
 
+    bot.on("ready", () => {
+      console.log(`===========================================================`)
+      console.log("Bot is online");
+      console.log(`${bot.user.tag} is now in ${bot.guilds.cache.size} servers!`)
+      console.log(`===========================================================`)
+    })
+
+
+    bot.on("ready", () => {
+      function randomStatus() {
+        let status = ["the chat", "Netflix & Chill", "The sun go down", "anime", `chilling in ${bot.guilds.cache.size} servers`, "d!help"]
+        let rstatus = Math.floor(Math.random() * status.length);
+        bot.user.setActivity(status[rstatus], { type: "WATCHING" });
+      }; setInterval(randomStatus, 30000)
+
+
+    }
+  );
 }
