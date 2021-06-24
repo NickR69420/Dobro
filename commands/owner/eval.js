@@ -4,7 +4,7 @@ const Discord = require('discord.js')
 module.exports = {
     name: "eval",
     aliases:["ev", "run"],
-    usage: "{prefix}ev",
+    usage: "{prefix}eval",
     description: "Dev only eval command",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
