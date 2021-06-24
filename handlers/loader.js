@@ -18,7 +18,7 @@ module.exports = (bot) => {
     if (command) {
       if (command.permsneeded != "none" && !message.member.hasPermission(`${command.permsneeded}`)) {
         message.delete();
-        return message.channel.send("You don't have permission to use this command!").then(message => message.delete(5000));
+        return message.channel.send(`You don't have permission to use this command! Missing permission: ${command.permsneeded}`).then(message => message.delete(5000));
       }
       command.run(bot, message, args);
     }
@@ -36,7 +36,7 @@ module.exports = (bot) => {
 
     bot.on("ready", () => {
       function randomStatus() {
-        let status = ["the chat", "Netflix & Chill", "The sun go down", "anime", `chilling in ${bot.guilds.cache.size} servers`, "d!help", "https://github.com/NickR69420/Dobro"]
+        let status = ["the chat", "Netflix & Chill", "The sun go down", "anime", `${bot.guilds.cache.size} servers`, "d!help", "https://github.com/NickR69420/Dobro"]
         let rstatus = Math.floor(Math.random() * status.length);
         bot.user.setActivity(status[rstatus], { type: "WATCHING" });
       }; setInterval(randomStatus, 30000)
