@@ -36,7 +36,7 @@ module.exports = (bot) => {
 
     bot.on("ready", () => {
       function randomStatus() {
-        let status = ["the chat", "Netflix & Chill", "The sun go down", "anime", `chilling in ${bot.guilds.cache.size} servers`, "d!help"]
+        let status = ["the chat", "Netflix & Chill", "The sun go down", "anime", `chilling in ${bot.guilds.cache.size} servers`, "d!help", "https://github.com/NickR69420/Dobro"]
         let rstatus = Math.floor(Math.random() * status.length);
         bot.user.setActivity(status[rstatus], { type: "WATCHING" });
       }; setInterval(randomStatus, 30000)

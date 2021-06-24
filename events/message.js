@@ -14,6 +14,9 @@ module.exports = (bot) => {
         if (message.content === `Electrum`) {
             return message.channel.send(`has a HUGE fucking penis`)
         }
+        if (message.content === `vyan`) {
+            return message.author.send(`https://cdn.discordapp.com/attachments/652566036356399148/670475120745250828/7days-1.gif`)
+        }
         if (message.content.toLowerCase().startsWith("d!8ball")) {
             let replies = ["Yes","No","Maybe","Not sure","Shut up you rat!","sure, why not","when you grow a braincell, yes","THAT'S A SOLID ****NO****","Nah that sucks tbh"]
             let randomized = replies[Math.floor(Math.random() * replies.length)]
