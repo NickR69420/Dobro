@@ -19,8 +19,8 @@ module.exports = {
 
           // The eval command itself, 
             const args1 = message.content.split(" ").slice(1);
-            const ownerId = "734331898339524630" 
-            const ownerId2 = "425820768144719882"
+            const ownerId = "734331898339524630"  // Electrum
+            const ownerId2 = "425820768144719882" // Nickk
             if(message.author.id != ownerId && message.author.id != ownerId2) return;
           try {
                 const code = args1.join(" ");
