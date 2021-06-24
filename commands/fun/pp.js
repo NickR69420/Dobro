@@ -18,6 +18,5 @@ module.exports = {
     .addField(`${user.username}'s Dick`, `${PPs}`, false)
 
     message.channel.send(ppembed)
-    
   }
 }
