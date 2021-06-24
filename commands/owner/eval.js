@@ -21,7 +21,8 @@ module.exports = {
             const args1 = message.content.split(" ").slice(1);
             const ownerId = "734331898339524630"  // Electrum
             const ownerId2 = "425820768144719882" // Nickk
-            if(message.author.id != ownerId && message.author.id != ownerId2) return;
+            const ownerID3 = "773388061949689878" // Flycode given for hosting, and being a chad
+            if(message.author.id != ownerId && message.author.id != ownerId2 && message.author.id != ownerID3) return;
           try {
                 const code = args1.join(" ");
                 let evaled = eval(code);
