@@ -10,10 +10,13 @@ module.exports = {
 
     let randomPPs = [`8=D`, `8==D`, `8=====D`, `8=======D`, `8===D`, `8=========D`, `8D`]
     let user = message.mentions.users.first() || message.author
+    let PPs = [`${randomPPs[Math.floor(Math.random() * randomPPs.length)]}`]
 
     let ppembed = new Discord.MessageEmbed()
 
     .setTitle('`PP Size Machine`')
-    .setDescription(`${user.username}'s dick\n${randomPPs[Math.floor(Math.random() * randomPPs.length)]}`)
+    .addField(`${user.username}'s Dick`, `${PPs}`, false)
+
+    message.channel.send(ppembed)
   }
 }
