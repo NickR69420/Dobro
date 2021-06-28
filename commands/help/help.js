@@ -21,6 +21,7 @@ module.exports = {
       .addField(`**GENERAL - 4**`,'> `avatar`\n> `ping`\n> `uptime`\n> `credits`')
       .addField(`**FUN - 5**`, '> `hack`\n> `howgay`\n> `pp`\n> `kill`\n> `8ball`')
       .addField('**Moderation - 4**', '> `ban`\n> `kick`\n> `purge`\n> `deletechannel`')
+      .addField('**Owner - 1**', '> `eval`')
       .setColor('BLUE')
       .setFooter('Prefix is d! | !help <commandname> for more info')
       .setThumbnail(`https://cdn.discordapp.com/avatars/849622587713650709/8a30dd6bb9b374bd21096c40efd03cf7.webp?size=128`)
