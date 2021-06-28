@@ -1,6 +1,6 @@
 {
   "bot": {
-    "token": "",
-    "prefix": "d!"
+    "token": "yourtoken",
+    "prefix": "yourprefix"
   }
 }
