@@ -15,4 +15,5 @@ And you're good to go!
 # Support
 
 For support, please contact Nickk#0007 on Discord 
+
 Join the Discord Server @ https://discord.gg/4eUwvRQMUr
