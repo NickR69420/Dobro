@@ -1,6 +1,8 @@
 {
-    "bot": {
-      "token": "yourbottokenhere",
-      "prefix": "yourprefixhere"
-    }
+  "bot": {
+    "token": "Token",
+    "prefix": "Prefix",
+    "logo": "BotIcon",
+    "username": "BotName"
   }
+}

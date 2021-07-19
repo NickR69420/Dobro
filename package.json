@@ -9,6 +9,8 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.3",
-    "got": "^11.8.2"
+    "glob": "^7.1.7",
+    "got": "^11.8.2",
+    "ms": "^2.1.3"
   }
 }

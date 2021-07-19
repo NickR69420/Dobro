@@ -1,23 +1,46 @@
-const Discord = require('discord.js')
-
+const Discord = require('discord.js');;
+const config = require("../../configuration/conf.json");
 
 module.exports = {
     name: "kick",
-    aliases: [],
-    usage: "{prefix}kick",
+    aliases: ["k", "getlost"],
+    usage: "kick <@user>",
     description: "kicks a provided user",
     permsneeded: "KICK_MEMBERS",
     run: async(bot, message, args) => {
-        const {member, mentions } = message
-        const tag = `<@${member.id}>`
-        const target = mentions.users.first()
-        const msg = message
-        if (target) {
-            const targetMember = message.guild.members.cache.get(target.id) 
-            message.channel.send(`${tag} That user has been kicked`)
-            targetMember.kick() 
-        } else {
-            message.channel.send('Failed to kick, no provided user/Invaild args.')
-        }
+        let logo = config.bot.token
+        {
+            let member = message.mentions.members.first()
+            
+            if (!member) message.channel.send("Please mention someone to Ban.")
+            
+            else 
+            {
+         let banembed = new Discord.MessageEmbed()
+        .setDescription(`You were kicked from ${message.guild.name}`)
+        .setColor("BLUE")
+        .setAuthor(`${message.guild.name}`, message.guild.iconURL)
+        .setTimestamp()
+       
+              
+                member.send(banembed)
+                .then(() => 
+                {
+                    member.kick().then(mem => 
+                    {
+        let bannedembed = new Discord.MessageEmbed()
+        .setDescription(`${message.author} has kicked ${mem.user.tag}.`)
+        .setColor("BLUE")
+        .setAuthor(`MEMBER KICKED!`, message.guild.iconURL)
+        .setTimestamp()
+        if(!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("No Perms to do this!!!!");
+    else {
+   message.channel.send(bannedembed);
+    }
+                      
+                    })
+                })
+            }
+        } 
     }
 }

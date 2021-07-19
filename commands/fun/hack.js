@@ -3,8 +3,9 @@ const Discord = require('discord.js')
 module.exports = {
     name: "hack",
     aliases: ["hacc", "hacker"],
-    usage: "{prefix}hack [ @user ]",
-    description: "",
+    usage: "hack <@user>",
+    cooldown: 30,
+    description: "Don't like someone? Hack them!",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
 
@@ -67,4 +68,3 @@ module.exports = {
         });
     }
 }
-  

@@ -2,11 +2,12 @@ const Discord = require('discord.js');
 
 module.exports = {
   name: "say",
-  usage: "{prefix}say < #channel | channel id > [ message ]",
+  usage: "say < #channel | channel id > [ message ]",
   description: "",
-  permsneeded: "MANAGE_MESSAGES",
+  permsneeded: "",
   run: async (bot, message, args) => {
-
+  
+    
     message.delete();
     let channel = message.guild.channels.cache.get(args[0]) || message.mentions.channels.first();
     let msg = args.join(" ");

@@ -1,10 +1,12 @@
 const Discord = require('discord.js');
+const config = require("../../configuration/conf.json");
 
 module.exports = {
   name: "uptime",
   aliases: ["online", "onlinetime"],
-  usage: "{prefix}uptime",
-  description: "Checks the bot uptime",
+  usage: "uptime",
+  cooldown: 2,
+  description: "Checks the bot's uptime",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
         var uptime = process.uptime();
@@ -15,6 +17,7 @@ module.exports = {
          seconds = date.getUTCSeconds(),
          milliseconds = date.getUTCMilliseconds();
          
+         let logo = config.bot.logo
 
         let segments = [];
 
@@ -24,8 +27,17 @@ module.exports = {
         if (seconds > 0) segments.push(seconds + ' second' + ((seconds == 1) ? '' : 's'));
         if (milliseconds > 0) segments.push(milliseconds + ' millisecond' + ((seconds == 1) ? '' : 's'));
         const dataString = segments.join(', ');
+
+        const embed = new Discord.MessageEmbed()
+
+        .setTitle("Dobro's Uptime!")
+        .setDescription('The bot has been up for ' + dataString)
+        .setColor("BLUE")
+        .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
+
+        message.channel.send(embed)
         
-        message.channel.send('The bot has been online for ' + dataString);
+       
 
         //debug
         // console.log("Uptime raw:", uptime)

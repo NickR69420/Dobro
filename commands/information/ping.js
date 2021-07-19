@@ -1,12 +1,16 @@
 
 const { MessageEmbed } = require('discord.js')
+const config = require("../../configuration/conf.json");
 
 module.exports = {
     name: "ping",
-    usage: "{prefix}ping",
+    usage: "ping",
+    cooldown: 2,
     description: "Returns teh bot's ping!",
     permsneeded: "SEND_MESSAGES",
     run: async(bot, message, args) => {
+        const logo = config.bot.logo 
+        
         const before = Date.now();
     message.channel.send("⏱").then((msg) => {
         const latency = Date.now() - before;
@@ -23,6 +27,7 @@ module.exports = {
                 value: `**\`${wsLatency}\`** ms`,
                 inline: true
             })
+            .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
         msg.edit(embed);
 })  }
 }

@@ -3,7 +3,7 @@ const Discord = require('discord.js')
 module.exports = {
   name: "purge",
   aliases: ["clear", "remove"],
-  usage: "{prefix}purge",
+  usage: "purge <number of msgs>",
   description: "purgeee",
   permsneeded: "MANAGE_MESSAGES",
   run: async (bot, message, args) => {

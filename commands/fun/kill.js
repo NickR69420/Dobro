@@ -3,8 +3,9 @@ const Discord = require('discord.js');
 module.exports = {
   name: "kill",
   aliases: ["ded", "stab"],
-  usage: "{prefix}kill [ @user ]",
-  description: "",
+  usage: "kill <@user>",
+  cooldown: 10,
+  description: "Hate someone? Kill them ez",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
 
