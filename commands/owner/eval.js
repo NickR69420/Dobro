@@ -20,10 +20,11 @@ module.exports = {
             const args1 = message.content.split(" ").slice(1);
             const ownerId = "734331898339524630"  // Electrum
             const ownerId2 = "775265751954096138" // Nickk
-            const ownerID3 = "724483535775334480" // Flycode given for hosting, and being a chad
-            if(message.author.id != ownerId && message.author.id != ownerId2 && message.author.id != ownerID3) return;
+            
+            if(message.author.id != ownerId && message.author.id != ownerId2) return;
           try {
                 const code = args1.join(" ");
+                if (args.join(` `).includes(`token`)) return message.reply("This value cannot be shown.")
                 let evaled = eval(code);
            
                 if (typeof evaled !== "string")

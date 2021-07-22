@@ -11,10 +11,8 @@ module.exports = {
   run: async (bot, message, args) => {
 
     message.delete();
-    const pfp = message.author.displayAvatarURL({ dynamic: true })
-
-
     let user = message.mentions.users.first() || message.guild.members.cache.get(args[0])?.user
+    const pfp = member.user.displayAvatarURL({ dynamic: true })
 
     const str = args.slice(1).join(" ")
     if(message.content.includes('-a')) {

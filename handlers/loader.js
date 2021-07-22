@@ -63,7 +63,7 @@ module.exports = (bot) => {
       console.log(`===========================================================`)
       console.log("Bot is online");
       console.log(`${bot.user.tag} is now in ${bot.guilds.cache.size} servers!`)
-      console.log (`Bot started in ${process.uptime()}`)
+      console.log (`Bot started in ${process.uptime()} seconds`)
       console.log(`===========================================================`)
     })
 

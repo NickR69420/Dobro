@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const config = require("../../configuration/conf.json");
+const moment = require('moment');
 
 module.exports = {
     name: "userinfo",
@@ -11,20 +12,20 @@ module.exports = {
     run: async(bot, message, args) => {
 
     let logo = config.bot.logo
-        const flags = {
-            DISCORD_EMPLOYEE: '<:discordstaff:841642427390492722> Discord Employee',
-            DISCORD_PARTNER: '<:DISCORD_PARTNER:841642427218788352> Discord Partner',
-            BUGHUNTER_LEVEL_1: '<:BUG_HUNTER:841642427198472213> Bug Hunter LV.1',
-            BUGHUNTER_LEVEL_2: '<:BUGHUNTER_LV2:841644744589180958> Bug Hunter LV.2',
-            HYPESQUAD_EVENTS: '<:HYPESQUAD_EVENT:841642427227439104> HypeSquad Event',
-            HOUSE_BRAVERY: '<:HOUSE_BRAVERY:841642426992951307> House Bravery',
-            HOUSE_BRILLIANCE: '<:HOUSE_BRILLIANCE:841642427331641354> House Brilliance',
-            HOUSE_BALANCE: '<:HOUSE_BALANCE:841642427130314803> House Balance',
-            EARLY_SUPPORTER: '<:EARLYNITRO:841642427240808468> Early Supporter',
-            TEAM_USER: 'Team User',
-            SYSTEM: 'System',
-            VERIFIED_BOT: '<:VERIFIEDBOT:841644324982358056> Verified BOT',
-            EARLY_VERIFIED_DEVELOPER: '<:VERIFIEDBOTDEV:841642427239628840> Early Verified Developer'
+    const flags = {
+        DISCORD_EMPLOYEE: 'Discord Employee',
+        DISCORD_PARTNER: 'Discord Partner',
+        BUGHUNTER_LEVEL_1: 'Bug Hunter (Level 1)',
+        BUGHUNTER_LEVEL_2: 'Bug Hunter (Level 2)',
+        HYPESQUAD_EVENTS: 'HypeSquad Events',
+        HOUSE_BRAVERY: 'House of Bravery',
+        HOUSE_BRILLIANCE: 'House of Brilliance',
+        HOUSE_BALANCE: 'House of Balance',
+        EARLY_SUPPORTER: 'Early Supporter',
+        TEAM_USER: 'Team User',
+        SYSTEM: 'System',
+        VERIFIED_BOT: 'Verified Bot',
+        VERIFIED_DEVELOPER: 'Verified Bot Developer'
           };
         let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
         const userflags = user.user.flags.toArray().length ? user.user.flags.toArray().map(flag => flags[flag]).join('\n') : 'None'
@@ -51,23 +52,22 @@ module.exports = {
          }
 
          const embed = new Discord.MessageEmbed()
-         .setTitle(`${user.user.username}'s Info`, logo)
+         .setAuthor(`Information about: ` + user.user.username + "#" + user.user.discriminator, user.user.displayAvatarURL({ dynamic: true }))
          .setColor(`BLUE`)
-         .setThumbnail(user.user.displayAvatarURL({dynamic : true}))
+         .setThumbnail(user.user.displayAvatarURL({dynamic : 512}))
          .addFields(
              {
-                 name: "👤`Name:`",
-                 value: user.user.username,
-                 inline: true
-             },
-             {
-                 name: "#️⃣`Tag`",
-                 value: `#${user.user.discriminator}`,
-                 inline: true
+                 name: `👤**Username:**`,
+                 value: user.user.username + "#" + user.user.discriminator,
              },
              {
                  name: "🆔 `USER ID:`",
                  value: user.user.id,
+                 inline: true
+             },
+             {
+                 name: '_ _',
+                 value: '_ _'
              },
              {
                  name: "`Current Status:`",
@@ -95,12 +95,21 @@ module.exports = {
                  inline: true
              },
              {
+                name: '`Guild Join Date:`',
+                value: `${moment(user.joinedTimestamp).format("DD/MM/YYYY")}`,
+                inline: true
+             },
+             {
                  name: '`User Roles:`',
                  value: user.roles.cache.map(role => role.toString()).join(" ,"),
                  inline: false
+             },
+             {
+                name: '`Permissions`',
+                value: `${message.member.permissions.toArray().map(p=>`\`${p}\``).join(", ")}`
              }
          )
-         .setFooter(`Requested by ${message.author.username}`, logo)
+         .setFooter(config.bot.username, logo)
           message.channel.send(embed)
     }
 }   

@@ -19,7 +19,7 @@ if (!sentence) return message.reply("What do you want as your nickname?")
 message.member.setNickname(sentence
   ).catch(e => console.log("NO PERMS TO CHANGE USER's NICKNAME"))
   try {
-    message.channel.reply("No Perms.")
+    message.channel.reply("No Permissions to change the user's nickname.")
   } catch {}
 
 const embed = new MessageEmbed()

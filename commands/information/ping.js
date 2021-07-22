@@ -29,5 +29,8 @@ module.exports = {
             })
             .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
         msg.edit(embed);
+        console.log(`Latency: ${latency} | API Latency: ${wsLatency} to Server -> ${message.guild.name}`) 
+        console.log("===========================================================")
+        //i wanna know the ping too k ty
 })  }
 }

@@ -16,5 +16,6 @@ module.exports = {
 
     msg = args.join(" ").slice(args[0].length);
     channel.send(msg);
+    
   }
 }

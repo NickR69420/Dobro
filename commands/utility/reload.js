@@ -1,18 +1,21 @@
 const { MessageEmbed}= require('discord.js');
 const glob = require('glob');
-const config = require("../../configuration/conf.json");
+const config = require("../../configuration/conf.json")
 
 module.exports = {
   name: "reload",
-  aliases: ["reloadbot", "restart"],
+  aliases: ["reloadcmd", "refresh"],
   usage: "reload",
-  description: "Reloads/Restarts the bot!",
-  permsneeded: "SEND_MESSAGES",
+  description: "Reloads all bot commands!",
+  permsneeded: "ADMINISTRATOR",
   run: async (bot, message, args) => {
-    const logo = config.bot.logo
-    const botname = config.bot.username
+    
 
-    if(message.author.id !== "775265751954096138") return;
+    const args1 = message.content.split(" ").slice(1);
+    const ownerId = "734331898339524630"  // Electrum
+    const ownerId2 = "775265751954096138" // Nickk
+    
+    if(message.author.id != ownerId && message.author.id != ownerId2) return;
     bot.commands.sweep(()=> true)
     glob(`${__dirname}/../**/*.js`, async(err, filePaths)=> {
     if(err) return console.log(err);
@@ -32,8 +35,11 @@ module.exports = {
                 bot.aliases.set(alias, pull.name); 
                     })
                 }
-             })    
-            message.channel.send("All Commands were reloaded!")
+             })  
+             let embed = new MessageEmbed()
+             .setColor('#33F304')
+             .setTitle("All Commands were reloaded!", config.bot.logo)  
+            message.channel.send(embed)
             console.log(`All Commands were reloaded!`)   
             console.log(`===========================================================`)     
         })
