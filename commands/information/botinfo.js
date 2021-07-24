@@ -108,10 +108,10 @@ module.exports = {
         },
         {
             name: 'RAM Usage',
-            value: ` ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
+            value: `\`${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
         } MB / ${
             1 << 31 - Math.clz32(os.totalmem() / 1024 / 1024)
-        } MB`,
+        } MB\``,
             inline: true
         },
         {
