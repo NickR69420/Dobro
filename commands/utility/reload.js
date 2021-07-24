@@ -38,7 +38,7 @@ module.exports = {
              })  
              let embed = new MessageEmbed()
              .setColor('#33F304')
-             .setTitle("All Commands were reloaded!", config.bot.logo)  
+             .setTitle(":white_check_mark:  All Commands were reloaded!", config.bot.logo)  
             message.channel.send(embed)
             console.log(`All Commands were reloaded!`)   
             console.log(`===========================================================`)     

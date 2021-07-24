@@ -13,11 +13,12 @@ module.exports = {
 
         const invite = new Discord.MessageEmbed()
 
-        
-        .setURL('https://discord.com/api/oauth2/authorize?client_id=849622587713650709&permissions=8&scope=bot')
-        .setTitle('CLICK ON ME FOR THE INVITE!')
+        .setTitle('Dobro | Invite Link')
+        .setDescription(`
+        You can add me **[here](https://discord.com/api/oauth2/authorize?client_id=849622587713650709&permissions=8&scope=bot)**!`)
+        .setColor('BLUE')
         .setThumbnail(logo)
-        .setFooter('Dobro | Invite Link', logo )
+        .setFooter('Dobro', logo )
 
           message.channel.send(invite)
     }
