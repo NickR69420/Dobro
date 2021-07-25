@@ -11,7 +11,7 @@ module.exports = {
   run: async (bot, message, args) => {
 
     message.delete();
-    let user = message.mentions.users.first() || message.guild.members.cache.get(args[0])?.user
+    let user = message.mentions.users.first()
     const pfp = member.user.displayAvatarURL({ dynamic: true })
 
     const str = args.slice(1).join(" ")

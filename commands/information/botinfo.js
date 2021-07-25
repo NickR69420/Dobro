@@ -25,67 +25,21 @@ module.exports = {
       .addFields(
           {
               name: '**General:**',
-              value: '\u200B'
-          },
-          {
-              name: `ID`,
-              value:`\`${bot.user.id}\``,
-              inline: true
-          },
-          {
-            name: `Creation Date`,
-            value: `\`${utc(bot.user.createdTimestamp).format("Do MMMM YYYY HH:mm:ss")}\``,
-            inline: true
-            
-        },
-          {
-            name: `Commands`,
-            value:`\`${bot.commands.size}\``,
-            inline: true
-        },
-        {
-          name: '\u200B',
-          value: "\u200B"
-        },
-       
-        {
-            name: `Servers`,
-            value:`\`${bot.guilds.cache.size.toLocaleString()}\``,
-            inline: true
-            
-        },
-        {
-            name: `Users`,
-            value:`\`${bot.guilds.cache
-                .reduce((a, b) => a + b.memberCount, 0)
-                .toLocaleString()}\``,
-            inline: true
-        },
-        {
-            name: `Channels`,
-            value:`\`${bot.channels.cache.size.toLocaleString()}\``,
-            inline: true
-        },
-        {
-            name: '\u200B',
-            value: "\u200B"
-            
-          },
-        {
-            name: `Node.js`,
-            value:`\`${process.version}\``,
-            inline: true
-        },
-        {
-            name: `Discord.js`,
-            value:`\`v${djsversion}\``,
-            inline: true
-        },
-        
-        {
-            name: '\u200B',
-            value: "\u200B"
-            
+              value: [
+        `**Client:** \`${bot.user.tag}\` \`(${bot.user.id})\`\n`,
+        `**Commands:** \`${bot.commands.size}\`\n`,
+        `**Servers:** \`${bot.guilds.cache.size.toLocaleString()}\`\n`,
+        `**Users:** \`${bot.guilds.cache
+          .reduce((a, b) => a + b.memberCount, 0)
+          .toLocaleString()}\`\n`,
+        `**Channels:** \`${bot.channels.cache.size.toLocaleString()}\`\n`,
+        `**Creation Date:** \`${utc(bot.user.createdTimestamp).format(
+          "Do MMMM YYYY HH:mm:ss"
+        )}\`\n`,
+        `**Node.js:** \`${process.version}\`\n`,
+        `**Discord.js:** \`v${djsversion}\`\n`,
+        "\u200b",
+      ]
           },
         {
             name: '**System:**',
@@ -96,6 +50,19 @@ module.exports = {
             value: `\`${process.platform}\``,
             inline: true
         },
+         {
+            name: 'RAM Usage',
+            value: `\`${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
+        } MB / ${
+            1 << 31 - Math.clz32(os.totalmem() / 1024 / 1024)
+        } MB\``,
+            inline: true
+        },
+         {
+            name: `_ _`,
+            value: "_ _"
+            
+          },
         {
             name: 'Uptime',
             value: `\`${ms(os.uptime() * 1000, { long: true })}\``,
@@ -106,14 +73,7 @@ module.exports = {
             value: `\`${ping} ms\``,
             inline: true
         },
-        {
-            name: 'RAM Usage',
-            value: `\`${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
-        } MB / ${
-            1 << 31 - Math.clz32(os.totalmem() / 1024 / 1024)
-        } MB\``,
-            inline: true
-        },
+       
         {
             name: 'CPU',
             value: [`\u3000 Cores: \`${os.cpus().length}\``,
