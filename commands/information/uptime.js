@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const config = require("../../configuration/conf.json");
 
 module.exports = {
   name: "uptime",
@@ -16,8 +15,6 @@ module.exports = {
          minutes = date.getUTCMinutes(),
          seconds = date.getUTCSeconds(),
          milliseconds = date.getUTCMilliseconds();
-         
-         let logo = config.bot.logo
 
         let segments = [];
 
@@ -31,7 +28,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
 
         .setTitle("Dobro's Uptime!")
-        .setDescription('The bot has been up for ' + dataString)
+        .setDescription(`The bot has been up for \`${dataString}\``)
         .setColor("BLUE")
         .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
 
@@ -40,9 +37,9 @@ module.exports = {
        
 
         //debug
-        // console.log("Uptime raw:", uptime)
-        // message.channel.send('debug raw: ' + uptime);
-        // message.channel.send('debug math: ' + dataString)
-        // console.log(dataString);
+        //console.log("Uptime raw:", uptime)
+       // message.channel.send('debug raw: ' + uptime);
+       // message.channel.send('debug math: ' + dataString)
+        //console.log(dataString);
   }
 }

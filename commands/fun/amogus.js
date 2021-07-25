@@ -1,4 +1,4 @@
-const { Message, MessageAttachment } = require('discord.js');
+const { MessageAttachment } = require('discord.js');
 const Canvas = require('canvas')
 
 module.exports = {
