@@ -1,5 +1,4 @@
 const Discord = require('discord.js')
-const config = require("../../configuration/conf.json");
 
 module.exports = {
     name: "ban",
@@ -9,7 +8,6 @@ module.exports = {
     permsneeded: "BAN_MEMBERS",
     run: async(bot, message, args) => {
 
-        const logo = config.bot.logo
         {
             let member = message.mentions.members.first()
             

@@ -11,8 +11,8 @@ module.exports = {
   run: async (bot, message, args) => {
 
     message.delete();
-    let user = message.mentions.users.first()
-    const pfp = member.user.displayAvatarURL({ dynamic: true })
+    let user = message.mentions.users.first() || message.author
+    let avatar = user.displayAvatarURL({dynamic: true})
 
     const str = args.slice(1).join(" ")
     if(message.content.includes('-a')) {
@@ -26,7 +26,7 @@ module.exports = {
     .setTitle(`SUCCESS!`)
     .setDescription(`Message has been sent to ${user.tag}!`)
     .setColor('GREEN')
-    .setThumbnail(pfp)
+    .setThumbnail(avatar)
 
      message.channel.send(DMSENT)
    }

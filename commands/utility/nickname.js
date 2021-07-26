@@ -1,31 +1,29 @@
-const { MessageEmbed } = require('discord.js')
+const Discord = require('discord.js');
+const decancer = require('decancer');
 const config = require("../../configuration/conf.json");
+const prefix = config.bot.prefix;
 
 module.exports = {
   name: "nickname",
   aliases: ["nick", "setnick"],
-  usage: "nick",
-  cooldown: 120,
+  usage: "nick <@user> <nickname>",
+  cooldown: 0,
   description: "Sets a user's nickname in a server!",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
+    
+    let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+    let nickname = args.slice(1).join(" ");
+    if(!user) return message.channel.send(`:x: Invalid Args | Usage: \`${prefix}nick <@user> <nickname>\``);
+    if(!nickname) return message.channel.send(`:x: Invalid Args | Usage: \`${prefix}nick <@user> <nickname>\``);
+    let member = user;
 
-const logo = config.bot.logo
-
-let sentence = message.content.split(" ");
-sentence.shift();
-sentence = sentence.join(" ");
-if (!sentence) return message.reply("What do you want as your nickname?")
-message.member.setNickname(sentence)
-  try {
-    const embed = new MessageEmbed()
-.setTitle(`${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
-.setDescription(`\`Your Nickname is now ${sentence}\``)
-.setFooter(`Dobro | Nickname Changed!`, logo)
-
-message.channel.send(embed)
-  } catch {
-    message.channel.send("Error! Cannot change this user's nickname.")
+    if(member.nickname === nickname) return message.channel.send(`**${member.displayName}**'s nickname is already **${nickname}**`)
+    try {
+      await member.setNickname(nickname);
+      await message.channel.send(`Successfully set **${user.tag}**'s nickname as **${nickname}**`);
+    } catch (err) {
+      await message.channel.send(`\`\`\`An error occured trying to set ${user.tag}'s nickname.\nError: ${err.message}\`\`\``)
     }
-   }
-}    
+  }
+}

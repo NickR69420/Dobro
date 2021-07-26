@@ -1,5 +1,4 @@
-const Discord = require('discord.js');;
-const config = require("../../configuration/conf.json");
+const Discord = require('discord.js');
 
 module.exports = {
     name: "kick",
@@ -8,7 +7,6 @@ module.exports = {
     description: "kicks a provided user",
     permsneeded: "KICK_MEMBERS",
     run: async(bot, message, args) => {
-        let logo = config.bot.token
         {
             let member = message.mentions.members.first()
             

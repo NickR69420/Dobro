@@ -10,8 +10,6 @@ module.exports = {
   permsneeded: "ADMINISTRATOR",
   run: async (bot, message, args) => {
     
-
-    const args1 = message.content.split(" ").slice(1);
     const ownerId = "734331898339524630"  // Electrum
     const ownerId2 = "775265751954096138" // Nickk
     
@@ -38,7 +36,7 @@ module.exports = {
              })  
              let embed = new MessageEmbed()
              .setColor('#33F304')
-             .setTitle(":white_check_mark:  All Commands were reloaded!", config.bot.logo)  
+             .setTitle(":white_check_mark:  All Commands were reloaded!")  
             message.channel.send(embed)
             console.log(`All Commands were reloaded!`)   
             console.log(`===========================================================`)     

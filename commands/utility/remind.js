@@ -1,5 +1,7 @@
 const ms = require('ms');
 const Discord = require('discord.js');
+const config = require("../../configuration/conf.json");
+const prefix = config.bot.prefix;
 
 module.exports = {
     name: "remind",
@@ -15,7 +17,7 @@ module.exports = {
 
         const notime = new Discord.MessageEmbed()
             .setColor('#F30B04')
-            .setDescription(`:x: | Invalid usage of the command, use it like this:\n-remind <duration in hours/minutes/seconds> <Reason>`)
+            .setDescription(`:x: | Invalid usage of the command, use it like this:\n\`${prefix}remind <duration in hours/minutes/seconds> <Reason>\``)
 
         const wrongtime = new Discord.MessageEmbed()
             .setColor('#F30B04')
@@ -43,13 +45,13 @@ module.exports = {
         message.channel.send(remindertime)
 
         const reminderdm = new Discord.MessageEmbed()
-        .setColor('#7289DA')
+        .setColor('RANDOM')
         .setTitle('**REMINDER**')
         .setDescription(`**It has been ${time}.\nHere is your reminder:** ${reminder}`)  
 
         setTimeout(async function () {
            try{
-
+            message.reply(`**It has been ${time}.\nHere is your reminder:** ${reminder}`)
             await user.send(reminderdm)
            }catch(err){
 

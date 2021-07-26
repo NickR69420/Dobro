@@ -1,6 +1,8 @@
 const { MessageEmbed } = require('discord.js');
 const { readdirSync } = require("fs");
 const config = require("../../configuration/conf.json");
+const logo = config.bot.logo
+const prefix = config.bot.prefix
 
 module.exports = {
   name: "help",
@@ -9,9 +11,6 @@ module.exports = {
   description: "Displays the list of commands",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
-
-    let logo = config.bot.logo
-    let prefix = config.bot.prefix
 
     const roleColor =
       message.guild.me.displayHexColor === "#000000"
