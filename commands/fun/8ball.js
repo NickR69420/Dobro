@@ -5,7 +5,7 @@ module.exports = {
     aliases:["8b", "ball"],
     usage: "8ball <question>",
     cooldown: 10,
-    description: "Ask the 8ball(really rude) something!",
+    description: "Ask the (really rude)8ball something!",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => { 
 
