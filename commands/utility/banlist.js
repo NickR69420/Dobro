@@ -5,7 +5,7 @@ module.exports = {
   name: "banlist",
   aliases: ["fetchbans", "bans"],
   usage: "banlist",
-  cooldown: "10",
+  cooldown: 10,
   description: "Displays list of banned members.",
   permsneeded: "BAN_MEMBERS",
   run: async (bot, message, args) => {

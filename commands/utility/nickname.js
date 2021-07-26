@@ -16,17 +16,16 @@ let sentence = message.content.split(" ");
 sentence.shift();
 sentence = sentence.join(" ");
 if (!sentence) return message.reply("What do you want as your nickname?")
-message.member.setNickname(sentence
-  ).catch(e => console.log("NO PERMS TO CHANGE USER's NICKNAME"))
+message.member.setNickname(sentence)
   try {
-    message.channel.reply("No Permissions to change the user's nickname.")
-  } catch {}
-
-const embed = new MessageEmbed()
+    const embed = new MessageEmbed()
 .setTitle(`${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
 .setDescription(`\`Your Nickname is now ${sentence}\``)
 .setFooter(`Dobro | Nickname Changed!`, logo)
 
 message.channel.send(embed)
+  } catch {
+    message.channel.send("Error! Cannot change this user's nickname.")
+    }
    }
 }    

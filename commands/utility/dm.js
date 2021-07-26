@@ -5,7 +5,7 @@ module.exports = {
   name: "dm",
   aliases: ["dms", "message"],
   usage: "dm <@user> <message> [-a]",
-  cooldown: "",
+  cooldown: 30,
   description: "Private message a user",
   permsneeded: "MANAGE_MESSAGES",
   run: async (bot, message, args) => {

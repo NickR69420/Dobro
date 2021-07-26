@@ -5,7 +5,7 @@ module.exports = {
     name: "ascii",
     aliases: ["art", "textart"],
     usage: "ascii [text]",
-    cooldown: "15",
+    cooldown: 15,
     description: "Converts text to ascii!",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {

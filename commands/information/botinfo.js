@@ -25,7 +25,7 @@ module.exports = {
       .addFields(
           {
               name: '**General:**',
-              value: [
+              value: ["\u200B",
         `**Client:** \`${bot.user.tag}\` \`(${bot.user.id})\`\n`,
         `**Commands:** \`${bot.commands.size}\`\n`,
         `**Servers:** \`${bot.guilds.cache.size.toLocaleString()}\`\n`,

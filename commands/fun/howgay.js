@@ -3,7 +3,7 @@ const config = require("../../configuration/conf.json");
 
 module.exports = {
     name: "howgay",
-    aliases:["gay", "gayrate"],
+    aliases:["gayrate"],
     usage: "howgay [@user]",
     cooldown: 2,
     description: "how gay r u",
