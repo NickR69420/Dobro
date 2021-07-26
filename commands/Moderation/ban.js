@@ -5,7 +5,7 @@ module.exports = {
     name: "ban",
     aliases: ["rekt", "bean"],
     usage: "ban <@user>",
-    description: "bans the provided user",
+    description: "bans a provided user",
     permsneeded: "BAN_MEMBERS",
     run: async(bot, message, args) => {
 

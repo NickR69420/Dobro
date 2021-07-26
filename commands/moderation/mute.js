@@ -5,7 +5,7 @@ module.exports = {
     name: "mute",
     aliases: ["tempmute"],
     usage: "mute <@user> [duration]",
-    description: "mute a provided user",
+    description: "mutes a provided user",
     permsneeded: "KICK_MEMBERS",
     run: async(bot, message, args) => {
 

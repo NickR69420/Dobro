@@ -4,7 +4,7 @@ module.exports = {
   name: "purge",
   aliases: ["clear", "remove"],
   usage: "purge <number of msgs>",
-  description: "purgeee",
+  description: "Clear messages in a channel.",
   permsneeded: "MANAGE_MESSAGES",
   run: async (bot, message, args) => {
 

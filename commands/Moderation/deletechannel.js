@@ -4,7 +4,7 @@ module.exports = {
     name: "deletechannel",
     aliases: ["delete", "nukechat"],
     usage: "deletechannel",
-    description: "Deletes the chat that the command is ran in",
+    description: "Deletes the channel.",
     permsneeded: "ADMINISTRATOR",
     run: async(bot, message, args) => {
         
