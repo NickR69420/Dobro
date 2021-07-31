@@ -7,7 +7,7 @@ module.exports = {
   name: "nickname",
   aliases: ["nick", "setnick"],
   usage: "nick <@user> <nickname>",
-  cooldown: 0,
+  cooldown: 120,
   description: "Sets a user's nickname in a server!",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
