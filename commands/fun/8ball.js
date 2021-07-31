@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const config = require("../../configuration/conf.json");
+const logo = config.bot.logo;
+
 module.exports = {
     name: "8ball",
     aliases:["8b", "ball"],
