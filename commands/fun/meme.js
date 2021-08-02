@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const got = require('got');
-const config = require("../../configuration/conf.json");
 
 module.exports = {
     name: "meme",
@@ -10,8 +9,6 @@ module.exports = {
     description: "Laugh at deez funney mems",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {  
-
-        const logo = config.bot.logo
 
         const user = message.mentions.users.first() || message.author
         const embed = new Discord.MessageEmbed();

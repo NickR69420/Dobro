@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const config = require("../../configuration/conf.json");
 
 module.exports = {
     name: "serverinfo",
@@ -9,7 +8,6 @@ module.exports = {
     description: "Displays some info about the server",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {  
-        let logo = config.bot.logo
 
         if (message.author.bot || !message.guild) return message.reply("this command for server only")
         let EMBED = new Discord.MessageEmbed()

@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require("../../configuration/conf.json");
+const config = require("../../configuration/conf.json").bot;
 const moment = require('moment');
 
 module.exports = {
@@ -11,29 +11,13 @@ module.exports = {
     permsneeded: "SEND_MESSAGES",
     run: async(bot, message, args) => {
 
-    let logo = config.bot.logo
-    const flags = {
-        DISCORD_EMPLOYEE: 'Discord Employee',
-        DISCORD_PARTNER: 'Discord Partner',
-        BUGHUNTER_LEVEL_1: 'Bug Hunter (Level 1)',
-        BUGHUNTER_LEVEL_2: 'Bug Hunter (Level 2)',
-        HYPESQUAD_EVENTS: 'HypeSquad Events',
-        HOUSE_BRAVERY: 'House of Bravery',
-        HOUSE_BRILLIANCE: 'House of Brilliance',
-        HOUSE_BALANCE: 'House of Balance',
-        EARLY_SUPPORTER: 'Early Supporter',
-        TEAM_USER: 'Team User',
-        SYSTEM: 'System',
-        VERIFIED_BOT: 'Verified Bot',
-        VERIFIED_DEVELOPER: 'Verified Bot Developer'
-          };
         let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
-        const userflags = user.user.flags.toArray().length ? user.user.flags.toArray().map(flag => flags[flag]).join('\n') : 'None'
 
         const online = bot.emojis.cache.find(emoji => emoji.name === "online");
         const dnd = bot.emojis.cache.find(emoji => emoji.name === "dnd");
         const idle = bot.emojis.cache.find(emoji => emoji.name === "idle");
         const offline = bot.emojis.cache.find(emoji => emoji.name === "offline");
+        //ik this is inefficient but the emojis were broken in the embed lol
 
         let status;
          switch (user.presence.status) {
@@ -109,7 +93,7 @@ module.exports = {
                 value: `${message.member.permissions.toArray().map(p=>`\`${p}\``).join(", ")}`
              }
          )
-         .setFooter(config.bot.username, logo)
+         .setFooter(config.text, config.logo)
           message.channel.send(embed)
     }
 }   

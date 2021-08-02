@@ -1,6 +1,5 @@
 const { MessageEmbed}= require('discord.js');
 const glob = require('glob');
-const config = require("../../configuration/conf.json")
 
 module.exports = {
   name: "reload",

@@ -1,9 +1,8 @@
 const { MessageEmbed, version: djsversion } = require('discord.js');
-const version = require("../../package.json").version;
+const config = require("../../configuration/conf.json").bot;
 const { utc } = require("moment");
 const os = require("os");
 const ms = require("ms");
-const config = require("../../configuration/conf.json");
 
 module.exports = {
   name: "botinfo",
@@ -13,8 +12,7 @@ module.exports = {
   description: "Display information about the bot.",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
-    const logo = config.bot.logo
-
+  
     const core = os.cpus()[0];
     const ping = bot.ws.ping;
     const embed = new MessageEmbed()
@@ -82,7 +80,7 @@ module.exports = {
         } 
       )
       .setColor('BLUE')
-      .setFooter(`Dobro`, logo)
+      .setFooter(config.text, config.logo)
       .setTimestamp();
     message.channel.send(embed);
   

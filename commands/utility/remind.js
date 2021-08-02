@@ -1,7 +1,6 @@
 const ms = require('ms');
 const Discord = require('discord.js');
-const config = require("../../configuration/conf.json");
-const prefix = config.bot.prefix;
+const config = require("../../configuration/conf.json").bot;
 
 module.exports = {
     name: "remind",
@@ -11,6 +10,8 @@ module.exports = {
     description: "Helps remind you something!",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
+        
+        let prefix = config.prefix
         let time = args[0];
         let user = message.author
         let reminder = args.splice(1).join(' ')

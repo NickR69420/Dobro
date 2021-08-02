@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const config = require("../../configuration/conf.json");
 
 module.exports = {
   name: "banlist",
@@ -9,7 +8,6 @@ module.exports = {
   description: "Displays list of banned members.",
   permsneeded: "BAN_MEMBERS",
   run: async (bot, message, args) => {
-    const logo = config.bot.logo
 
     const fetchBans = message.guild.fetchBans();
     const bannedMembers = (await fetchBans).map((member) => `\`${member.user.tag}\``)

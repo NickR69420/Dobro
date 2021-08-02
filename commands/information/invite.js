@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const config = require("../../configuration/conf.json").bot;
 
 module.exports = {
     name: "invite",
@@ -9,16 +10,14 @@ module.exports = {
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
 
-        const logo = 'https://cdn.discordapp.com/avatars/849622587713650709/8a30dd6bb9b374bd21096c40efd03cf7.webp?size=128'
-
         const invite = new Discord.MessageEmbed()
 
         .setTitle('Dobro | Invite Link')
         .setDescription(`
         You can add me **[here](https://discord.com/api/oauth2/authorize?client_id=849622587713650709&permissions=8&scope=bot)**!`)
         .setColor('BLUE')
-        .setThumbnail(logo)
-        .setFooter('Dobro', logo )
+        .setThumbnail(config.logo)
+        .setFooter(config.text, config.logo)
 
           message.channel.send(invite)
     }

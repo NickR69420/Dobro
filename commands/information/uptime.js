@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const config = require("../../configuration/conf.json").bot;
 
 module.exports = {
   name: "uptime",
@@ -30,7 +31,7 @@ module.exports = {
         .setTitle("Dobro's Uptime!")
         .setDescription(`The bot has been up for \`${dataString}\``)
         .setColor("BLUE")
-        .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
+        .setFooter(config.text, config.logo)
 
         message.channel.send(embed)
         

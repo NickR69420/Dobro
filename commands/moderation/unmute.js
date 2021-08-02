@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js')
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: "unmute",
@@ -8,7 +8,7 @@ module.exports = {
     permsneeded: "SEND_MESSAGES",
     run : async(bot, message, args) => {
 
-        let user = message.mentions.users.first() || message.author
+        let user = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
         let avatar = user.displayAvatarURL({dynamic: true})
 
         const Member = message.mentions.members.first() || message.guild.members.cache.get(args[0])

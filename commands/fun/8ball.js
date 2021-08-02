@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
-const config = require("../../configuration/conf.json");
-const logo = config.bot.logo;
+const config = require("../../configuration/conf.json").bot;
 
 module.exports = {
     name: "8ball",
@@ -10,7 +9,7 @@ module.exports = {
     description: "Ask the (really rude)8ball something!",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => { 
-try{
+try {
 let replies = ["Yes","No","Maybe","Not sure","Shut up you rat!","sure, why not","when you grow a braincell, yes","THAT'S A SOLID ****NO****","Nah that sucks tbh"]
 let randomized = replies[Math.floor(Math.random() * replies.length)]
 let sentence = message.content.split(" ");
@@ -25,7 +24,7 @@ let embed = new Discord.MessageEmbed()
 .addField("Your Question", `${sentence}`)
 .addField(`:8ball: 8ball`, `${randomized}`)
 .setColor("RANDOM")
-.setFooter(`Requested by ${message.author.username}`, logo)
+.setFooter(config.text, config.logo)
 
 message.channel.send(embed)
 } catch (e) {

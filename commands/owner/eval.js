@@ -1,4 +1,19 @@
 const Discord = require('discord.js');
+const config = require("../../configuration/conf.json").bot;
+const privs = [config.token, "token", " token"]
+const symbolRegex = /(_\.|\\|\?)/g;
+
+    const evalRegex = new RegExp(
+      `(${privs.reduce(
+        (a, p = "") =>
+          `${a}${a ? "|" : ""}${p.replace(
+            symbolRegex,
+            (capture) => "\\" + capture
+          )}`,
+        ""
+      )})`,
+      "g"
+    );
 
 module.exports = {
     name: "eval",
@@ -20,20 +35,59 @@ module.exports = {
             const args1 = message.content.split(" ").slice(1);
             const ownerId = "734331898339524630"  // Electrum
             const ownerId2 = "775265751954096138" // Nickk
+            const temp = "459342334564237323" //daysling lol
             
-            if(message.author.id != ownerId && message.author.id != ownerId2) return;
+            if(message.author.id != ownerId && message.author.id != ownerId2 && message.author.id != temp) return;
           try {
                 const code = args1.join(" ");
-                if (args.join(` `).includes(`token`)) return message.reply("This value cannot be shown.")
+                
+
                 let evaled = eval(code);
            
                 if (typeof evaled !== "string")
                   evaled = require("util").inspect(evaled);
-           
-                message.channel.send(clean(evaled), {code:"xl"});
+
+                  let input = message.content.split(" ")
+                  input.shift();
+                  input = input.join(" ")
+
+                  const evaledembed = new Discord.MessageEmbed()
+                  .setAuthor(`Evaluation`, message.author.displayAvatarURL({ dynamic: true }))
+                .addFields(
+                  {
+                    name: "Input",
+                    value: `\`\`\`js\n${input}\`\`\``
+                  },
+                  {
+                    name: "Output",
+                    value: `\`\`\`js\n${clean(evaled).replace(evalRegex, "Lmao no")}\`\`\``
+                  }
+                )
+                .setFooter(`${config.text} | Success!`, config.logo)
+                .setColor('GREEN')
+
+              message.channel.send(evaledembed)
               } catch (err) {
-                message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+                let input = message.content.split(" ")
+                  input.shift();
+                  input = input.join(" ")
+                const errorembed = new Discord.MessageEmbed()
+                .setAuthor(`Evaluation`, message.author.displayAvatarURL({ dynamic: true }))
+                .addFields(
+                  {
+                    name: "Input",
+                    value: `\`\`\`js\n${input}\`\`\``
+                  },
+                  {
+                    name: "Error",
+                    value: `\`\`\`js\n${clean(err)}\n\`\`\``
+                  }
+                )
+                .setFooter(`${config.text} | Error Found`, config.logo)
+                .setColor('RED')
+
+                message.channel.send(errorembed);
               }
             } 
-            
     }
+// Eval CMD Format inspired by itsland0n :)    

@@ -1,8 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { readdirSync } = require("fs");
-const config = require("../../configuration/conf.json");
-const logo = config.bot.logo
-const prefix = config.bot.prefix
+const config = require("../../configuration/conf.json").bot;
+const prefix = config.prefix;
 
 module.exports = {
   name: "help",
@@ -54,7 +53,7 @@ module.exports = {
       });
 
       const embed = new MessageEmbed()
-        .setTitle("Dobro | Command List", logo)
+        .setTitle("Dobro | Command List", config.logo)
         .addFields(categories)
         .setDescription(
           `Use \`${prefix}help\` followed by a command name to get more additional information on a command. For example: \`${prefix}meme\`.`
@@ -118,7 +117,7 @@ module.exports = {
           : "No Permissions needed for this command."
         )
        
-        .setFooter(`Usage Syntax: <> = required; [] = optional`, logo)
+        .setFooter(`Usage Syntax: <> = required; [] = optional`, config.logo)
         .setTimestamp()
         .setColor(roleColor);
       return message.channel.send(embed);

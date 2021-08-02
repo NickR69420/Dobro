@@ -1,7 +1,4 @@
 const Discord = require('discord.js');
-const decancer = require('decancer');
-const config = require("../../configuration/conf.json");
-const prefix = config.bot.prefix;
 
 module.exports = {
   name: "nickname",

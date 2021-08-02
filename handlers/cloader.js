@@ -11,7 +11,7 @@ module.exports= (bot) => {
                 bot.commands.set(pull.name, pull);
                 table.addRow(file,'✅ Success')
             } else {
-                table.addRow(file, '❌ -> Missing a help.name, or help.name is not a string.')
+                table.addRow(file, '❌ Failed')
                 continue;
             }if(pull.aliases && Array.isArray(pull.aliases)) pull.aliases.forEach(alias => bot.aliases.set(alias, pull.name))
         }

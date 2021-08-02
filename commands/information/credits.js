@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require("../../configuration/conf.json");
+const config = require("../../configuration/conf.json").bot;
 
 module.exports = {
     name: "credits",
@@ -9,16 +9,14 @@ module.exports = {
     description: "Displays the people who contributed towards the code",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => { 
-     let logo = config.bot.logo  
-
-    const user = message.mentions.users.first() || message.author
 
         const credit = new Discord.MessageEmbed()
         .setTitle('Dobro | Credits')
         .addField('`Creator`', 'Nickk#0007', false)
-        .addField('`Developer / Contributor`', `ELECTRUM#0729`)
-        .setFooter("Dobro | These awesome ppl made me :O", logo)
-        .setColor('RANDOM')
+        .addField('`Main Developer / Contributor`', `ELECTRUM#0729 & Elegy Bot`)
+        .addField('`Contributors`', `Reconlx\n DashCruft`)
+        .setFooter("Dobro | These awesome ppl made me :O", config.logo)
+        .setColor('BLUE')
         .setThumbnail(bot.user.displayAvatarURL)
 
     message.channel.send(credit)

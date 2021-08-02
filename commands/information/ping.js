@@ -1,6 +1,4 @@
-
 const { MessageEmbed } = require('discord.js')
-const config = require("../../configuration/conf.json");
 
 module.exports = {
     name: "ping",
@@ -9,10 +7,9 @@ module.exports = {
     description: "Returns teh bot's ping!",
     permsneeded: "SEND_MESSAGES",
     run: async(bot, message, args) => {
-        const logo = config.bot.logo 
         
         const before = Date.now();
-    message.channel.send("⏱").then((msg) => {
+    message.channel.send("Pinging...").then((msg) => {
         const latency = Date.now() - before;
         const wsLatency = bot.ws.ping;
         const embed = new MessageEmbed()
@@ -32,5 +29,7 @@ module.exports = {
         console.log(`Latency: ${latency} | API Latency: ${wsLatency} to Server -> ${message.guild.name}`) 
         console.log("===========================================================")
         //i wanna know the ping too k ty
-})  }
+
+        })
+     }
 }

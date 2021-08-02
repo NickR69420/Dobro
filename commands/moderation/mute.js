@@ -1,5 +1,5 @@
-const { MessageEmbed} = require('discord.js')
-const ms = require('ms')
+const { MessageEmbed} = require('discord.js');
+const ms = require('ms');
 
 module.exports = {
     name: "mute",
@@ -9,9 +9,7 @@ module.exports = {
     permsneeded: "KICK_MEMBERS",
     run: async(bot, message, args) => {
 
-      let user = message.mentions.users.first() || message.author
-        let avatar = user.displayAvatarURL({dynamic: true})
-
+        let avatar = message.author.displayAvatarURL({ dynamic: true })
 
       if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('You do not have permissions to use this command')
       const Member = message.mentions.members.first() || message.guild.members.cache.get(args[0])

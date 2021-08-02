@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const config = require("../../configuration/conf.json");
 
 module.exports = {
   name: "fart",
@@ -9,6 +8,7 @@ module.exports = {
   description: "Wanna Fart? Use this command lol",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
+      
     message
     .reply({
         embed: {
