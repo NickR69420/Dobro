@@ -1,0 +1,14 @@
+{
+    "info": {
+        "Description": "DaSweet brand is one of the many growing SMP and Factions servers out there.\n What makes us stand out more then the rest is that we are the **ONLY** 1.8.9-1.17.1 Factions server with cross platform to bedrock. You can come and play on any version of Java with your Bedrock friends. Come and join the grand new Sweet Factions to see our friends Community & Staff or take a look around our al version SMP server with 24/7 runtime you will never be stuck without anything to play!",
+        "Java": {
+            "ip": "DaSweet.xyz",
+            "ip2": "139.99.148.144:25649",
+            "version": "1.8 - 1.17"
+        },
+        "Bedrock": {
+            "ip": "DaSweetCraft.xyz",
+            "port": "19132"
+        }
+    }
+}

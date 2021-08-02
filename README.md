@@ -20,3 +20,7 @@ you can just rename the exampleconf.json to conf.json
 For support, please contact Nickk#0007 or ELECTRUM#0729 on Discord.
 
 Join the Discord Server @ https://discord.gg/AfMDV2NZXP
+
+# Partner
+
+Partnership with DaSweet for using my bot on their server!

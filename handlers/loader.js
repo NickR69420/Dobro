@@ -13,11 +13,11 @@ module.exports = (bot) => {
     if (!message.member) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const cmd = args.shift().toLowerCase();
+    const cmd = args.shift().toLowerCase()
     if (cmd.length === 0) return;
 
     let command = bot.commands.get(cmd);
-    if (!command) command = bot.commands.get(bot.aliases.get(cmd));
+    if (!command) command = bot.commands.get(bot.aliases.get(cmd))
 
     if(!cooldowns.has(command.name)){
       cooldowns.set(command.name, new Discord.Collection());
@@ -40,7 +40,7 @@ module.exports = (bot) => {
         .setFooter("Dobro", logo)
         .setColor('RED')
 
-          return message.channel.send(TimeLeftEmbed)
+          return message.channel.send(TimeLeftEmbed);
       }
   }
 
@@ -65,17 +65,17 @@ module.exports = (bot) => {
       console.log(`${bot.user.tag} is now in ${bot.guilds.cache.size} servers!`)
       console.log (`Bot started in ${process.uptime()} seconds`)
       console.log(`===========================================================`)
-    })
+    });
 
 
     bot.on("ready", () => {
       function randomStatus() {
-        let status = ["the chat", "Netflix", "The sun go down", "anime", `${bot.guilds.cache.size} servers`, "d!help", "https://github.com/NickR69420/Dobro"]
+        let status = ["the chat", "Netflix", "The sun go down", "anime", `${bot.guilds.cache.size} servers`, "d!help", "https://github.com/NickR69420/Dobro"];
         let rstatus = Math.floor(Math.random() * status.length);
         bot.user.setActivity(status[rstatus], { type: "WATCHING" });
-      }; setInterval(randomStatus, 10000)
+      }; setInterval(randomStatus, 10000);
 
 
     }
   );
-}
+};
