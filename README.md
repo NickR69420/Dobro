@@ -8,7 +8,7 @@ Made entirely with JavaScript, using Discord.js v12
 
 First, download the files, or clone the github.
 Next, take the files out of the ZIP, and put them in their own folder.
-Open CMD/Powershell, and cd to the folder, then run, npm i.
+Open CMD/Powershell, and cd to the folder, then run, ||npm i||
 After doing this, input the token in the config. And do npm .
 And you're good to go!
 
