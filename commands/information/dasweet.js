@@ -18,7 +18,7 @@ module.exports = {
     .addFields(
         {
             name: "IP",
-            value: `**Java:** \`${server.Java.ip}\`, \`${server.Java.ip2}\`\n**Bedrock:** ${server.Bedrock.ip}, Port: ${server.Bedrock.port} `
+            value: `**Java:** \`${server.Java.ip}\`, \`${server.Java.ip2}\`\n**Bedrock:** \`${server.Bedrock.ip}\` | **Port:** \`${server.Bedrock.port}\``
         },
         {
             name: "Version",

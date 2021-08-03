@@ -10,7 +10,7 @@ module.exports = {
   description: "Displays the list of commands",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
-
+try {
     const roleColor =
       message.guild.me.displayHexColor === "#000000"
         ? "#ffffff"
@@ -121,6 +121,9 @@ module.exports = {
         .setTimestamp()
         .setColor(roleColor);
       return message.channel.send(embed);
+         }
+        } catch (err) {
+          console.log(err)
     }
   },
 };

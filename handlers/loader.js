@@ -5,6 +5,7 @@ const cooldowns = new Map();
 module.exports = (bot) => {
 
   bot.on("message", async message => {
+try {
     const logo = config.bot.logo;
     const prefix = config.bot.prefix;
     if (message.author.bot) return;
@@ -54,6 +55,9 @@ module.exports = (bot) => {
         return message.channel.send(`You don't have permission to use this command! Missing permission: ${command.permsneeded}`).then(message => message.delete(5000));
       }
       command.run(bot, message, args);
+        }
+      } catch (err) {
+     console.log(`Error uwu`)
     }
   });
 
@@ -66,7 +70,6 @@ module.exports = (bot) => {
       console.log (`Bot started in ${process.uptime()} seconds`)
       console.log(`===========================================================`)
     });
-
 
     bot.on("ready", () => {
       function randomStatus() {
