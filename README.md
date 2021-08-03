@@ -24,3 +24,4 @@ Join the Discord Server @ https://discord.gg/AfMDV2NZXP
 # Partner
 
 Partnership with DaSweet for using my bot on their server!
+Join their [Discord Server!](https://discord.gg/4evHSPqapC)
