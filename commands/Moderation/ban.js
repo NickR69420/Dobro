@@ -21,7 +21,7 @@ module.exports = {
         .setTimestamp()
     
                 member.send(banembed
-                    ).catch(e => console.log("CANT SEND MSG TO THIS USER!"))
+                    ).catch(e => console.log("Cannot message the user."))
                 .then(() => 
                 {
                     member.ban().then(mem => 
@@ -33,7 +33,7 @@ module.exports = {
         .setAuthor(`MEMBER BANNED!`, message.guild.iconURL)
         .setTimestamp()
 
-        if(!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("No Perms to do this!!!!")
+        if(!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("You do not have permission to do this.")
     else {
    message.channel.send(bannedembed);
    console.log(`===========================================================`)

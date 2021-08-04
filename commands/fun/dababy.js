@@ -31,6 +31,6 @@ module.exports = {
     .setColor('BLUE')
     .attachFiles(attach)
     message.channel.send(embed)
-
+    // i really like this command - electrum
    }
 }

@@ -15,7 +15,7 @@ module.exports = {
       return message.channel.send(`${message.author} killed himself.`);
     }
 
-    let killmessages = [`${user} fell to their death`, `${user} trips over his own shoe laces and dies.`, `${user} choked to death on a fly when walking his lizard at the pool`, `${user} got impaled by a pencil`, `${user} trips over his own shoe laces and dies`, `${user}dies from dabbing too hard`];
+    let killmessages = [`${user} fell to their death`, `${user} trips over his own shoe laces and dies.`, `${user} choked to death on a fly when walking his lizard at the pool`, `${user} got impaled by a pencil`, `${user} trips over his own shoe laces and dies`, `${user} dies from dabbing too hard`, `${user} was hit by a car.`];
 
 
     message.channel.send(killmessages[Math.floor(Math.random() * killmessages.length)]);

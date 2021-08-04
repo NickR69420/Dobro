@@ -12,7 +12,7 @@ module.exports = {
 
         const user = message.mentions.users.first() || message.author
         const embed = new Discord.MessageEmbed();
-	got('https://www.reddit.com/r/memes/random/.json')
+    	got('https://www.reddit.com/r/memes/random/.json')
 		.then(response => {
 			const [list] = JSON.parse(response.body);
 			const [post] = list.data.children;
@@ -32,7 +32,7 @@ module.exports = {
 
             message.channel.send(embed);
         })
-        .catch(console.error)
+        .catch(console.error).message.channel.send(`Something went wrong.`)
     
 
 
