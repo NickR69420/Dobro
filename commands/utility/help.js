@@ -19,20 +19,29 @@ try {
     if (!args[0]) {
       let categories = [];
 
+      const ignoredCategories = ["welcome-channel"]
+
       const dirEmojis = {
         information: "🛈 ",
         moderation: "🔨 ",
         utility: "🛠️ ",
         fun: "🤪 ",
-        owner: "👑 "
+        owner: "👑 ",
+        admin: "🛡️ "
       };
+
       readdirSync("./commands/").forEach((dir) => {
+        if(ignoredCategories.includes(dir)) return;
         const editedname = `${dirEmojis[dir]} ${dir.toUpperCase()}`;
         const commands = readdirSync(`./commands/${dir}/`).filter((file) =>
           file.endsWith(".js")
         );
 
-        const cmds = commands.map((command) => {
+        const cmds = commands.filter((command) =>{
+          let file = require(`../../commands/${dir}/${command}`);
+          
+          return !file.hidden;
+        }).map((command) => {
           let file = require(`../../commands/${dir}/${command}`);
 
           if (!file.name) return "No command name.";

@@ -58,7 +58,7 @@ module.exports = {
                     name: "Input",
                     value: `\`\`\`js\n${input}\`\`\``
                   },
-                  {
+                  { 
                     name: "Output",
                     value: `\`\`\`js\n${clean(evaled).replace(evalRegex, "Lmao no")}\`\`\``
                   }

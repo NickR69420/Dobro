@@ -3,6 +3,7 @@
     "token": "Token",
     "prefix": "Prefix",
     "logo": "BotIcon",
-    "username": "BotName"
+    "username": "BotName",
+    "MongoDB": "Put your MongoDB connection string here"
   }
 } 

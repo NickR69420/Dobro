@@ -1,13 +1,14 @@
 const Discord = require("discord.js");
 const config = require("../configuration/conf.json");
 const cooldowns = new Map();
+const prefix = config.bot.prefix;
+const databaseconnect = config.bot.MongoDB;
 
 module.exports = (bot) => {
 
   bot.on("message", async message => {
 try {
     const logo = config.bot.logo;
-    const prefix = config.bot.prefix;
     if (message.author.bot) return;
     if (!message.guild) return;
     if (!message.content.startsWith(prefix)) return;
@@ -22,7 +23,7 @@ try {
 
     if(!cooldowns.has(command.name)){
       cooldowns.set(command.name, new Discord.Collection());
-  }
+   }
 
   const current_time = Date.now();
   const time_stamps = cooldowns.get(command.name);
@@ -57,9 +58,18 @@ try {
       command.run(bot, message, args);
         }
       } catch (err) {
-     console.log(`Error uwu`)
+     console.log(`Error found, handled successfully`)
+     const embed = new Discord.MessageEmbed()
+          .setTitle(`:x: Unknown command! Use \`${prefix}help\` for all of my commands!`)
+          .setColor("FF0000");
+        return message.channel.send(embed);
     }
   });
+  const mongoose = require('mongoose');
+  mongoose.connect(`${databaseconnect}`, {
+    useUnifiedTopology : true,
+    useNewUrlParser: true,
+  }).then(console.log('Connected to MongoDB!'))
 
 
     bot.on("ready", () => {

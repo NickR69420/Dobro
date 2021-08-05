@@ -19,4 +19,8 @@ bot.aliases = new Discord.Collection();
     require(`./events/${handler}`)(bot);
 });
 
+["welcomer.js"].forEach(handler => {
+    require(`./events/${handler}`)(bot)
+});
+
 bot.login(config.bot.token)

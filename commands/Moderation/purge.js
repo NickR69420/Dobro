@@ -13,8 +13,9 @@ module.exports = {
     if(parseInt(args[0]) > 99) return message.channel.send('The max amount of messages that I can delete is 1 - 99')
     await message.channel.bulkDelete(parseInt(args[0]) + 1)
         .catch(err => console.log(err))
-    message.channel.send('Deleted ' + args[0]  + " messages.")
-    console.log(`${message.author.tag} Requested to delete ` + args[0] + ` messages in ${message.guild.name}`) //logging action in console cuz why not!
-    
-  },
-};
+    message.channel.send('Deleted ' + args[0]  + " messages.").then(m => m.delete({ timeout: 2500 }));
+
+    console.log(`${message.author.tag} Requested to delete ` + args[0] + ` messages in ${message.guild.name}`)
+     //logging action in console cuz why not!
+  }
+}
