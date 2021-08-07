@@ -19,7 +19,7 @@ You can just rename the exampleconf.json to conf.json
 
 For support, please contact Nickk#0007 or ELECTRUM#0729 on Discord.
 
-Join the [Discord Server](https://discord.gg/AfMDV2NZXP)
+Join the [Discord Server](https://discord.gg/qD8GxsuWZ2)
 
 # Partners
 People who add my bot to their Discord Server automatically become Partners!
