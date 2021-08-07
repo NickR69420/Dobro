@@ -25,4 +25,4 @@ Join the [Discord Server](https://discord.gg/AfMDV2NZXP)
 People who add my bot to their Discord Server automatically become Partners!
 
 - [DaSweetSMP](https://discord.gg/4evHSPqapC)
-- [Azgoria SMP](https://discord.gg/4evHSPqapC)
+- [Azgoria SMP](https://discord.gg/gYHM8jcHEB)
