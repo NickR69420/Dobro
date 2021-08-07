@@ -3,6 +3,7 @@ const config = require("../configuration/conf.json");
 const cooldowns = new Map();
 const prefix = config.bot.prefix;
 const databaseconnect = config.bot.MongoDB;
+const modlogsSchema = require("../models/modlogs")
 
 module.exports = (bot) => {
 
@@ -21,6 +22,7 @@ try {
     let command = bot.commands.get(cmd);
     if (!command) command = bot.commands.get(bot.aliases.get(cmd))
 
+// Cooldown
     if(!cooldowns.has(command.name)){
       cooldowns.set(command.name, new Discord.Collection());
    }
@@ -53,7 +55,7 @@ try {
     if (command) {
       if (command.permsneeded != "none" && !message.member.hasPermission(`${command.permsneeded}`)) {
         message.delete();
-        return message.channel.send(`You don't have permission to use this command! Missing permission: ${command.permsneeded}`).then(message => message.delete(5000));
+        return message.delete().then(message => message.channel.send("e")).then(m => m.delete({ timeout: 2500 }));
       }
       command.run(bot, message, args);
         }
@@ -65,13 +67,33 @@ try {
         return message.channel.send(embed);
     }
   });
+
+// MongoDB 
   const mongoose = require('mongoose');
   mongoose.connect(`${databaseconnect}`, {
     useUnifiedTopology : true,
     useNewUrlParser: true,
-  }).then(console.log('Connected to MongoDB!'))
+  }).then(console.log('Connected to MongoDB!'));
 
+// Modlogs
+    bot.modlogs = async function({ Member, Action, Color, Reason}, message) {
+      const data = await modlogsSchema.findOne({ Guild: message.guild.id });
+      if(!data) return;
 
+      const channel = message.guild.channels.cache.get(data.Channel);
+        const logsEmbed = new Discord.MessageEmbed()
+        .setColor(Color)
+        .setAuthor(`Member ${Action}`, config.bot.logo)
+        .addField('Member', `<@${Member.user.id}> \n(${Member.user.id})`, true)
+        .addField("Moderator", `<@${message.author.id}>`, true)
+        .addField(`Reason:`, ` ${Reason || 'No Reason Provided.'}`, true)
+        .setThumbnail(Member.user.displayAvatarURL({ dynamic: false }))
+        .setTimestamp()
+
+        channel.send(logsEmbed)
+    }
+
+// Console stuff
     bot.on("ready", () => {
       console.log(`Loaded all commands!`)
       console.log(`===========================================================`)
@@ -81,6 +103,7 @@ try {
       console.log(`===========================================================`)
     });
 
+// Bot Status    
     bot.on("ready", () => {
       function randomStatus() {
         let status = ["the chat", "Netflix", "The sun go down", "anime", `${bot.guilds.cache.size} servers`, "d!help", "https://github.com/NickR69420/Dobro"];

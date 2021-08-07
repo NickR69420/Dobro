@@ -19,7 +19,7 @@ try {
     if (!args[0]) {
       let categories = [];
 
-      const ignoredCategories = ["welcome-channel"]
+      const ignoredCategories = ["welcome-channel", "admin", "goodbye-channel"]
 
       const dirEmojis = {
         information: "🛈 ",
@@ -27,7 +27,6 @@ try {
         utility: "🛠️ ",
         fun: "🤪 ",
         owner: "👑 ",
-        admin: "🛡️ "
       };
 
       readdirSync("./commands/").forEach((dir) => {

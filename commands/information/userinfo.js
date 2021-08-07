@@ -43,6 +43,7 @@ module.exports = {
              {
                  name: `👤**Username:**`,
                  value: user.user.username + "#" + user.user.discriminator,
+                 inline: true
              },
              {
                  name: "🆔 `USER ID:`",

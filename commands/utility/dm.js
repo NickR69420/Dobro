@@ -3,10 +3,10 @@ const Discord = require('discord.js');
 module.exports = {
   name: "dm",
   aliases: ["dms", "message"],
-  usage: "dm <@user> <message> [-a]",
+  usage: "dm <@user> <message> [-s]",
   cooldown: 30,
   description: "Private message a user",
-  permsneeded: "MANAGE_MESSAGES",
+  permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
 
     message.delete();
@@ -14,8 +14,11 @@ module.exports = {
     let avatar = user.displayAvatarURL({dynamic: true})
 
     const str = args.slice(1).join(" ")
-    if(message.content.includes('-a')) {
-        user.send(str.replace("-a", " ")
+    if (!user) return message.reply("Please mention a user!")
+
+    if (!str) return message.reply("Please provide content for your message!")
+    if(message.content.includes('-s')) {
+        user.send(str.replace("-s", " ")
         ).catch(e => console.log("Error lol"))
     } else {
         user.send(`${message.author.tag}: ${str}`)

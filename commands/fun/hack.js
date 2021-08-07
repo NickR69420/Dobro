@@ -3,12 +3,12 @@ const Discord = require('discord.js')
 module.exports = {
     name: "hack",
     aliases: ["hacc", "hacker"],
-    usage: "hack <@user>",
+    usage: "{prefix}hack [ @user ]",
     cooldown: 30,
     description: "Don't like someone? Hack them!",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
-
+    try {
         let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
         if(!user) return message.channel.send("Who tf you wanna hack men?");
 
@@ -58,13 +58,16 @@ module.exports = {
                         phaseno++   
                         break;
                     case 5:
-                        msg.edit(`**DONE!** ${user.user.tag} was successfully HACKED! *(100% real)*`);
+                        msg.edit(`**DONE!** \`${user.user.tag}\` was successfully HACKED! *(100% real)*`);
                         phaseno++
-                        break;
                         clearInterval(this)
-                                                          
+                        break;
+
                 }
             }, 2000);
         });
+        } catch (err) {
+            console.log(err)
+        }
     }
 }

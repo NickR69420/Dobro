@@ -5,7 +5,7 @@ module.exports = {
     name: "dadjoke",
     aliases: ["daddy"],
     usage: "dadjoke",
-    cooldown: 2 ,
+    cooldown: 5,
     description: "Wanna hear a dadjoke?",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
@@ -29,7 +29,7 @@ module.exports = {
             message.channel.send(daddy)
         }).catch(error => {
             console.error(error);
-            message.channel.send(`The api seems to be down :sad:`)
+            message.channel.send(`The api seems to be down :pensive:`)
         });
     }
 }   

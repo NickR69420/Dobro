@@ -4,14 +4,12 @@ module.exports = {
     name: "unmute",
     aliases: ["unmuted"],
     usage: "unmute <@user>",
-    description: "Unmute a provided user",
+    description: "Unmutes a provided user.",
     permsneeded: "SEND_MESSAGES",
     run : async(bot, message, args) => {
 
-        let user = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
-        let avatar = user.displayAvatarURL({dynamic: true})
-
-        const Member = message.mentions.members.first() || message.guild.members.cache.get(args[0])
+        const Member = message.mentions.members.first();
+        let avatar = Member.user.displayAvatarURL({dynamic: true})
 
         if(!Member) return message.channel.send('Member not found')
 
@@ -21,11 +19,28 @@ module.exports = {
 
         const unmute = new MessageEmbed()
         .setTitle("Member Unmuted!", message.guild.iconURL)
-        .setDescription(`<@${Member.id}> was unmuted by ${message.author}.`)
-        .setColor('RED')
+        .setDescription(`<@${Member.id}> has been **unmuted**`)
+        .setColor('#7CFC00')
         .setFooter(`ID: ${Member.id}`, avatar)
         .setTimestamp()
 
-        message.channel.send(unmute)
+        const unmuted = new MessageEmbed()
+        .setTitle(`${message.guild.name}`, message.guild.iconURL)
+        .setDescription(
+          `You were unmuted in **${message.guild.name}**!`
+        )
+        .setColor("#7CFC00")
+        .setTimestamp();
+
+        let user = message.mentions.users.first();
+        message.channel.send(unmute).then(user.send(unmuted))
+
+        bot.modlogs({
+            Member: Member,
+            Action: "Unmuted",
+            Color: "#7CFC00",
+            Reason: "",
+        }, message)
+
     }
 }
