@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const config = require("../../configuration/conf.json").bot;
 const privs = [config.token, "token", " token"]
+let hastebin = require('hastebin')
 const symbolRegex = /(_\.|\\|\?)/g;
 
     const evalRegex = new RegExp(
@@ -40,7 +41,6 @@ module.exports = {
           try {
                 const code = args1.join(" ");
                 
-
                 let evaled = eval(code);
            
                 if (typeof evaled !== "string")
@@ -50,16 +50,25 @@ module.exports = {
                   input.shift();
                   input = input.join(" ")
 
+                  let output = `${clean(evaled).replace(evalRegex, "Lmao no")}`
+                  if(output.length > 100) {
+                    let url = await hastebin.createPaste(output, {
+                          raw: true,
+                          contentType: 'text/javascript',
+                          server: 'https://hastebin.com'
+                    });
+                    output = url;
+                  }
                   const evaledembed = new Discord.MessageEmbed()
                   .setAuthor(`Evaluation`, message.author.displayAvatarURL({ dynamic: true }))
-                .addFields(
+                  .addFields(
                   {
                     name: "Input",
                     value: `\`\`\`js\n${input}\`\`\``
                   },
                   { 
                     name: "Output",
-                    value: `\`\`\`js\n${clean(evaled).replace(evalRegex, "Lmao no")}\`\`\``
+                    value: ((output === "") ? "No output" : ("```js\n" + output + "\n```"))
                   }
                 )
                 .setFooter(`${config.text} | Success!`, config.logo)
