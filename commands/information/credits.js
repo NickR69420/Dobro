@@ -12,7 +12,7 @@ module.exports = {
 
         const credit = new Discord.MessageEmbed()
             .setTitle('Dobro | Credits')
-            .addField('`Creator`', 'Nickk#0007', false)
+            .addField('`Creator`', 'Nickk#0007', false) // nick smells bad 
             .addField('`Main Developer`', `ELECTRUM#0729 & Elegy Bot`)
             .addField('`Contributors`', `Reconlx\n DashCruft\n Daysling`)
             .setFooter("Dobro | These awesome ppl made me :O", config.logo)
