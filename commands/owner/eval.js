@@ -35,9 +35,8 @@ module.exports = {
             const args1 = message.content.split(" ").slice(1);
             const ownerId = "734331898339524630"  // Electrum
             const ownerId2 = "775265751954096138" // Nickk
-            const temp = "459342334564237323" //daysling lol
             
-            if(message.author.id != ownerId && message.author.id != ownerId2 && message.author.id != temp) return;
+            if(message.author.id != ownerId && message.author.id != ownerId2) return;
           try {
                 const code = args1.join(" ");
                 
