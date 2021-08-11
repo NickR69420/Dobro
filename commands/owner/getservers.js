@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const config = require("../../configuration/conf.json").bot;
 const privs = [config.token, "token", " token"]
+let hastebin = require(`hastebin`)
 
 module.exports = {
     name: "getservers",
@@ -12,7 +13,8 @@ module.exports = {
         try {
             const ownerId = "734331898339524630"  // Electrum
             const ownerId2 = "775265751954096138" // Nickk
-
+            const invites = [];
+      
             if (message.author.id != ownerId && message.author.id != ownerId2) return;
             for (const [guildID, guild] of bot.guilds.cache) {
                 let invite = "No invite";
@@ -34,13 +36,26 @@ module.exports = {
                         }
                     }
                 }
-
                 invites.push({ name: guild.name, invite });
             }
-
-            console.log(invites)
+            let invitesfinal = "";
+                invites.forEach(e => {
+                     invitesfinal += e.name + " - " + e.invite + " - " + "\n";
+                });
+                let url = await hastebin.createPaste(invitesfinal.trim(), {
+                    raw: true,
+                    contentType: 'text/javascript',
+                    content: `${invites.toString()}`,
+                    server: 'https://hastebin.com'
+                });
+                console.log(url)
+                message.author.send(`All servers using the bot ${url}`)
+                message.reply(`Sent you all the servers!`)
+        //    console.log(invites)
         } catch (error) {
             console.log(`${error}`)
         }
     }
 }
+// thanks daysling for the hastebin code
+

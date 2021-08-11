@@ -14,7 +14,7 @@ module.exports = {
         .setTitle('Dobro | Credits')
         .addField('`Creator`', 'Nickk#0007', false)
         .addField('`Main Developer`', `ELECTRUM#0729 & Elegy Bot`)
-        .addField('`Contributors`', `Reconlx\n DashCruft`)
+        .addField('`Contributors`', `Reconlx\n DashCruft\n Daysling`)
         .setFooter("Dobro | These awesome ppl made me :O", config.logo)
         .setColor('BLUE')
         .setThumbnail(bot.user.displayAvatarURL)
