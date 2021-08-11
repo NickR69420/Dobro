@@ -39,9 +39,8 @@ module.exports = {
                 invites.push({ name: guild.name, invite });
             }
             let invitesfinal = "";
-            
                 invites.forEach(e => {
-                     invitesfinal += e.name + "-" + e.invite + "\n";
+                     invitesfinal += e.name + " - " + e.invite + " - " + "\n";
                 });
                 let url = await hastebin.createPaste(invitesfinal.trim(), {
                     raw: true,
@@ -50,7 +49,8 @@ module.exports = {
                     server: 'https://hastebin.com'
                 });
                 console.log(url)
-
+                message.author.send(`All servers using the bot ${url}`)
+                message.reply(`Sent you all the servers!`)
         //    console.log(invites)
         } catch (error) {
             console.log(`${error}`)
