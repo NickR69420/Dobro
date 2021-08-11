@@ -17,10 +17,6 @@ module.exports = {
       }
      
       message.reply(`This chat now has a slowmode of ${sentence} seconds!`)
-      } else {
-      message.reply("You don't have perms to do that...")
-
-      message.delete();
       } 
      }
     }

@@ -2,7 +2,7 @@
 
 An all-purpose Discord Bot made by me with the help of friends
 
-Made entirely with JavaScript, using Discord.js v12
+Made entirely with JavaScript, using Discord.js v12 (v13 rework is being worked on but there is no eta at this time)
 
 # Setup
 
