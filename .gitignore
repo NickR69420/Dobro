@@ -2,8 +2,5 @@ conf.json
 configuration/conf.json
 node_modules/
 package-lock.json
-TicketData.js
-messageReactionAdd.js
-ticket-setup.js
 cmd-layout.txt
 node_modules
