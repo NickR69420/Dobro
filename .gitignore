@@ -1,6 +1,4 @@
 conf.json
-configuration/conf.json
-node_modules/
 package-lock.json
 cmd-layout.txt
 node_modules
