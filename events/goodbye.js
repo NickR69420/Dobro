@@ -32,6 +32,6 @@ module.exports = (bot) => {
 
             const channel = member.guild.channels.cache.get(data.Channel);
             channel.send(attachment)
-        });
-    });
-};
+         })
+    })
+}

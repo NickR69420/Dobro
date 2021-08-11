@@ -5,7 +5,7 @@ const Canvas = require('discord-canvas');
 module.exports = (bot) => {
 
     bot.on('guildMemberAdd', async(member) => {
-        Schema.findOne({ Guild: member.guild.id }, async(e, data) => {
+        Schema.findOne({ Guild: member.guild.id }, async(err, data) => {
         if(!data) return;
         const user = member.user;
         const image = new Canvas.Welcome()

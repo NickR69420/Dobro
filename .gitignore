@@ -6,3 +6,4 @@ TicketData.js
 messageReactionAdd.js
 ticket-setup.js
 cmd-layout.txt
+node_modules
