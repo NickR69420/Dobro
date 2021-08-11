@@ -64,3 +64,5 @@ bot.aliases = new Discord.Collection();
 });
 
 bot.login(config.bot.token)
+
+// TODO, LOG ALL ERRORS TO A CHANNEL, ASWELL AS GUILD JOINS/LEAVE.

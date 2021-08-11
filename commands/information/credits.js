@@ -8,17 +8,17 @@ module.exports = {
     cooldown: 2,
     description: "Displays the people who contributed towards the code",
     permsneeded: "SEND_MESSAGES",
-    run: async (bot, message, args) => { 
+    run: async (bot, message, args) => {
 
         const credit = new Discord.MessageEmbed()
-        .setTitle('Dobro | Credits')
-        .addField('`Creator`', 'Nickk#0007', false)
-        .addField('`Main Developer`', `ELECTRUM#0729 & Elegy Bot`)
-        .addField('`Contributors`', `Reconlx\n DashCruft\n Daysling`)
-        .setFooter("Dobro | These awesome ppl made me :O", config.logo)
-        .setColor('BLUE')
-        .setThumbnail(bot.user.displayAvatarURL)
+            .setTitle('Dobro | Credits')
+            .addField('`Creator`', 'Nickk#0007', false)
+            .addField('`Main Developer`', `ELECTRUM#0729 & Elegy Bot`)
+            .addField('`Contributors`', `Reconlx\n DashCruft\n Daysling`)
+            .setFooter("Dobro | These awesome ppl made me :O", config.logo)
+            .setColor('BLUE')
+            .setThumbnail(bot.user.displayAvatarURL)
 
-    message.channel.send(credit)
+        message.channel.send(credit)
     }
 }

@@ -17,10 +17,10 @@ module.exports = {
     const ctx = canvas.getContext('2d');
     const background = await Canvas.loadImage('https://i.imgur.com/3BizMhk.jpg');
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-  
-  
+
+
     const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: 'jpg' }));
-  
+
     ctx.drawImage(avatar, 338, 75, 308, 258);
     const attachment = new MessageAttachment(canvas.toBuffer(), `amogus${member.user.username}.jpg`);
     await loadingmsg.delete();

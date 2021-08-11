@@ -10,7 +10,7 @@ module.exports = {
     description: "Helps remind you something!",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
-        
+
         let prefix = config.prefix
         let time = args[0];
         let user = message.author
@@ -30,7 +30,7 @@ module.exports = {
 
         if (!args[0]) return message.channel.send(notime)
         if (
-            !args[0].endsWith("d") &&   
+            !args[0].endsWith("d") &&
             !args[0].endsWith("m") &&
             !args[0].endsWith("h") &&
             !args[0].endsWith("s")
@@ -40,24 +40,24 @@ module.exports = {
         if (!reminder) return message.channel.send(reminderembed)
 
         const remindertime = new Discord.MessageEmbed()
-        .setColor('#33F304')
-        .setDescription(`:white_check_mark: \**Your reminder will go off in ${time}**`)
+            .setColor('#33F304')
+            .setDescription(`:white_check_mark: \**Your reminder will go off in ${time}**`)
 
         message.channel.send(remindertime)
 
         const reminderdm = new Discord.MessageEmbed()
-        .setColor('RANDOM')
-        .setTitle('**REMINDER**')
-        .setDescription(`**It has been ${time}.\nHere is your reminder:** ${reminder}`)  
+            .setColor('RANDOM')
+            .setTitle('**REMINDER**')
+            .setDescription(`**It has been ${time}.\nHere is your reminder:** ${reminder}`)
 
         setTimeout(async function () {
-           try{
-            message.reply(`**It has been ${time}.\nHere is your reminder:** ${reminder}`)
-            await user.send(reminderdm)
-           }catch(err){
+            try {
+                message.reply(`**It has been ${time}.\nHere is your reminder:** ${reminder}`)
+                await user.send(reminderdm)
+            } catch (err) {
 
-           } 
-           
+            }
+
         }, ms(time));
     }
 }

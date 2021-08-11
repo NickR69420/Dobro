@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const axios = require('axios').default 
+const axios = require('axios').default
 
 module.exports = {
     name: "dadjoke",
@@ -13,18 +13,18 @@ module.exports = {
             method: 'GET',
             url: 'https://icanhazdadjoke.com',
             headers: {
-               'Accept': `application/json`,
+                'Accept': `application/json`,
             }
-          };
+        };
 
-          axios.request(options).then(response => {
+        axios.request(options).then(response => {
             console.log(`Got a dad joke: ${response.data.joke} ID: ${response.data.id}`);
             const id = response.data.id
             const daddy = new Discord.MessageEmbed()
-            .setTitle(`A dad joke`)
-            .setDescription(`${response.data.joke}`)
-            .setColor('BLUE')
-            .setFooter(`Requested by ${message.author.username} • ID: ${id}`, message.author.displayAvatarURL({ dynamic: true }))
+                .setTitle(`A dad joke`)
+                .setDescription(`${response.data.joke}`)
+                .setColor('BLUE')
+                .setFooter(`Requested by ${message.author.username} • ID: ${id}`, message.author.displayAvatarURL({ dynamic: true }))
 
             message.channel.send(daddy)
         }).catch(error => {
@@ -32,4 +32,4 @@ module.exports = {
             message.channel.send(`The api seems to be down :pensive:`)
         });
     }
-}   
+}

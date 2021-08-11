@@ -1,4 +1,4 @@
-const { MessageEmbed} = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const config = require("../../configuration/conf.json").bot;
 
 module.exports = {
@@ -16,11 +16,11 @@ module.exports = {
     else result = 'Tails';
 
     const flipembed = new MessageEmbed()
-    .setTitle('½  Coinflip  ½')
-    .addField("Result", `\`${result}\``)
-    .setFooter(config.text, config.logo)
-    .setColor('RANDOM')
+      .setTitle('½  Coinflip  ½')
+      .addField("Result", `\`${result}\``)
+      .setFooter(config.text, config.logo)
+      .setColor('RANDOM')
 
     message.channel.send(flipembed)
-   }
+  }
 }

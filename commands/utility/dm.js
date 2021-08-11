@@ -11,25 +11,25 @@ module.exports = {
 
     message.delete();
     let user = message.mentions.users.first() || message.author
-    let avatar = user.displayAvatarURL({dynamic: true})
+    let avatar = user.displayAvatarURL({ dynamic: true })
 
     const str = args.slice(1).join(" ")
     if (!user) return message.reply("Please mention a user!")
 
     if (!str) return message.reply("Please provide content for your message!")
-    if(message.content.includes('-s')) {
-        user.send(str.replace("-s", " ")
-        ).catch(e => console.log("Error lol"))
+    if (message.content.includes('-s')) {
+      user.send(str.replace("-s", " ")
+      ).catch(e => console.log("Error lol"))
     } else {
-        user.send(`${message.author.tag}: ${str}`)
+      user.send(`${message.author.tag}: ${str}`)
 
     }
     const DMSENT = new Discord.MessageEmbed()
-    .setTitle(`SUCCESS!`)
-    .setDescription(`Message has been sent to ${user.tag}!`)
-    .setColor('GREEN')
-    .setThumbnail(avatar)
+      .setTitle(`SUCCESS!`)
+      .setDescription(`Message has been sent to ${user.tag}!`)
+      .setColor('GREEN')
+      .setThumbnail(avatar)
 
-     message.channel.send(DMSENT)
-   }
+    message.channel.send(DMSENT)
+  }
 }

@@ -11,16 +11,16 @@ module.exports = {
   permsneeded: "ADMINISTRATOR",
   run: async (bot, message, args) => {
 
-        Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
-          if(!data) return message.reply("This guild has no data stored.");
+    Schema.findOne({ Guild: message.guild.id }, async (err, data) => {
+      if (!data) return message.reply("This guild has no data stored.");
 
-          const channel = bot.channels.cache.get(data.Channel);
+      const channel = bot.channels.cache.get(data.Channel);
 
-          const ChannelInfo = new MessageEmbed()
-          .setAuthor("Welcome Channel Info", message.guild.iconURL({ dynamic: true }))
-          .setDescription(`Welcome channel is set to ${channel}`)
-          .setColor("BLUE")
-          message.channel.send(ChannelInfo)
-        })
-    }
+      const ChannelInfo = new MessageEmbed()
+        .setAuthor("Welcome Channel Info", message.guild.iconURL({ dynamic: true }))
+        .setDescription(`Welcome channel is set to ${channel}`)
+        .setColor("BLUE")
+      message.channel.send(ChannelInfo)
+    })
+  }
 }
