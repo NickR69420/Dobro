@@ -15,9 +15,9 @@
 
 const Discord = require('discord.js');
 const bot = new Discord.Client({
-     disableEveryone: false,
-     partials: ['MESSAGE', 'CHANNEL', 'REACTION'] 
-    });    
+    disableEveryone: false,
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION']
+});
 const fs = require('fs');
 const config = require('./configuration/conf.json');
 
@@ -54,12 +54,12 @@ bot.aliases = new Discord.Collection();
 });
 
 // Message Edit Event
-["messageUpdate"].forEach(handler =>{
+["messageUpdate"].forEach(handler => {
     require(`./events/${handler}`)(bot)
 });
 
 // Message Delete Event
-["messageDelete"].forEach(handler =>{
+["messageDelete"].forEach(handler => {
     require(`./events/${handler}`)(bot)
 });
 
