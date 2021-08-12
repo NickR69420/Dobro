@@ -16,9 +16,9 @@
 const Discord = require('discord.js');
 const Updater = require('./updater.js');
 const bot = new Discord.Client({
-    disableEveryone: false,
-    partials: ['MESSAGE', 'CHANNEL', 'REACTION']
-});
+     disableEveryone: false,
+     partials: ['MESSAGE', 'CHANNEL', 'REACTION'] 
+    });    
 const fs = require('fs');
 const config = require('./configuration/conf.json');
 
@@ -56,15 +56,18 @@ Updater.start();
 });
 
 // Message Edit Event
-["messageUpdate"].forEach(handler => {
+["messageUpdate.js"].forEach(handler => {
     require(`./events/${handler}`)(bot)
 });
 
 // Message Delete Event
-["messageDelete"].forEach(handler => {
+["messageDelete.js"].forEach(handler => {
+    require(`./events/${handler}`)(bot)
+});
+
+// Ready Event
+["ready.js"].forEach(handler => {
     require(`./events/${handler}`)(bot)
 });
 
 bot.login(config.bot.token)
-
-// TODO, LOG ALL ERRORS TO A CHANNEL, ASWELL AS GUILD JOINS/LEAVE.

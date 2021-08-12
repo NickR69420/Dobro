@@ -21,6 +21,7 @@ module.exports = (bot) => {
     bot.on('guildMemberRemove', async(member) => {
         Schema.findOne({ Guild: member.guild.id }, async(e, data) => {
         if(!data) return;
+        try {
         const user = member.user;
         const image = new Canvas.Goodbye()
             .setUsername(user.username)
@@ -46,6 +47,9 @@ module.exports = (bot) => {
 
             const channel = member.guild.channels.cache.get(data.Channel);
             channel.send(attachment)
+        } catch (e) {
+            console.log(`Error in ${message.guild.name}`, e)
+        }
          })
     })
 }
