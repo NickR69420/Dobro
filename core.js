@@ -54,12 +54,17 @@ bot.aliases = new Discord.Collection();
 });
 
 // Message Edit Event
-["messageUpdate"].forEach(handler =>{
+["messageUpdate.js"].forEach(handler => {
     require(`./events/${handler}`)(bot)
 });
 
 // Message Delete Event
-["messageDelete"].forEach(handler =>{
+["messageDelete.js"].forEach(handler => {
+    require(`./events/${handler}`)(bot)
+});
+
+// Ready Event
+["ready.js"].forEach(handler => {
     require(`./events/${handler}`)(bot)
 });
 

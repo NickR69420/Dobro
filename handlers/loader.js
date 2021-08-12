@@ -107,26 +107,4 @@ try {
 
         channel.send(logsEmbed)
     }
-
-// Console stuff
-    bot.on("ready", () => {
-      console.log(`Loaded all commands!`)
-      console.log(`===========================================================`)
-      console.log("Bot is online");
-      console.log(`${bot.user.tag} is now in ${bot.guilds.cache.size} servers!`)
-      console.log (`Bot started in ${process.uptime()} seconds`)
-      console.log(`===========================================================`)
-    });
-
-// Bot Status    
-    bot.on("ready", () => {
-      function randomStatus() {
-        let status = ["the chat", "Netflix", "The sun go down", "anime", `${bot.guilds.cache.size} servers`, "d!help", "https://github.com/NickR69420/Dobro"];
-        let rstatus = Math.floor(Math.random() * status.length);
-        bot.user.setActivity(status[rstatus], { type: "WATCHING" });
-      }; setInterval(randomStatus, 10000);
-
-
-    }
-  );
 };
