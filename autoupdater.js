@@ -3,7 +3,7 @@ const exec = require('child_process').exec;
 const spawn = require('child_process').spawn;
 
 // A raw version URI to check for updates.
-let versionUri = "http://www.example.com/autoupdater.json";
+let versionUri = "https://raw.githubusercontent.com/NickR69420/Dobro/main/package.json";
 
 // Get the current version of the app through package.json and split it into major minor and revision numbers.
 let currentVersion = JSON.parse(fs.readFileSync(__dirname + "/package.json", "utf8")).version.split(".");
