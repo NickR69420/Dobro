@@ -40,7 +40,7 @@ async function checkForUpdate() {
             let npmStart = `npm start`;
             process.exit(2);
 
-        } else if (newVersion[0] == major && newVersion[1] > minor + 3) {
+        } else if (newVersion[0] == major && newVersion[1] > minor) {
             console.log(`Auto updating to a new minor version. - ${newVersion.join(".")}`);
             // Executes the git pull command.
             exec(gitPull, function(error, stdout, stderr) {
@@ -64,6 +64,7 @@ async function checkForUpdate() {
     setInterval(checkForUpdate, initalCheckDelay);
 }
 
+async function start() {
 // Check if the application is running on developement mode.
 if (process.env.NODE_ENV === "development") {
     // Check for update every 1 minutes.
@@ -71,4 +72,5 @@ if (process.env.NODE_ENV === "development") {
 }else {
     // Check for update every 1 hour.
     setInterval(checkForUpdate, initalCheckDelay);
+}
 }
