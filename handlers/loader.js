@@ -24,6 +24,7 @@ module.exports = (bot) => {
 
   bot.on("message", async message => {
 try {
+    // Checking for the command handling 
     const logo = config.bot.logo;
     if (message.author.bot) return;
     if (!message.guild) return;
