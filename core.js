@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 const Discord = require('discord.js');
-const Updater = require('./updater.js');
+// const Updater = require('./updater.js');
 const bot = new Discord.Client({
      disableEveryone: false,
      partials: ['MESSAGE', 'CHANNEL', 'REACTION'] 
@@ -25,7 +25,7 @@ const config = require('./configuration/conf.json');
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 
-Updater.start();
+// Updater.start();
 
 ["loader"].forEach(handler => {
     require(`./handlers/${handler}`)(bot);
