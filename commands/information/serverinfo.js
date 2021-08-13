@@ -23,7 +23,7 @@ module.exports = {
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
 
-        if (message.author.bot || !message.guild) return message.reply("this command for server only")
+        //if (message.author.bot || !message.guild) return message.reply("this command for server only") // Good job nick! Who needs to use the command handlers checks anyways!
         let EMBED = new Discord.MessageEmbed()
             .setTitle('Server Info')
             .addField("`Server name`", `${message.guild.name}`)

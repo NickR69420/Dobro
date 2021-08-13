@@ -20,7 +20,7 @@ module.exports = {
     usage: "kick <@user>",
     description: "Kicks a provided user.",
     permsneeded: "KICK_MEMBERS",
-    run: async(bot, message, args) => {
+    run: async (bot, message, args) => {
         message.delete();
 
         let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
@@ -50,7 +50,7 @@ module.exports = {
                 user.ban({
                     reason: `${BanReason}`
                 }).then(mem => {
-        // Kicked Embed (Global)
+                    // Kicked Embed (Global)
                     const kickedembed = new MessageEmbed()
                         .setDescription(`<@!${mem.user.id}> has been **kicked** | **${Reason}**`)
                         .setColor("BLUE")
@@ -61,15 +61,15 @@ module.exports = {
                     else {
                         message.channel.send(kickedembed);
 
-                    bot.modlogs({
-                        Member: user,
-                        Action: 'Kicked',
-                        Color: "RED",
-                        Reason: Reason
-                     }, message)
+                        bot.modlogs({
+                            Member: user,
+                            Action: 'Kicked',
+                            Color: "RED",
+                            Reason: Reason
+                        }, message)
 
-                }
+                    }
+                });
             });
-        });
     },
 };

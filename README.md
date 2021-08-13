@@ -19,7 +19,10 @@ You can just rename the exampleconf.json to conf.json
 
 For support, please contact Nickk#0007 or ELECTRUM#0729 on Discord.
 
-Join the [Discord Server](https://discord.gg/qD8GxsuWZ2)
+
+# License
+
+All files are under GNU GENERAL PUBLIC license, for more info see [here]
 
 # Partners
 People who add my bot to their Discord Server automatically become Partners!

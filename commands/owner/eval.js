@@ -11,7 +11,8 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.const Discord = require('discord.js');
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+const Discord = require('discord.js');
 const config = require("../../configuration/conf.json").bot;
 const privs = [config.token, "token", " token"]
 let hastebin = require('hastebin')
