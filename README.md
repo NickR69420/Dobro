@@ -22,7 +22,7 @@ For support, please contact Nickk#0007 or ELECTRUM#0729 on Discord.
 
 # License
 
-All files are under GNU GENERAL PUBLIC license, for more info see [here] (http://www.gnu.org/licenses/)
+All files are under GNU GENERAL PUBLIC license, for more info see [here](http://www.gnu.org/licenses/)
 
 # Partners
 People who add my bot to their Discord Server automatically become Partners!
