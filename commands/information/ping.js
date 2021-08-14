@@ -12,30 +12,41 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageEmbed } = require('discord.js')
+const {
+  MessageEmbed
+} = require('discord.js')
+const config = require("../../configuration/conf.json").bot;
+const em = require("../../configuration/embed.json");
 
 module.exports = {
-    name: "ping",
-    usage: "ping",
-    cooldown: 2,
-    description: "Returns teh bot's ping!",
-    permsneeded: "SEND_MESSAGES",
-    run: async (bot, message, args) => {
-        try{
-            var date = Date.now()
-            message.channel.send({ embed: new MessageEmbed()
-              .setTitle(`🏓 Pinging....`)
-            }).then(msg => {
-              msg.edit({embed: new MessageEmbed()
-                .setTitle(`🏓 Ping: \`${Math.round(Date.now() - date)}ms\`\n\n:robot: Api Latency: \`${Math.round(bot.ws.ping)}ms\``)
-              });
-            })
-          } catch (e) {
-              console.log(String(e.stack).bgRed)
-              return message.channel.send(new MessageEmbed()
-                  .setTitle(`❌ ERROR | An error occurred`)
-                  .setDescription(`\`\`\`${e.stack}\`\`\``)
-              );
-          }
-        }
-      }
+  name: "ping",
+  usage: "ping",
+  aliases: ["latency", "pong", "ms"],
+  cooldown: 2,
+  description: "Returns teh bot's ping!",
+  permsneeded: "SEND_MESSAGES",
+  run: async (bot, message, args) => {
+    try {
+      var date = Date.now()
+      message.channel.send({
+        embed: new MessageEmbed()
+          .setTitle(`🏓 Pinging....`)
+          .setColor('RANDOM')
+      }).then(msg => {
+        msg.delete()
+          .then(message.channel.send({
+            embed: new MessageEmbed()
+              .setAuthor(`Pong 🏓`, config.logo).addField("📶 Latency:", `\`${Math.round(Date.now() - date)}ms\``).addField("🤖 API Latency:", `\`${Math.round(bot.ws.ping)}ms\``).setColor(em.success).setTimestamp()
+          }))
+
+
+      })
+    } catch (e) {
+      console.log(String(e.stack))
+      return message.channel.send(new MessageEmbed()
+        .setTitle(`${bot.emotes.error} ERROR | An error occurred`)
+        .setDescription(`\`\`\`${e.stack}\`\`\``)
+      );
+    }
+  }
+}
