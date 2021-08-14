@@ -48,7 +48,9 @@ module.exports = (bot) => {
                 const channel = member.guild.channels.cache.get(data.Channel);
                 channel.send(attachment)
             } catch (e) {
-                console.log(`Error in ${member.guild.name}`, e)
+                console.log(`Error in ${message.guild.name}`, e)
+                bot.channels.cache.get(`${config.ErrorChannel}`).send(`Something went wrong in goodbye.js, the error stack is in console. Guild: ${message.guild.name}`)
+
             }
         })
     })

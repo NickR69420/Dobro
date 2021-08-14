@@ -1,9 +1,18 @@
 {
   "bot": {
-    "token": "Token",
-    "prefix": "Prefix",
-    "logo": "BotIcon",
-    "username": "BotName",
-    "MongoDB": "Put your MongoDB connection string here"
-  }
+    "token": "token",
+    "prefix": "d!",
+    "logo": "https://cdn.discordapp.com/avatars/849622587713650709/8a30dd6bb9b374bd21096c40efd03cf7.webp?size=128",
+    "text": "Dobro",
+    "MongoDB": "mongoconnectionyurlhere",
+    "ErrorChannel": "errorloggingchannelhere"
+  },
+  "emoji": {
+    "play": "▶️",
+    "stop": "⏹️",
+    "queue": "📄",
+    "success": "✅",
+    "repeat": "🔁",
+    "error": "❌"
+}
 }
