@@ -24,14 +24,14 @@ async function getVersionData(callback) {
 
 async function checkForUpdate() {
     // Call getVersionData and pass it a callback.
-    await getVersionData(function(newVersion) {
+    await getVersionData(function (newVersion) {
         // Compare the current version with the new version.
         if (newVersion[0] > major) {
             console.log(`Auto updating to a new major. - ${newVersion.join(".")}`);
             // Creates a git pull command.
             let gitPull = `git pull origin master`;
             // Executes the git pull command.
-            exec(gitPull, function(error, stdout, stderr) {
+            exec(gitPull, function (error, stdout, stderr) {
                 if (error) {
                     console.log(`Error: ${error}`);
                 }
@@ -43,7 +43,7 @@ async function checkForUpdate() {
         } else if (newVersion[0] == major && newVersion[1] > minor) {
             console.log(`Auto updating to a new minor version. - ${newVersion.join(".")}`);
             // Executes the git pull command.
-            exec(gitPull, function(error, stdout, stderr) {
+            exec(gitPull, function (error, stdout, stderr) {
                 if (error) {
                     console.log(`Error: ${error}`);
                 }
@@ -52,7 +52,7 @@ async function checkForUpdate() {
         } else if (newVersion[0] == major && newVersion[1] == minor && newVersion[2] > revision + 10) {
             console.log(`Auto updating to a new revision. - ${newVersion.join(".")}`);
             // Executes the git pull command.
-            exec(gitPull, function(error, stdout, stderr) {
+            exec(gitPull, function (error, stdout, stderr) {
                 if (error) {
                     console.log(`Error: ${error}`);
                 }
@@ -65,12 +65,12 @@ async function checkForUpdate() {
 }
 
 async function start() {
-// Check if the application is running on developement mode.
-if (process.env.NODE_ENV === "development") {
-    // Check for update every 1 minutes.
-    setInterval(checkForUpdate, initalCheckDelay);
-}else {
-    // Check for update every 1 hour.
-    setInterval(checkForUpdate, initalCheckDelay);
-}
+    // Check if the application is running on developement mode.
+    if (process.env.NODE_ENV === "development") {
+        // Check for update every 1 minutes.
+        setInterval(checkForUpdate, initalCheckDelay);
+    } else {
+        // Check for update every 1 hour.
+        setInterval(checkForUpdate, initalCheckDelay);
+    }
 }

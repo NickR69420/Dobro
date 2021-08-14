@@ -16,9 +16,9 @@
 const Discord = require('discord.js');
 // const Updater = require('./updater.js');
 const bot = new Discord.Client({
-     disableEveryone: false,
-     partials: ['MESSAGE', 'CHANNEL', 'REACTION'] 
-    });    
+    disableEveryone: false,
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION']
+});
 const fs = require('fs');
 const config = require('./configuration/conf.json');
 
