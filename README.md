@@ -26,3 +26,4 @@ People who add my bot to their Discord Server automatically become Partners!
 
 - [DaSweetSMP](https://discord.gg/4evHSPqapC)
 - [Azgoria SMP](https://discord.gg/gYHM8jcHEB)
+- [xBlued's House](https://discord.gg/bE7NyE7Kbg)
