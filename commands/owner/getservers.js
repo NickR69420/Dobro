@@ -16,7 +16,7 @@ const Discord = require('discord.js');
 const config = require("../../configuration/conf.json").bot;
 const privs = [config.token, "token", " token"]
 let hastebin = require(`hastebin`)
-
+// Not sure if this breaks TOS, could very well.
 module.exports = {
     name: "getservers",
     aliases: ["listservers", "invites"],
@@ -71,4 +71,3 @@ module.exports = {
     }
 }
 // thanks daysling for the hastebin code
-

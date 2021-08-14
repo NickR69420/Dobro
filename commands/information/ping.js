@@ -15,27 +15,30 @@
 const { MessageEmbed } = require('discord.js')
 
 module.exports = {
-    name: "ping",
-    usage: "ping",
-    cooldown: 2,
-    description: "Returns teh bot's ping!",
-    permsneeded: "SEND_MESSAGES",
-    run: async (bot, message, args) => {
-        try{
-            var date = Date.now()
-            message.channel.send({ embed: new MessageEmbed()
-              .setTitle(`🏓 Pinging....`)
-            }).then(msg => {
-              msg.edit({embed: new MessageEmbed()
-                .setTitle(`🏓 Ping: \`${Math.round(Date.now() - date)}ms\`\n\n:robot: Api Latency: \`${Math.round(bot.ws.ping)}ms\``)
-              });
-            })
-          } catch (e) {
-              console.log(String(e.stack).bgRed)
-              return message.channel.send(new MessageEmbed()
-                  .setTitle(`❌ ERROR | An error occurred`)
-                  .setDescription(`\`\`\`${e.stack}\`\`\``)
-              );
-          }
-        }
-      }
+  name: "ping",
+  usage: "ping",
+  cooldown: 2,
+  description: "Returns teh bot's ping!",
+  permsneeded: "SEND_MESSAGES",
+  run: async (bot, message, args) => {
+    try {
+      var date = Date.now()
+      message.channel.send({
+        embed: new MessageEmbed()
+          .setTitle(`🏓 Pinging....`)
+      }).then(msg => {
+        msg.edit({
+          embed: new MessageEmbed()
+            .setTitle(`🏓 Ping: \`${Math.round(Date.now() - date)}ms\`\n\n:robot: Api Latency: \`${Math.round(bot.ws.ping)}ms\``)
+        });
+      })
+    } catch (e) {
+      console.log(String(e.stack).bgRed)
+      return message.channel.send(new MessageEmbed()
+        .setTitle(`❌ ERROR | An error occurred`)
+        .setDescription(`\`\`\`${e.stack}\`\`\``)
+      );
+    }
+  }
+}
+  // Nickk stole this command from elegy wth

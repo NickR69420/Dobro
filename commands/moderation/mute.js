@@ -12,7 +12,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.const { MessageEmbed } = require("discord.js");
+const { Guild } = require("discord.js");
 const ms = require("ms");
+const config = require("../../configuration/conf.json").bot; // For Error Channel
 
 module.exports = {
   name: "mute",
@@ -65,7 +67,9 @@ module.exports = {
           });
         message.channel.send("Muted role has sucessfully been created.");
       } catch (error) {
+        message.reply(`Something went wrong, this error has been logged to console`)
         console.log(error);
+        bot.channels.cache.get(`${config.ErrorChannel}`).send(`Something went wrong running the muted command in ${message.guild.name}}.}`) // Todo, log what guild it happend in, to lazy to do rn
       }
     }
 
@@ -99,17 +103,17 @@ module.exports = {
           .setFooter(`ID: ${Member.id}`, avatar)
           .setTimestamp();
 
-        if (!message.member.hasPermission("BAN_MEMBERS"))
+        if (!message.member.hasPermission("KICK_MEMBERS"))
           return message.channel.send("No Perms to do this!!!!");
         else {
           message.channel.send(muted);
 
           bot.modlogs({
-              Member: Member,
-              Action: "Muted",
-              Color: "ORANGE",
-              Reason: reason,
-            },
+            Member: Member,
+            Action: "Muted",
+            Color: "ORANGE",
+            Reason: reason,
+          },
             message);
 
           setTimeout(async () => {

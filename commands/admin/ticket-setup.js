@@ -25,15 +25,17 @@ module.exports = {
     run: async (bot, message, args) => {
   
         let ticketData = await TicketData.findOne({ GuildID: message.guild.id });
-        if (!message.member.hasPermission('MANAGE_GUILD')) {
-            return message.channel.send('You are missing permissions! You must have the **MANAGE_SERVER** permission.');
-        }
+        // if (!message.member.hasPermission('MANAGE_GUILD')) {
+        //     return message.channel.send('You are missing permissions! You must have the **MANAGE_SERVER** permission.');
+        // }
+        // Nick you are a fucking idiot, stop adding permission checks inside commands, we have a fucking command handler for a reason
         
         if (!ticketData) {
             const firstEmbed = new MessageEmbed()
                 .setTitle('Ticket System Setup')
                 .setDescription('What do you want the embed description to be?')
                 .setColor('BLUE');
+                console.log(`DEBUG: FirstEmbed Complete, no error`)
             let firstMsg = await message.channel.send(firstEmbed);
     
             const firstFilter = m => m.author.id === message.author.id;
@@ -47,6 +49,7 @@ module.exports = {
                     .setTitle('Ticket System Setup')
                     .setDescription('Where do you want to send the message? Please mention a channel.')
                     .setColor('BLUE');
+                    console.log(`DEBUG: secondEmbed Complete, no error`)
                 msg.channel.send(secondEmbed);
                 firstCollector.stop();
     
@@ -67,7 +70,6 @@ module.exports = {
                         .setColor('BLUE');
                     msg.channel.send(thirdEmbed);
                     secondCollector.stop();
-    
                     const thirdFilter = m => m.author.id === message.author.id;
                     const thirdCollector = new MessageCollector(message.channel, thirdFilter, { max: 2 });
     
