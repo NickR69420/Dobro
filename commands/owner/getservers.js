@@ -54,7 +54,7 @@ module.exports = {
             }
             let invitesfinal = "";
             invites.forEach(e => {
-                invitesfinal += e.name + " - " + e.invite + " - " + "\n";
+                invitesfinal += e.name + " - " + e.invite + "\n";
             });
             let url = await hastebin.createPaste(invitesfinal.trim(), {
                 raw: true,
