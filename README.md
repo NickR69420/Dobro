@@ -27,5 +27,6 @@ All files are under GNU GENERAL PUBLIC license, for more info see [here](http://
 # Partners
 People who add my bot to their Discord Server automatically become Partners!
 
-- [DaSweetSMP](https://discord.gg/4evHSPqapC)
+- [DaSweet](https://discord.gg/4evHSPqapC)
 - [Azgoria SMP](https://discord.gg/gYHM8jcHEB)
+- [xBlued's House](https://discord.gg/bE7NyE7Kbg)
