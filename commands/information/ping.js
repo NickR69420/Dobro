@@ -16,7 +16,7 @@ const {
   MessageEmbed
 } = require('discord.js')
 const config = require("../../configuration/conf.json").bot;
-const em = require("../../configuration/embed.json");
+const ee = require("../../configuration/embed.json");
 
 module.exports = {
   name: "ping",
@@ -36,7 +36,7 @@ module.exports = {
         msg.delete()
           .then(message.channel.send({
             embed: new MessageEmbed()
-              .setAuthor(`Pong 🏓`, config.logo).addField("📶 Latency:", `\`${Math.round(Date.now() - date)}ms\``).addField("🤖 API Latency:", `\`${Math.round(bot.ws.ping)}ms\``).setColor(em.success).setTimestamp()
+              .setAuthor(`Pong 🏓`, config.logo).addField("📶 Latency:", `\`${Math.round(Date.now() - date)}ms\``).addField("🤖 API Latency:", `\`${Math.round(bot.ws.ping)}ms\``).setColor(ee.success).setTimestamp()
           }))
 
 
