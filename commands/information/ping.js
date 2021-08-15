@@ -12,11 +12,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageEmbed } = require('discord.js')
+const {
+  MessageEmbed
+} = require('discord.js')
+const config = require("../../configuration/conf.json").bot;
+const ee = require("../../configuration/embed.json");
 
 module.exports = {
   name: "ping",
   usage: "ping",
+  aliases: ["latency", "pong", "ms"],
   cooldown: 2,
   description: "Returns teh bot's ping!",
   permsneeded: "SEND_MESSAGES",
@@ -26,19 +31,22 @@ module.exports = {
       message.channel.send({
         embed: new MessageEmbed()
           .setTitle(`🏓 Pinging....`)
+          .setColor('RANDOM')
       }).then(msg => {
-        msg.edit({
-          embed: new MessageEmbed()
-            .setTitle(`🏓 Ping: \`${Math.round(Date.now() - date)}ms\`\n\n:robot: Api Latency: \`${Math.round(bot.ws.ping)}ms\``)
-        });
+        msg.delete()
+          .then(message.channel.send({
+            embed: new MessageEmbed()
+              .setAuthor(`Pong 🏓`, config.logo).addField("📶 Latency:", `\`${Math.round(Date.now() - date)}ms\``).addField("🤖 API Latency:", `\`${Math.round(bot.ws.ping)}ms\``).setColor(ee.success).setTimestamp()
+          }))
+
+
       })
     } catch (e) {
-      console.log(String(e.stack).bgRed)
+      console.log(String(e.stack))
       return message.channel.send(new MessageEmbed()
-        .setTitle(`❌ ERROR | An error occurred`)
+        .setTitle(`${bot.emotes.error} ERROR | An error occurred`)
         .setDescription(`\`\`\`${e.stack}\`\`\``)
       );
     }
   }
 }
-  // Nickk stole this command from elegy wth

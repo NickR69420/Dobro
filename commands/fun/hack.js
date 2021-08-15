@@ -18,7 +18,7 @@ module.exports = {
     name: "hack",
     aliases: ["hacc", "hacker"],
     usage: "{prefix}hack [ @user ]",
-    cooldown: 30,
+    cooldown: 15,
     description: "Don't like someone? Hack them!",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
@@ -26,27 +26,37 @@ module.exports = {
             let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
             if (!user) return message.channel.send("Who tf you wanna hack men?");
 
-            message.channel.send(`Hacking into ${user.user.tag}...`).then(msg => {
+            message.channel.send(`Hacking ${user.user.tag}...`).then(msg => {
 
                 /**
-                * Phase Shit
-                */
+                 * Phase Shit
+                 */
                 let phaseno = 1;
+                const haxor = bot.emojis.cache.find(emoji => emoji.name === "haxor");
+                const mcemoji = bot.emojis.cache.find(emoji => emoji.name === "mcgif");
+                const gf = bot.emojis.cache.find(emoji => emoji.name === "gurl");
+                const fortniteemoji = bot.emojis.cache.find(emoji => emoji.name === "fortnitedance");
+                const vbucks = bot.emojis.cache.find(emoji => emoji.name === "VBuck");
+                let mc = [`Hacking Minecraft account..  ${mcemoji}`]
+                let fornite = [`Hacking Fornite account..  ${fortniteemoji}`]
                 let randomEmail = [`@smollpp.org`, `@gaymail.pride`, `@isimpforu.com`, `@virginhero.com`];
                 let randomPass = [`Iluvmom92827`, `1inchpp0982`, `Seggzforlyfe`, `ilikebois6969`, `fuckmeDadi69420`];
                 let randomSearch = [`toes pics xxx`, `How to suck own dick`, `how to grow a pp`, `https://findingwifesforme.com/`];
-                let randomIP = [`69.420.0.0`, `420.0.0.0`, `127.0.0.0`, `0.0.0.0`]
-                let pOneMessages = [`Found ${user.user.tag}'s data! Sending data to your email...`, "0"];
-                let pTwoMessages = [`IP: ${randomIP[Math.floor(Math.random() * randomIP.length)]}, Email: ${user.user.username}${randomEmail[Math.floor(Math.random() * randomEmail.length)]}, Password: ${randomPass[Math.floor(Math.random() * randomPass.length)]}`, "0"]
-                let pThreeMessages = [`Last Google Search: ${randomSearch[Math.floor(Math.random() * randomSearch.length)]}`];
-                let pFourMessages = [`Deleting System32.....`, `Uninstalling Anime_Hoties folder...`, `Injecting SeggzTrojan #6696`, `Corrupting C: Drive...`];
+                let randomIP = [`69.420.0.0`, `420.0.0.0`, `127.0.0.0`, `1.234.342.1`]
+                let pOneMessages = ["0", `Initializing hack.. ${haxor}`];
+                let pTwoMessages = [`**IP ADDRESS:** ${randomIP[Math.floor(Math.random() * randomIP.length)]} \nEmail: \`${user.user.username}${randomEmail[Math.floor(Math.random() * randomEmail.length)]}\`, Password: \`${randomPass[Math.floor(Math.random() * randomPass.length)]}\``]
+                let pThreeMessages = [`**Last Google Search:** ${randomSearch[Math.floor(Math.random() * randomSearch.length)]}`];
+                let pFourMessages = ["mc", "fortnite"]
+                let MCresponse = `Successfully stole their Minecraft girlfriend ${gf}`
+                let Forniteresponse = `Successfully stole their V-Bucks ${vbucks}`
+                let pFiveMessages = [`Deleting System32.....`, `Uninstalling Anime_Hoties folder...`, `Injecting SeggzTrojan #6696`, `Corrupting C: Drive...`];
 
                 setInterval(() => {
                     switch (phaseno) {
                         case 1:
-                            pOneMessages = pOneMessages[Math.floor(Math.random() * pOneMessages.length)];
+                            pOneMessages = pOneMessages[Math.floor(Math.random * pOneMessages.length)];
                             if (pOneMessages == "0") {
-                                msg.edit(`Failed to hack ${user.user.tag}. MAYDAY MAYDAY, SECURITY WAY TOO STRONG`);
+                                msg.edit(`NEVER MIND! IT BACKFIRED AND YOU'RE GETTING HACKED!!!!`);
                                 return clearInterval(this);
                             }
                             msg.edit(pOneMessages);
@@ -54,31 +64,43 @@ module.exports = {
                             break;
                         case 2:
                             pTwoMessages = pTwoMessages[Math.floor(Math.random() * pTwoMessages.length)];
-                            if (pTwoMessages == "0") {
-                                msg.edit(`OH SHIT IT BACKFIRED AND YOU'RE GETTING HACKED!!!!`);
-                                return clearInterval(this);
-                            }
                             msg.edit(pTwoMessages);
                             phaseno++
                             break;
+
                         case 3:
                             pThreeMessages = pThreeMessages[Math.floor(Math.random() * pThreeMessages.length)];
                             msg.edit(pThreeMessages);
                             phaseno++
                             break;
                         case 4:
-                            pFourMessages = pFourMessages[Math.floor(Math.random() * pFourMessages.length)];
-                            msg.edit(pFourMessages);
+                            pFourMessages = pFourMessages[Math.floor(Math.random * pFourMessages.length)];
+                            if (pFourMessages == "fornite") {
+                                msg.edit(fornite)
+                            }
+                            msg.edit(mc)
                             phaseno++
                             break;
                         case 5:
-                            msg.edit(`**DONE!** \`${user.user.tag}\` was successfully HACKED! *(100% real)*`);
+                            if (pFourMessages == "fortnite") {
+                                msg.edit(Forniteresponse)
+                            }
+                            msg.edit(MCresponse)
+                            phaseno++
+                            break;
+                        case 6:
+                            pFiveMessages = pFiveMessages[Math.floor(Math.random() * pFiveMessages.length)];
+                            msg.edit(pFiveMessages);
+                            phaseno++
+                            break;
+                        case 7:
+                            msg.edit(`**DONE!** \n${user.user.tag} was successfully HACKED! *(100% real)*`);
                             phaseno++
                             clearInterval(this)
                             break;
 
                     }
-                }, 2000);
+                }, 3500);
             });
         } catch (err) {
             console.log(err)

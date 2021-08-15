@@ -14,8 +14,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const Discord = require('discord.js');
 const config = require("../../configuration/conf.json").bot;
-const privs = [config.token, "token", " token"]
-let hastebin = require('hastebin')
+const privs = [config.token, "token", " token", "bot.token"]
+const hastebin = require('hastebin');
 const symbolRegex = /(_\.|\\|\?)/g;
 
 const evalRegex = new RegExp(
@@ -77,11 +77,11 @@ module.exports = {
         .setAuthor(`Evaluation`, message.author.displayAvatarURL({ dynamic: true }))
         .addFields(
           {
-            name: "Input",
+            name: ":inbox_tray:  Input",
             value: `\`\`\`js\n${input}\`\`\``
           },
           {
-            name: "Output",
+            name: ":outbox_tray:  Output",
             value: ((output === "") ? "No output" : ("```js\n" + output + "\n```"))
           }
         )
@@ -97,11 +97,11 @@ module.exports = {
         .setAuthor(`Evaluation`, message.author.displayAvatarURL({ dynamic: true }))
         .addFields(
           {
-            name: "Input",
+            name: ":inbox_tray: Input",
             value: `\`\`\`js\n${input}\`\`\``
           },
           {
-            name: "Error",
+            name: ":x:  Error",
             value: `\`\`\`js\n${clean(err)}\n\`\`\``
           }
         )

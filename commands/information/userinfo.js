@@ -17,98 +17,173 @@ const config = require("../../configuration/conf.json").bot;
 const moment = require('moment');
 
 module.exports = {
-    name: "userinfo",
-    aliases: ["user", "uinfo"],
-    usage: "userinfo [@user]",
-    cooldown: 10,
-    description: "user-info",
-    permsneeded: "SEND_MESSAGES",
+    name: 'userinfo',
+    aliases: ['user', 'whois', 'info'],
+    usage: 'userinfo [@user]',
+    cooldown: 15,
+    description: 'Displays information about a user.',
+    permsneeded: 'SEND_MESSAGES',
     run: async (bot, message, args) => {
 
-        let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
+        let Member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
 
         const online = bot.emojis.cache.find(emoji => emoji.name === "online");
         const dnd = bot.emojis.cache.find(emoji => emoji.name === "dnd");
         const idle = bot.emojis.cache.find(emoji => emoji.name === "idle");
         const offline = bot.emojis.cache.find(emoji => emoji.name === "offline");
-        //ik this is inefficient but the emojis were broken in the embed lol
+
+        function trimArray(arr, maxLen = 25) { // Elegy Skid momento
+            if (arr.array().length > maxLen) {
+                const len = arr.array().length - maxLen;
+                arr = arr.array().sort((a, b) => b.rawPosition - a.rawPosition).slice(0, maxLen);
+                arr.map(role => `<@&${role.id}>`)
+                arr.push(`${len} more...`);
+            }
+            return arr.join(", ");
+        }
+        const badges = {
+            HOUSE_BRAVERY: `House of Bravery`,
+            HOUSE_BRILLIANCE: `House of Brilliance`,
+            HOUSE_BALANCE: `House of Balance`,
+        }
+        const userFlags = Member.user.flags.toArray();
+        const roles = Member.roles;
+        const activity = Member.presence.activities[0];
+        var userstatus = "Not having an activity";
+        if (activity) {
+            if (activity.type === "CUSTOM_STATUS") {
+                let emoji = `${activity.emoji ? activity.emoji.id ? `<${activity.emoji.animated ? "a": ""}:${activity.emoji.name}:${activity.emoji.id}>`: activity.emoji.name : ""}`
+                userstatus = `${emoji} \`${activity.state || 'Not having an acitivty.'}\``
+            } else {
+                userstatus = `${activity.type.toLowerCase().charAt(0).toUpperCase() + activity.type.toLowerCase().slice(1)} ${activity.name}`
+            }
+        }
+        const permissions = [];
 
         let status;
-        switch (user.presence.status) {
+        switch (Member.presence.status) {
             case "online":
-                status = `${online} Online`;
+                status = `${online}`;
                 break;
             case "dnd":
-                status = `${dnd} DND`;
+                status = `${dnd}`;
                 break;
             case "idle":
-                status = `${idle} Idle`;
+                status = `${idle}`;
                 break;
             case "offline":
-                status = `${offline} Offline`;
+                status = `${offline}`;
                 break;
         }
+        if (Member.hasPermission("KICK_MEMBERS")) {
+            permissions.push("Kick Members");
+        }
+
+        if (Member.permissions.has("BAN_MEMBERS")) {
+            permissions.push("Ban Members");
+        }
+
+        if (Member.hasPermission("ADMINISTRATOR")) {
+            permissions.push("Administrator");
+        }
+
+        if (Member.hasPermission("MANAGE_MESSAGES")) {
+            permissions.push("Manage Messages");
+        }
+
+        if (Member.hasPermission("MANAGE_CHANNELS")) {
+            permissions.push("Manage Channels");
+        }
+
+        if (Member.hasPermission("MENTION_EVERYONE")) {
+            permissions.push("Mention Everyone");
+        }
+
+        if (Member.hasPermission("MANAGE_NICKNAMES")) {
+            permissions.push("Manage Nicknames");
+        }
+
+        if (Member.hasPermission("MANAGE_ROLES")) {
+            permissions.push("Manage Roles");
+        }
+
+        if (Member.hasPermission("MANAGE_WEBHOOKS")) {
+            permissions.push("Manage Webhooks");
+        }
+
+        if (Member.hasPermission("MANAGE_EMOJIS")) {
+            permissions.push("Manage Emojis");
+        }
+
+        if (permissions.length == 0) {
+            permissions.push("No Key Permissions Found");
+        }
+
 
         const embed = new Discord.MessageEmbed()
-            .setAuthor(`Information about: ` + user.user.username + "#" + user.user.discriminator, user.user.displayAvatarURL({ dynamic: true }))
-            .setColor(`BLUE`)
-            .setThumbnail(user.user.displayAvatarURL({ dynamic: 512 }))
+            .setColor(Member.displayHexColor)
+            .setFooter(config.text, config.logo)
+
+            .setAuthor(`Userinfo`, Member.user.displayAvatarURL({
+                dynamic: true
+            }))
+            .setTitle(`${Member.user.tag}    [${status}]`)
+            .setThumbnail(Member.user.displayAvatarURL({
+                dynamic: false
+            }))
+
             .addFields(
+
                 {
-                    name: `👤**Username:**`,
-                    value: user.user.username + "#" + user.user.discriminator,
+                    name: `🧍 Display Name`,
+                    value: `\`\`\`${Member.displayName}\`\`\``,
+                    inline: true,
+                }, {
+                    name: `🆔 User ID`,
+                    value: `\`\`\`${Member.user.id}\`\`\``,
+                    inline: true,
+                }, {
+                    name: `_ _`,
+                    value: `_ _`,
+                    inline: true
+                }, {
+                    name: `🤖 Bot?`,
+                    value: `\`\`\`${Member.user.bot ? "✔️" : "❌"}\`\`\``,
+                    inline: true,
+                }, {
+                    name: `📛 Profile Badges`,
+                    value: `\`\`\`${userFlags.length ? userFlags.map(flag => badges[flag]).join(' ') : 'None'}\`\`\``,
+                    inline: true,
+                }, {
+                    name: "_ _",
+                    value: "_ _",
+                    inline: true
+                }, {
+                    name: "📜 Activity",
+                    value: userstatus,
                     inline: true
                 },
+
                 {
-                    name: "🆔 `USER ID:`",
-                    value: user.user.id,
-                    inline: true
+                    name: "——————————————————————————————",
+                    value: `_ _`
                 },
+
                 {
-                    name: '_ _',
-                    value: '_ _'
-                },
-                {
-                    name: "`Current Status:`",
-                    value: status,
-                    inline: true
-                },
-                {
-                    name: "📜 `Custom Status:`",
-                    value: user.presence.activities[0] ? user.presence.activities[0].state : `User isn't have a custom status!`,
-                    inline: true
-                },
-                {
-                    name: '🔗 Avatar link: ',
-                    value: `[- PNG](${user.user.displayAvatarURL({ format: "png", size: 1024 })})\n[- JPG](${user.user.displayAvatarURL({ format: "jpg", size: 1024 })})\n[- WEBP](${user.user.displayAvatarURL({ format: "webp", size: 1024 })})\n[- GIF](${user.user.displayAvatarURL({ format: "gif", size: 1024 })})`,
-                    inline: false
-                },
-                {
-                    name: '`Creation Date:`',
-                    value: user.user.createdAt.toLocaleDateString("en-us"),
-                    inline: true
-                },
-                {
-                    name: '`Joined Date:`',
-                    value: user.joinedAt.toLocaleDateString("en-us"),
-                    inline: true
-                },
-                {
-                    name: '`Guild Join Date:`',
-                    value: `${moment(user.joinedTimestamp).format("DD/MM/YYYY")}`,
-                    inline: true
-                },
-                {
-                    name: '`User Roles:`',
-                    value: user.roles.cache.map(role => role.toString()).join(" ,"),
-                    inline: false
-                },
-                {
-                    name: '`Permissions`',
-                    value: `${message.member.permissions.toArray().map(p => `\`${p}\``).join(", ")}`
+                    name: `Roles - [${Member.roles.cache.size}]`,
+                    value: roles.cache.size < 25 ? roles.cache.array().sort((a, b) => b.rawPosition - a.rawPosition).map(role => role.toString()).join(' ') : roles.cache.size > 25 ? trimArray(roles.cache) : 'None'
+                }, {
+                    name: `Key Permissions - [${permissions.length}]`,
+                    value: `\`\`\`${permissions.join(`,`)}\`\`\``
+                }, {
+                    name: `📆 Registration Date`,
+                    value: `\`\`\`${moment(Member.user.createdAt).format("LL LTS")}\`\`\``
+                }, {
+                    name: "📅 Guild Join Date",
+                    value: `\`\`\`${moment(Member.joinedAt).format("LL LTS")}\`\`\``
                 }
             )
-            .setFooter(config.text, config.logo)
+
         message.channel.send(embed)
     }
-}
+} // Format inspired by DisCruft Bot 

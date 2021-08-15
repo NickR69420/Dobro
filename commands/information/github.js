@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 module.exports = {
     name: "github",
-    aliases: ["src", "sourcecode", "source-code", "source"],
+    aliases: ["src", "sourcecode", "source-code", "source", "code"],
     usage: "github",
     cooldown: 10,
     description: "Displays info about the bot!",
