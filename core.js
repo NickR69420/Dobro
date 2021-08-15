@@ -50,19 +50,19 @@ bot.aliases = new Discord.Collection();
     require(`./events/${handler}`)(bot)
 });
 
-// Goodbye Event
-["goodbye.js"].forEach(handler => {
-    require(`./events/${handler}`)(bot)
+//  Goodbye Event
+ ["goodbye.js"].forEach(handler => {
+     require(`./events/${handler}`)(bot)
 });
 
-// Message Edit Event
-["messageUpdate.js"].forEach(handler => {
-    require(`./events/${handler}`)(bot)
-});
+ // Message Edit Event
+ ["messageUpdate.js"].forEach(handler => {
+     require(`./events/${handler}`)(bot)
+ });
 
-// Message Delete Event
-["messageDelete.js"].forEach(handler => {
-    require(`./events/${handler}`)(bot)
+ // Message Delete Event
+ ["messageDelete.js"].forEach(handler => {
+     require(`./events/${handler}`)(bot)
 });
 
 // Ready Event
@@ -71,8 +71,8 @@ bot.aliases = new Discord.Collection();
 });
 
 // Error Logging/Handling
-["error.js"].forEach(handler => {
-    require(`./events/${handler}`)(bot)
-});
+//  ["error.js"].forEach(handler => {
+//     require(`./events/${handler}`)(bot)
+//  });
 
 bot.login(config.bot.token)
