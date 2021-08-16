@@ -18,12 +18,13 @@ const {
 const channelModel = require("../models/channelModel");
 
 module.exports = (bot) => {
-  try {
 
     bot.on('messageUpdate', async (oldMessage, newMessage) => {
       const data = await channelModel.findOne({
         GuildID: oldMessage.guild.id
       });
+      try {
+        if(oldMessage.author.bot) return;
 
       let channel = bot.channels.cache.get(data.ChannelID);
 
@@ -54,9 +55,8 @@ module.exports = (bot) => {
 
 
       await channel.send(MessageEdited);
-
+      } catch (e) {
+        console.log(`Error found in ${newMessage.guild.name}`)
+      }
     })
-  } catch (e) {
-    console.log(`Error found in ${newMessage.guild.name}`)
-  }
 }

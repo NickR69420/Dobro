@@ -28,6 +28,8 @@ module.exports = {
         const embed = new Discord.MessageEmbed();
         got('https://www.reddit.com/r/memes/random/.json')
             .then(response => {
+                try{
+
                 const [list] = JSON.parse(response.body);
                 const [post] = list.data.children;
 
@@ -45,8 +47,11 @@ module.exports = {
                 embed.setFooter(`👍 ${memeUpvotes} 💬 ${memeNumComments} | requested by ${user.username}`, message.author.displayAvatarURL({ dynamic: true }));
 
                 message.channel.send(embed);
+                } catch (e) {
+                message.reply("Something went wrong..")
+                }
             })
-            .catch(console.error).message.channel.send(`Something went wrong.`)
+            
 
 
 

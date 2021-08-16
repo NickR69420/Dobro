@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const Discord = require('discord.js');
 const config = require("../../configuration/conf.json").bot;
+const em = require("../../configuration/embed.json");
 const privs = [config.token, "token", " token", "bot.token"]
 const hastebin = require('hastebin');
 const symbolRegex = /(_\.|\\|\?)/g;
@@ -86,7 +87,7 @@ module.exports = {
           }
         )
         .setFooter(`${config.text} | Success!`, config.logo)
-        .setColor('GREEN')
+        .setColor(em.success)
 
       message.channel.send(evaledembed)
     } catch (err) {
@@ -106,7 +107,7 @@ module.exports = {
           }
         )
         .setFooter(`${config.text} | Error Found`, config.logo)
-        .setColor('RED')
+        .setColor(em.error)
 
       message.channel.send(errorembed);
     }

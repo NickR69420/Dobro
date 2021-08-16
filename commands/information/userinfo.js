@@ -145,10 +145,10 @@ module.exports = {
                 }, {
                     name: `_ _`,
                     value: `_ _`,
-                    inline: true
+                    inline: false
                 }, {
                     name: `🤖 Bot?`,
-                    value: `\`\`\`${Member.user.bot ? "✔️" : "❌"}\`\`\``,
+                    value: `\`\`\`${Member.user.bot ? "✔ True" : "❌ False"}\`\`\``,
                     inline: true,
                 }, {
                     name: `📛 Profile Badges`,
@@ -157,11 +157,11 @@ module.exports = {
                 }, {
                     name: "_ _",
                     value: "_ _",
-                    inline: true
+                    inline: false
                 }, {
-                    name: "📜 Activity",
+                    name: "📜 Activity / Status",
                     value: userstatus,
-                    inline: true
+                    inline: false
                 },
 
                 {
@@ -174,7 +174,7 @@ module.exports = {
                     value: roles.cache.size < 25 ? roles.cache.array().sort((a, b) => b.rawPosition - a.rawPosition).map(role => role.toString()).join(' ') : roles.cache.size > 25 ? trimArray(roles.cache) : 'None'
                 }, {
                     name: `Key Permissions - [${permissions.length}]`,
-                    value: `\`\`\`${permissions.join(`,`)}\`\`\``
+                    value: `${permissions.join(`, `)}`
                 }, {
                     name: `📆 Registration Date`,
                     value: `\`\`\`${moment(Member.user.createdAt).format("LL LTS")}\`\`\``

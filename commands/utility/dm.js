@@ -24,8 +24,14 @@ module.exports = {
   run: async (bot, message, args) => {
 
     message.delete();
-    let user = message.mentions.users.first() || message.author
-    let avatar = user.displayAvatarURL({ dynamic: true })
+    let user = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
+    let avatar = user.user.displayAvatarURL({ dynamic: true })
+
+    const DMSENT = new Discord.MessageEmbed()
+      .setTitle(`SUCCESS!`)
+      .setDescription(`Message has been sent to ${user.tag}!`)
+      .setColor('GREEN')
+      .setThumbnail(avatar)
 
     const str = args.slice(1).join(" ")
     if (!user) return message.reply("Please mention a user!")
@@ -35,15 +41,8 @@ module.exports = {
       user.send(str.replace("-s", " ")
       ).catch(e => console.log("Error lol"))
     } else {
-      user.send(`${message.author.tag}: ${str}`)
-
+      user.send(`${message.author.tag}: ${str}`
+      ).catch(e => message.reply("You cannot send a message to this user!"))
     }
-    const DMSENT = new Discord.MessageEmbed()
-      .setTitle(`SUCCESS!`)
-      .setDescription(`Message has been sent to ${user.tag}!`)
-      .setColor('GREEN')
-      .setThumbnail(avatar)
-
-    message.channel.send(DMSENT)
   }
 }

@@ -17,11 +17,15 @@ const channelModel = require("../models/channelModel");
 const snipes = new Discord.Collection();
 
 module.exports = (bot) => {
-    try {
+
         bot.on('messageDelete', async (message) => {
             const data = await channelModel.findOne({
                 GuildID: message.guild.id
             });
+
+            try {
+            if (message.author.bot) return;
+            
             let channel = bot.channels.cache.get(data.ChannelID);
             snipes.set(channel, message)
 
@@ -49,9 +53,10 @@ module.exports = (bot) => {
                 .setColor("#E4381D")
                 .setTimestamp();
 
-            await channel.send(MessageDeleted);
+            await channel.send(MessageDeleted
+                ).catch(err => console.log("Error | MessageDelete channel isn't setup!"))
+            } catch (e) {
+            console.log("Error")
+         }
         })
-    } catch (e) {
-        console.log("Unknown Error")
-    }
 }
