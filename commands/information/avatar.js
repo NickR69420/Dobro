@@ -24,7 +24,7 @@ module.exports = {
     run: async (bot, message, args) => {
 
         let user = message.mentions.users.first() || message.author
-        let avatar = user.displayAvatarURL({ dynamic: true })
+        let avatar = user.displayAvatarURL({ dynamic: true, size: 512 })
 
         const embed = new Discord.MessageEmbed()
             .setTitle(`${user.username}'s Avatar`)
