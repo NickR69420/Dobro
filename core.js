@@ -70,9 +70,9 @@ bot.aliases = new Discord.Collection();
     require(`./events/${handler}`)(bot)
 });
 
-// Error Logging/Handling
-//  ["error.js"].forEach(handler => {
+// // Error Logging/Handling
+// ["error.js"].forEach(handler => {
 //     require(`./events/${handler}`)(bot)
-//  });
+// });
 
 bot.login(config.bot.token)
