@@ -67,6 +67,7 @@ module.exports = {
             message.reply(`Sent you all the servers`)
         } catch (error) {
             console.log(`${error}`)
+            message.reply(`Hastebin is down, please try again later `)
         }
     }
 }
