@@ -19,4 +19,4 @@ const channelSchema = new mongo.Schema({
     ChannelID: String,
 });
 
-const MessageModel = module.exports = mongo.model("channelModel", channelSchema);
+module.exports = mongo.model("channelModel", channelSchema);

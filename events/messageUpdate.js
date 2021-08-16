@@ -12,7 +12,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageEmbed } = require("discord.js");
+const {
+  MessageEmbed
+} = require("discord.js");
 const channelModel = require("../models/channelModel");
 
 module.exports = (bot) => {
@@ -28,28 +30,25 @@ module.exports = (bot) => {
       const MessageEdited = new MessageEmbed()
         .setAuthor(
           "Message Edited",
-          oldMessage.author.displayAvatarURL({ dynamic: true })
+          oldMessage.author.displayAvatarURL({
+            dynamic: true
+          })
         )
-        .addFields(
-          {
-            name: "Author:",
-            value: `<@${oldMessage.author.id}>`,
-            inline: true,
-          },
-          {
-            name: "Channel",
-            value: `${oldMessage.channel}`,
-            inline: true
-          },
-          {
-            name: "Old Message",
-            value: `\`\`\`${oldMessage.content}\`\`\``,
-          },
-          {
-            name: "New Message",
-            value: `\`\`\`${newMessage.content}\`\`\``,
-          }
-        )
+        .addFields({
+          name: "Author:",
+          value: `<@${oldMessage.author.id}>`,
+          inline: true,
+        }, {
+          name: "Channel",
+          value: `${oldMessage.channel}`,
+          inline: true
+        }, {
+          name: "Old Message",
+          value: `\`\`\`${oldMessage.content}\`\`\``,
+        }, {
+          name: "New Message",
+          value: `\`\`\`${newMessage.content}\`\`\``,
+        })
         .setColor("#E4381D")
         .setTimestamp();
 
@@ -58,9 +57,6 @@ module.exports = (bot) => {
 
     })
   } catch (e) {
-    console.log("Unknown Error")
+    console.log(`Error found in ${newMessage.guild.name}`)
   }
 }
-
-
-
