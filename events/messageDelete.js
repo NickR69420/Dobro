@@ -19,44 +19,47 @@ const snipes = new Discord.Collection();
 module.exports = (bot) => {
 
         bot.on('messageDelete', async (message) => {
-            const data = await channelModel.findOne({
-                GuildID: message.guild.id
-            });
 
-            try {
-            if (message.author.bot) return;
-            
-            let channel = bot.channels.cache.get(data.ChannelID);
-            snipes.set(channel, message)
+            if (!message.author.bot) { 
 
-            const MessageDeleted = new Discord.MessageEmbed()
-                .setAuthor(
-                    "Message Deleted",
-                    message.author.displayAvatarURL({ dynamic: true })
-                )
-                .addFields(
-                    {
-                        name: "Author:",
-                        value: `<@${message.author.id}>`,
-                        inline: true,
-                    },
-                    {
-                        name: "Channel",
-                        value: `${message.channel}`,
-                        inline: true
-                    },
-                    {
-                        name: "Content",
-                        value: `\`\`\`${message.content}\`\`\``
-                    }
-                )
-                .setColor("#E4381D")
-                .setTimestamp();
+                const data = await channelModel.findOne({
+                    GuildID: message.guild.id
+                });
 
-            await channel.send(MessageDeleted
-                ).catch(err => console.log("Error | MessageDelete channel isn't setup!"))
-            } catch (e) {
-            console.log("Error")
-         }
+                try {
+                
+                let channel = bot.channels.cache.get(data.ChannelID);
+                snipes.set(channel, message)
+
+                const MessageDeleted = new Discord.MessageEmbed()
+                    .setAuthor(
+                        "Message Deleted",
+                        message.author.displayAvatarURL({ dynamic: true })
+                    )
+                    .addFields(
+                        {
+                            name: "Author:",
+                            value: `<@${message.author.id}>`,
+                            inline: true,
+                        },
+                        {
+                            name: "Channel",
+                            value: `${message.channel}`,
+                            inline: true
+                        },
+                        {
+                            name: "Content",
+                            value: `\`\`\`${message.content}\`\`\``
+                        }
+                    )
+                    .setColor("#E4381D")
+                    .setTimestamp();
+
+                await channel.send(MessageDeleted
+                    ).catch(err => console.log("Error | MessageDelete channel isn't setup!"))
+                } catch (e) {
+                console.log("Error")
+             }
+           }
         })
 }

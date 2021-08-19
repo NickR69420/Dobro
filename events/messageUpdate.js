@@ -20,43 +20,44 @@ const channelModel = require("../models/channelModel");
 module.exports = (bot) => {
 
     bot.on('messageUpdate', async (oldMessage, newMessage) => {
-      const data = await channelModel.findOne({
-        GuildID: oldMessage.guild.id
-      });
-      try {
-        if(oldMessage.author.bot) return;
+      if (!newMessage.author.bot) { 
+        const data = await channelModel.findOne({
+          GuildID: oldMessage.guild.id
+        });
+        try {
 
-      let channel = bot.channels.cache.get(data.ChannelID);
+        let channel = bot.channels.cache.get(data.ChannelID);
 
-      const MessageEdited = new MessageEmbed()
-        .setAuthor(
-          "Message Edited",
-          oldMessage.author.displayAvatarURL({
-            dynamic: true
+        const MessageEdited = new MessageEmbed()
+          .setAuthor(
+            "Message Edited",
+            oldMessage.author.displayAvatarURL({
+              dynamic: true
+            })
+          )
+          .addFields({
+            name: "Author:",
+            value: `<@${oldMessage.author.id}>`,
+            inline: true,
+          }, {
+            name: "Channel",
+            value: `${oldMessage.channel}`,
+            inline: true
+          }, {
+            name: "Old Message",
+            value: `\`\`\`${oldMessage.content}\`\`\``,
+          }, {
+            name: "New Message",
+            value: `\`\`\`${newMessage.content}\`\`\``,
           })
-        )
-        .addFields({
-          name: "Author:",
-          value: `<@${oldMessage.author.id}>`,
-          inline: true,
-        }, {
-          name: "Channel",
-          value: `${oldMessage.channel}`,
-          inline: true
-        }, {
-          name: "Old Message",
-          value: `\`\`\`${oldMessage.content}\`\`\``,
-        }, {
-          name: "New Message",
-          value: `\`\`\`${newMessage.content}\`\`\``,
-        })
-        .setColor("#E4381D")
-        .setTimestamp();
+          .setColor("#E4381D")
+          .setTimestamp();
 
 
-      await channel.send(MessageEdited);
-      } catch (e) {
-        console.log(`Error found in ${newMessage.guild.name}`)
+        await channel.send(MessageEdited);
+        } catch (e) {
+          console.log(`Error found in ${newMessage.guild.name}`)
+        }
       }
     })
 }
