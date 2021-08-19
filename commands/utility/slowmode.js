@@ -22,15 +22,19 @@ module.exports = {
   permsneeded: "MANAGE_CHANNELS",
   run: async (bot, message, args) => {
 
-    if (message.member.hasPermission("MANAGE_CHANNELS")) {
-      let sentence = message.content.split(" ");
-      sentence.shift();
-      sentence = sentence.join(" ");
-      if (sentence != null) {
-        message.channel.setRateLimitPerUser(sentence);
-      }
+    try {
 
-      message.reply(`This chat now has a slowmode of ${sentence} seconds!`)
-    }
+      let number = message.content.split(" ");
+      number.shift();
+      number = number.join(" ");
+
+      if (!number) return message.reply("Mention a number!")
+        message.channel.setRateLimitPerUser(number);
+      
+
+      message.reply(`This chat now has a slowmode of ${number} seconds!`)
+    } catch (e) {
+      console.log(e)
+          }
   }
 }

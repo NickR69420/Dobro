@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const { MessageEmbed } = require("discord.js");
 const ms = require('ms');
+const em = require("../../configuration/embed.json");
 
 module.exports = {
   name: "mute",
@@ -22,21 +23,27 @@ module.exports = {
   description: "Mutes a provided user",
   permsneeded: "KICK_MEMBERS",
   run: async (bot, message, args) => {
-    let avatar = message.author.displayAvatarURL({ dynamic: true });
 
-    if (!message.member.hasPermission("MANAGE_MESSAGES"))
-      return message.channel.send(
-        "You do not have permissions to use this command"
-      );
+    message.delete();
+   
     const Member =
       message.mentions.members.first() ||
       message.guild.members.cache.get(args[0]);
     const time = args[1];
     const reason = args.slice(2).join(" ");
+
+    const ErrorEmbed = new MessageEmbed()
+    .setTitle(":x: Error Occured!")
+    .setDescription("Failed to mute the user. | Missing Perms")
+    .setColor(em.error)
+
     if (!Member)
       return message.channel.send(
         "Must mention a member.\n`Ex: d!mute @dumbass [duration] <Reason>`"
       );
+
+      if (!message.guild.member(Member).bannable) return message.reply(ErrorEmbed).then(m => m.delete({ timeout: 2500 }));
+
     if (!time)
       return message.channel.send(
         "Please specify a time.\n`d!mute @dumbass 1h Spam`"
@@ -68,10 +75,10 @@ module.exports = {
       } catch (error) {
         message.reply(`Something went wrong, this error has been logged to console`)
         console.log(error);
-        bot.channels.cache.get(`${config.ErrorChannel}`).send(`Something went wrong running the muted command in ${message.guild.name}}.}`) // Todo, log what guild it happend in, to lazy to do rn
+        bot.channels.cache.get(`${config.ErrorChannel}`).send(`Something went wrong running the mute command in ${message.guild.name}}.}`) // Todo, log what guild it happend in, to lazy to do rn
       }
     }
-
+////////////////////////// muting part 
     const mutedDM = new MessageEmbed()
       .setDescription(
         `You were **muted** in ${message.guild.name} | **${reason}**`
@@ -91,22 +98,21 @@ module.exports = {
         `${Member.displayName} has already been muted.`
       );
 
-    Member.send(mutedDM).then(() => {
+      
       Member.roles.add(role2).then((mem) => {
         const muted = new MessageEmbed()
-          .setTitle("Member Muted!", message.guild.iconURL)
+          .setAuthor("Member Muted!", Member.user.displayAvatarURL({ dynamic: true }))
           .setDescription(
             `<@${mem.user.id}> has been **muted** | **${reason}**`
           )
           .setColor("RED")
-          .setFooter(`ID: ${Member.id}`, avatar)
-          .setTimestamp();
-
-        if (!message.member.hasPermission("KICK_MEMBERS"))
-          return message.channel.send("No Perms to do this!!!!");
-        else {
-          message.channel.send(muted);
-
+          .setFooter(`ID: ${mem.user.id}`)
+          .setTimestamp()
+        
+          message.channel.send(muted).then(Member.send(mutedDM
+            ).catch(e => console.log("Muted a member.")))
+       
+   
           bot.modlogs({
             Member: Member,
             Action: "Muted",
@@ -127,8 +133,6 @@ module.exports = {
               .setTimestamp();
             Member.send(unmuted);
           }, ms(time));
-        }
-      });
     });
   },
 };
