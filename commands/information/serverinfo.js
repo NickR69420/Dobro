@@ -12,34 +12,135 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const moment = require('moment');
 
 module.exports = {
-    name: "serverinfo",
-    aliases: ["sinfo", "server"],
-    usage: "serverinfo",
+    name: 'serverinfo',
+    aliases: ['sinfo', 'serverinformation', 'server'],
+    usage: 'serverinfo', 
     cooldown: 5,
-    description: "Displays some info about the server",
-    permsneeded: "SEND_MESSAGES",
+    description: 'Displays some info about the server', 
+    permsneeded: 'SEND_MESSAGES',
     run: async (bot, message, args) => {
 
-        //if (message.author.bot || !message.guild) return message.reply("this command for server only") // Good job nick! Who needs to use the command handlers checks anyways!
-        let EMBED = new Discord.MessageEmbed()
-            .setTitle('Server Info')
-            .addField("`Server name`", `${message.guild.name}`)
-            .addField("`Server ID`", `${message.guild.id}`)
-            .addField("`Server Owner`", `${message.guild.owner}`)
-            .addField("`Members`", `${message.guild.memberCount}`)
-            .addField("`Server roles`", `${message.guild.roles.cache.size}`)
-            .addField("`Channels`", ` ${message.guild.channels.cache.filter(r => r.type === "text").size} Text
-        ${message.guild.channels.cache.filter(r => r.type === "voice").size} Voice`)
-            .addField("`Server region`", `${message.guild.region}`)
-            .addField("`Verification Level`", `${message.guild.verificationLevel}`)
-            .addField("`Created on`", `${message.guild.createdAt.toLocaleString()}`)
-            .addField("`Boosts`", `${message.guild.premiumSubscriptionCount}`)
-            .setColor("RANDOM")
-            .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
-            .setThumbnail(message.guild.iconURL({ dynamic: true }))
-        message.channel.send(EMBED)
+        let Member = message.guild.members.cache.get(args[0]) || message.member;
+
+        const region = {
+            'brazil': 'Brazil',
+            'europe': 'Europe',
+            'eu-central': 'Central Europe',
+            'singapore': 'Singapore',
+            'us-central': 'U.S. Central',
+            'sydney': 'Sydney',
+            'us-east': 'U.S. East',
+            'us-south': 'U.S. South',
+            'us-west': 'U.S. West',
+            'eu-west': 'Western Europe',
+            'vip-us-east': 'VIP U.S. East',
+            'london': 'London',
+            'amsterdam': 'Amsterdam',
+            'hongkong': 'Hong Kong',
+            'russia': 'Russia',
+            'southafrica': 'South Africa',
+            'india': 'India',
+        };
+
+        const levels = {
+            NONE: 'None',
+            LOW: 'Low',
+            MEDIUM: 'Medium',
+            HIGH: 'High',
+            VERY_HIGHT: 'Very High'
+        }
+
+        const roles = message.guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString()).slice(0, -1)      
+        let rolesdisplay;
+        if(roles.length < 25) {
+            rolesdisplay = roles.join(' ')
+        } else {
+            rolesdisplay = `${roles.slice(25).join(' ')} & more..`
+        }
+    
+        const nitro = bot.emojis.cache.find(emoji => emoji.name === "boostnitro");
+try {
+    const userinfoembed = new MessageEmbed()
+
+        .setAuthor(`${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
+        .setThumbnail(message.guild.iconURL({ dynamic: true }))
+
+        .addFields(
+            {
+                name: ":crown: Owner",
+                value: `\`\`\`${message.guild.owner.user.username + "#" + message.guild.owner.user.discriminator}\`\`\``,
+                inline: true
+            },
+            {
+                name: `${nitro} Boosts`,
+                value: `\`\`\`${message.guild.premiumSubscriptionCount} (Tier ${message.guild.premiumTier})\`\`\``,
+                inline: true
+            },
+            {
+                name: "_ _",
+                value: "_ _"
+            },
+            {
+                name: '🆔 Server ID',
+                value: `\`\`\`${message.guild.id}\`\`\``,
+                inline: true
+            },
+            {
+                name: '🌆 Region',
+                value: `\`\`\`${region[message.guild.region]}\`\`\``,
+                inline: true
+            },
+            {
+                name: "——————————————————————————————",
+                value: `_ _`
+            },
+            {
+                name: `👥 Member Count - [${message.guild.memberCount}]`,
+                value: `\`\`\`${message.guild.members.cache.filter(member => !member.user.bot).size} Humans, ${message.guild.members.cache.filter(member => member.user.bot).size} Bots\`\`\``,
+                inline: true
+            },
+            {
+                name: "🚦 Verification Level",
+                value: `\`\`\`${levels[message.guild.verificationLevel]}\`\`\``,
+                inline: true
+            },
+            {
+                name: "_ _",
+                value: "_ _"
+            },
+            {
+                name: `📂 Categories`,
+                value: `\`\`\`${message.guild.channels.cache.filter((ch) => ch.type === "category").size}\`\`\``,
+                inline: true
+            },
+            {
+                name: `💬 Text Channels`,
+                value: `\`\`\`${message.guild.channels.cache.filter((ch) => ch.type === "text").size}\`\`\``,
+                inline: true
+            },
+            {
+                name: `🔊 Voice Channels`,
+                value: `\`\`\`${message.guild.channels.cache.filter((ch)=> ch.type === "voice").size}\`\`\``,
+                inline: true
+            },
+            {
+                name: `Server Roles - [${message.guild.roles.cache.size}]`,
+                value: rolesdisplay
+            },
+            {
+                name: "📅  Creation Date",
+                value: `\`\`\`${moment(message.guild.createdTimestamp).format('LL LT')} (${moment(message.guild.createdTimestamp).fromNow()})\`\`\``,
+                inline: true
+            },  
+        )
+        .setColor(Member.displayHexColor)
+            message.reply(userinfoembed)
+        } catch (e) {
+            console.log("Error found in server info", e)
+        }
     }
 }
