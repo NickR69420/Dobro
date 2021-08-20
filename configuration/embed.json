@@ -1,5 +1,6 @@
 {
     "default": "BLUE",
     "success": "#0FEC0C",
-    "error": "#FF2100"
+    "error": "#FF2100",
+    "text": "Dobro"
 }
