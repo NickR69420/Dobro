@@ -78,7 +78,7 @@ module.exports = {
           .setTitle("Dobro | Command List", config.logo)
           .addFields(categories)
           .setDescription(
-            `Use \`${prefix}help\` followed by a command name to get more additional information on a command. For example: \`${prefix}meme\`.`
+            `Use \`${prefix}help\` followed by a command name to get more additional information on a command. For example: \`${prefix}help meme\`.`
           )
           .setFooter(
             `Requested by ${message.author.tag}`,
@@ -140,7 +140,6 @@ module.exports = {
           )
 
           .setFooter(`Usage Syntax: <> = required; [] = optional`, config.logo)
-          .setTimestamp()
           .setColor(roleColor);
         return message.channel.send(embed);
       }

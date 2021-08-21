@@ -12,7 +12,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageEmbed } = require('discord.js');
+const {
+    MessageEmbed
+} = require('discord.js');
+const em = require("../../configuration/embed.json");
+const config = require("../../configuration/conf.json").bot;
 
 module.exports = {
     name: "kick",
@@ -24,7 +28,8 @@ module.exports = {
         message.delete();
 
         let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-        const Reason = args.slice(1).join(" ") || "No Reason Provided"; // Kick reason
+        const Reason = args.slice(1).join(" ") || "No Reason Provided"; // Kick 
+        const success = bot.emojis.cache.find(emoji => emoji.name === "success");
 
         // Error Embed
         const ErrorEmbed = new MessageEmbed()
@@ -36,39 +41,44 @@ module.exports = {
         const kickembed = new MessageEmbed()
             .setDescription(`You were **kicked** from ${message.guild.name} | **${Reason}**`)
             .setColor("RED")
-            .setAuthor(`${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
+            .setAuthor(`${message.guild.name}`, message.guild.iconURL({
+                dynamic: true
+            }))
             .setTimestamp()
 
-        if (!user) return message.reply("please mention a user and provide a reason to ban...")
+        // No user provided
+          const invalidargs = new MessageEmbed()
+            .setDescription(`**Usage:** **${config.prefix}kick @user <reason>**`)
+            .setColor(em.error)
 
-        if (!message.guild.member(user).kickable) return message.reply(ErrorEmbed)
+        if (!user) return message.reply(invalidargs).then(m => m.delete({
+            timeout: 3000
+        }))
+
+        if (!message.guild.member(user).kickable) return message.reply(ErrorEmbed);
 
 
-        user.send(kickembed
-        ).catch(e => console.log("Cannot send message to this user."))
+
+        user.send(kickembed).catch(e => console.log("Cannot send message to this user."))
             .then(() => {
                 user.ban({
-                    reason: `${BanReason}`
+                    reason: `${Reason}`
                 }).then(mem => {
                     // Kicked Embed (Global)
                     const kickedembed = new MessageEmbed()
-                        .setDescription(`<@!${mem.user.id}> has been **kicked** | **${Reason}**`)
-                        .setColor("BLUE")
-                        .setAuthor(`MEMBER KICKED!`, message.guild.iconURL({ dynamic: true }))
+                        .setDescription(`${success}  <@!${mem.user.id}> has been **kicked** | **${Reason}**`)
+                        .setColor(em.success)
+
                         .setTimestamp()
 
-                    if (!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("No Perms to do this!!!!");
-                    else {
-                        message.channel.send(kickedembed);
+                    message.channel.send(kickedembed);
 
-                        bot.modlogs({
-                            Member: user,
-                            Action: 'Kicked',
-                            Color: "RED",
-                            Reason: Reason
-                        }, message)
-
-                    }
+                    bot.modlogs({
+                        Member: user,
+                        Action: 'Kicked',
+                        Color: "RED",
+                        Reason: Reason
+                    }, message)
                 });
             });
     },

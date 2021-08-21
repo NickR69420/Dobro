@@ -99,11 +99,12 @@ try {
       const channel = message.guild.channels.cache.get(data.Channel);
         const logsEmbed = new Discord.MessageEmbed()
         .setColor(Color)
-        .setAuthor(`Member ${Action} | \`${Member.user.id}\``, config.bot.logo)
+        .setAuthor(`Member ${Action}`, config.bot.logo)
         .addField('Member', `<@${Member.user.id}>`, true)
         .addField("Moderator", `<@${message.author.id}>`, true)
         .addField(`Reason:`, ` ${Reason || 'No Reason Provided.'}`, true)
         .setThumbnail(Member.user.displayAvatarURL({ dynamic: false }))
+        .setFooter(`ID: ${Member.user.id}`)
         .setTimestamp()
 
         channel.send(logsEmbed)

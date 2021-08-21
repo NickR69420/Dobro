@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const { MessageEmbed } = require('discord.js');
 const config = require("../../configuration/conf.json").bot;
+const em = require("../../configuration/embed.json");
 
 module.exports = {
     name: "ban",
@@ -26,6 +27,7 @@ module.exports = {
         message.delete();
 
         let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+        const success = bot.emojis.cache.find(emoji => emoji.name === "success");
         const BanReason = args.slice(1).join(" ") || "No Reason Provided"; // Ban reason
 
         // Error Embed
@@ -41,9 +43,14 @@ module.exports = {
             .setAuthor(`${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
             .setTimestamp()
 
-        if (!user) return message.reply("please mention a user and provide a reason to ban...")
+        // No Member Provided
+        const invalidargs = new MessageEmbed()
+        .setDescription(`**Usage:** **${config.prefix}ban @user <reason>**`)
+        .setColor(em.error)    
 
-        if (!message.guild.member(user).bannable) return message.reply(ErrorEmbed)
+        if (!user) return message.reply(invalidargs).then(m => m.delete({ timeout: 3000 }));
+
+        if (!message.guild.member(user).bannable) return message.reply(ErrorEmbed);
 
 
         user.send(banembed
@@ -54,14 +61,10 @@ module.exports = {
                 }).then(mem => {
 
                     const bannedembed = new MessageEmbed()
-                        .setDescription(`<@!${mem.user.id}> has been **banned** | **${BanReason}**`)
-                        .setColor("RED")
-                        .setAuthor(`MEMBER BANNED!`, message.guild.iconURL({ dynamic: true }))
-                        .setTimestamp()
+                        .setDescription(`${success}  <@!${mem.user.id}> has been **banned** | *${BanReason}*`)
+                        .setColor(em.success)
 
-                    if (!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("No Perms to do this!!!!");
-                    else {
-                        message.channel.send(bannedembed);
+                    message.channel.send(bannedembed);
 
                     bot.modlogs({
                         Member: user,
@@ -70,7 +73,7 @@ module.exports = {
                         Reason: BanReason
                      }, message)
 
-                }
+                
             });
         });
     },
