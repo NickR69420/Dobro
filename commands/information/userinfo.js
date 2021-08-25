@@ -171,7 +171,7 @@ module.exports = {
 
                 {
                     name: `Roles - [${Member.roles.cache.size}]`,
-                    value: roles.cache.size < 25 ? roles.cache.array().sort((a, b) => b.rawPosition - a.rawPosition).map(role => role.toString()).join(' ') : roles.cache.size > 25 ? trimArray(roles.cache) : 'None'
+                    value: roles.cache.size < 25 ? roles.cache.toArray().map(role => role.toString()).join(' ') : roles.cache.size > 25 ? trimArray(roles.cache) : 'None'
                 }, {
                     name: `Key Permissions`,
                     value: `${permissions.join(`, `)}`
