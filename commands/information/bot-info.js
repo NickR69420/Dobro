@@ -12,7 +12,7 @@ const os = require('os');
 
 module.exports = {
     name: 'bot-info',
-    aliases: ['binfo', 'botinfo', 'bot'],
+    aliases: ['binfo', 'botinfo', 'bot', 'stats', 'info'],
     usage: 'bot-info',
     cooldown: 0,
     description: 'Displays information about the bot!',
@@ -79,7 +79,13 @@ module.exports = {
 
             message.channel.send(InfoEmbed)
         } catch (e) {
-            console.log(e)
-        }
+            bot.error(
+              {
+                Error: e.stack,
+              },
+              message
+            ),
+              console.log(e.stack);
+          }
     }
 }

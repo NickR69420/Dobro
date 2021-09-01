@@ -12,29 +12,39 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require("discord.js");
 const config = require("../../configuration/conf.json").bot;
 
 module.exports = {
   name: "coinflip",
   aliases: ["flip", "coin", "cf"],
   usage: "coinflip",
-  cooldown: 10,
+  cooldown: 2,
   description: "Flip a coin!",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
-    const number = Math.floor(Math.random() * 2);
+    try {
+      const number = Math.floor(Math.random() * 2);
 
-    let result;
-    if (number === 1) result = 'Heads'
-    else result = 'Tails';
+      let result;
+      if (number === 1) result = "Heads";
+      else result = "Tails";
 
-    const flipembed = new MessageEmbed()
-      .setTitle('½  Coinflip  ½')
-      .addField("Result", `\`${result}\``)
-      .setFooter(config.text, config.logo)
-      .setColor('RANDOM')
+      const flipembed = new MessageEmbed()
+        .setTitle("½  Coinflip  ½")
+        .addField("Result", `\`${result}\``)
+        .setFooter(config.text, config.logo)
+        .setColor("RANDOM");
 
-    message.channel.send(flipembed)
-  }
-}
+      message.channel.send(flipembed);
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
+    }
+  },
+};

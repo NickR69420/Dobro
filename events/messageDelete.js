@@ -18,48 +18,44 @@ const snipes = new Discord.Collection();
 
 module.exports = (bot) => {
 
-        bot.on('messageDelete', async (message) => {
+    bot.on('messageDelete', async (message) => {
 
-            if (!message.author.bot) { 
+        if (message.author.bot) return;
+        
+        const data = await channelModel.findOne({
+            GuildID: message.guild.id
+        });
 
-                const data = await channelModel.findOne({
-                    GuildID: message.guild.id
-                });
+        try {
 
-                try {
-                
-                let channel = bot.channels.cache.get(data.ChannelID);
-                snipes.set(channel, message)
+            let channel = bot.channels.cache.get(data.ChannelID);
+            snipes.set(channel, message)
 
-                const MessageDeleted = new Discord.MessageEmbed()
-                    .setAuthor(
-                        "Message Deleted",
-                        message.author.displayAvatarURL({ dynamic: true })
-                    )
-                    .addFields(
-                        {
-                            name: "Author:",
-                            value: `<@${message.author.id}>`,
-                            inline: true,
-                        },
-                        {
-                            name: "Channel",
-                            value: `${message.channel}`,
-                            inline: true
-                        },
-                        {
-                            name: "Content",
-                            value: `\`\`\`${message.content}\`\`\``
-                        }
-                    )
-                    .setColor("#E4381D")
-                    .setTimestamp();
+            const MessageDeleted = new Discord.MessageEmbed()
+                .setAuthor(
+                    "Message Deleted",
+                    message.author.displayAvatarURL({
+                        dynamic: true
+                    })
+                )
+                .addFields({
+                    name: "Author:",
+                    value: `<@${message.author.id}>`,
+                    inline: true,
+                }, {
+                    name: "Channel",
+                    value: `${message.channel}`,
+                    inline: true
+                }, {
+                    name: "Content",
+                    value: `\`\`\`${message.content}\`\`\``
+                })
+                .setColor("#E4381D")
+                .setTimestamp();
 
-                await channel.send(MessageDeleted
-                    ).catch(err => console.log("Error | MessageDelete channel isn't setup!"))
-                } catch (e) {
-                console.log("Error")
-             }
-           }
-        })
+            await channel.send(MessageDeleted).catch(err => console.log("Error | MessageDelete channel isn't setup!"))
+        } catch (e) {
+            console.log("Error")
+        }
+    })
 }

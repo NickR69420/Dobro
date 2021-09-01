@@ -12,8 +12,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageAttachment } = require('discord.js');
-const canvacord = require('canvacord');
+const { MessageAttachment } = require("discord.js");
+const canvacord = require("canvacord");
 
 module.exports = {
   name: "trigger",
@@ -23,10 +23,25 @@ module.exports = {
   description: "This can trigger anyone.",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
-    const user = message.mentions.users.first() || bot.users.cache.get(args[0]) || message.author;
-    const triggered = await canvacord.Canvas.trigger(user.displayAvatarURL({ format: 'png', dynamic: false }));
-    const attachment = new MessageAttachment(triggered, 'triggered.gif');
+    try {
+      const user =
+        message.mentions.users.first() ||
+        bot.users.cache.get(args[0]) ||
+        message.author;
+      const triggered = await canvacord.Canvas.trigger(
+        user.displayAvatarURL({ format: "png", dynamic: false })
+      );
+      const attachment = new MessageAttachment(triggered, "triggered.gif");
 
-    return message.channel.send(attachment);
-  }
-}
+      return message.channel.send(attachment);
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
+    }
+  },
+};

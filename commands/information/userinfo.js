@@ -12,178 +12,235 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 const config = require("../../configuration/conf.json").bot;
-const moment = require('moment');
+const moment = require("moment");
 
 module.exports = {
-    name: 'userinfo',
-    aliases: ['user', 'whois', 'info'],
-    usage: 'userinfo [@user]',
-    cooldown: 15,
-    description: 'Displays information about a user.',
-    permsneeded: 'SEND_MESSAGES',
-    run: async (bot, message, args) => {
+  name: "userinfo",
+  aliases: ["user", "whois", "who", "member"],
+  usage: "userinfo [@user]",
+  cooldown: 15,
+  description: "Displays information about a user.",
+  permsneeded: "SEND_MESSAGES",
+  run: async (bot, message, args) => {
+    try {
+      let Member =
+        message.mentions.members.first() ||
+        message.guild.members.cache.get(args[0]) ||
+        message.member;
 
-        let Member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
+      const online = bot.emojis.cache.find((emoji) => emoji.name === "online");
+      const dnd = bot.emojis.cache.find((emoji) => emoji.name === "dnd");
+      const idle = bot.emojis.cache.find((emoji) => emoji.name === "idle");
+      const offline = bot.emojis.cache.find(
+        (emoji) => emoji.name === "offline"
+      );
 
-        const online = bot.emojis.cache.find(emoji => emoji.name === "online");
-        const dnd = bot.emojis.cache.find(emoji => emoji.name === "dnd");
-        const idle = bot.emojis.cache.find(emoji => emoji.name === "idle");
-        const offline = bot.emojis.cache.find(emoji => emoji.name === "offline");
-
-        function trimArray(arr, maxLen = 25) { // Elegy Skid momento
-            if (arr.array().length > maxLen) {
-                const len = arr.array().length - maxLen;
-                arr = arr.array().sort((a, b) => b.rawPosition - a.rawPosition).slice(0, maxLen);
-                arr.map(role => `<@&${role.id}>`)
-                arr.push(`${len} more...`);
-            }
-            return arr.join(", ");
+      function trimArray(arr, maxLen = 25) {
+        // Elegy Skid momento
+        if (arr.array().length > maxLen) {
+          const len = arr.array().length - maxLen;
+          arr = arr
+            .array()
+            .sort((a, b) => b.rawPosition - a.rawPosition)
+            .slice(0, maxLen);
+          arr.map((role) => `<@&${role.id}>`);
+          arr.push(`${len} more...`);
         }
-        const badges = {
-            HOUSE_BRAVERY: `House of Bravery`,
-            HOUSE_BRILLIANCE: `House of Brilliance`,
-            HOUSE_BALANCE: `House of Balance`,
+        return arr.join(", ");
+      }
+      const badges = {
+        HOUSE_BRAVERY: `House of Bravery`,
+        HOUSE_BRILLIANCE: `House of Brilliance`,
+        HOUSE_BALANCE: `House of Balance`,
+      };
+      const userFlags = Member.user.flags.toArray();
+      const roles = Member.roles;
+      const activity = Member.presence.activities[0];
+      var userstatus = "Not having an activity";
+      if (activity) {
+        if (activity.type === "CUSTOM_STATUS") {
+          let emoji = `${
+            activity.emoji
+              ? activity.emoji.id
+                ? `<${activity.emoji.animated ? "a" : ""}:${
+                    activity.emoji.name
+                  }:${activity.emoji.id}>`
+                : activity.emoji.name
+              : ""
+          }`;
+          userstatus = `${emoji} \`${
+            activity.state || "Not having an acitivty."
+          }\``;
+        } else {
+          userstatus = `${
+            activity.type.toLowerCase().charAt(0).toUpperCase() +
+            activity.type.toLowerCase().slice(1)
+          } ${activity.name}`;
         }
-        const userFlags = Member.user.flags.toArray();
-        const roles = Member.roles;
-        const activity = Member.presence.activities[0];
-        var userstatus = "Not having an activity";
-        if (activity) {
-            if (activity.type === "CUSTOM_STATUS") {
-                let emoji = `${activity.emoji ? activity.emoji.id ? `<${activity.emoji.animated ? "a": ""}:${activity.emoji.name}:${activity.emoji.id}>`: activity.emoji.name : ""}`
-                userstatus = `${emoji} \`${activity.state || 'Not having an acitivty.'}\``
-            } else {
-                userstatus = `${activity.type.toLowerCase().charAt(0).toUpperCase() + activity.type.toLowerCase().slice(1)} ${activity.name}`
-            }
-        }
-        const permissions = [];
+      }
+      const permissions = [];
 
-        let status;
-        switch (Member.presence.status) {
-            case "online":
-                status = `${online}`;
-                break;
-            case "dnd":
-                status = `${dnd}`;
-                break;
-            case "idle":
-                status = `${idle}`;
-                break;
-            case "offline":
-                status = `${offline}`;
-                break;
-        }
-        if (Member.hasPermission("KICK_MEMBERS")) {
-            permissions.push("Kick Members");
-        }
+      let status;
+      switch (Member.presence.status) {
+        case "online":
+          status = `${online}`;
+          break;
+        case "dnd":
+          status = `${dnd}`;
+          break;
+        case "idle":
+          status = `${idle}`;
+          break;
+        case "offline":
+          status = `${offline}`;
+          break;
+      }
+      if (Member.hasPermission("KICK_MEMBERS")) {
+        permissions.push("Kick Members");
+      }
 
-        if (Member.permissions.has("BAN_MEMBERS")) {
-            permissions.push("Ban Members");
-        }
+      if (Member.permissions.has("BAN_MEMBERS")) {
+        permissions.push("Ban Members");
+      }
 
-        if (Member.hasPermission("ADMINISTRATOR")) {
-            permissions.push("Administrator");
-        }
+      if (Member.hasPermission("ADMINISTRATOR")) {
+        permissions.push("Administrator");
+      }
 
-        if (Member.hasPermission("MANAGE_MESSAGES")) {
-            permissions.push("Manage Messages");
-        }
+      if (Member.hasPermission("MANAGE_MESSAGES")) {
+        permissions.push("Manage Messages");
+      }
 
-        if (Member.hasPermission("MANAGE_CHANNELS")) {
-            permissions.push("Manage Channels");
-        }
+      if (Member.hasPermission("MANAGE_CHANNELS")) {
+        permissions.push("Manage Channels");
+      }
 
-        if (Member.hasPermission("MENTION_EVERYONE")) {
-            permissions.push("Mention Everyone");
-        }
+      if (Member.hasPermission("MENTION_EVERYONE")) {
+        permissions.push("Mention Everyone");
+      }
 
-        if (Member.hasPermission("MANAGE_NICKNAMES")) {
-            permissions.push("Manage Nicknames");
-        }
+      if (Member.hasPermission("MANAGE_NICKNAMES")) {
+        permissions.push("Manage Nicknames");
+      }
 
-        if (Member.hasPermission("MANAGE_ROLES")) {
-            permissions.push("Manage Roles");
-        }
+      if (Member.hasPermission("MANAGE_ROLES")) {
+        permissions.push("Manage Roles");
+      }
 
-        if (Member.hasPermission("MANAGE_WEBHOOKS")) {
-            permissions.push("Manage Webhooks");
-        }
+      if (Member.hasPermission("MANAGE_WEBHOOKS")) {
+        permissions.push("Manage Webhooks");
+      }
 
-        if (Member.hasPermission("MANAGE_EMOJIS")) {
-            permissions.push("Manage Emojis");
-        }
+      if (Member.hasPermission("MANAGE_EMOJIS")) {
+        permissions.push("Manage Emojis");
+      }
 
-        if (permissions.length == 0) {
-            permissions.push("No Key Permissions Found");
-        }
+      if (permissions.length == 0) {
+        permissions.push("No Key Permissions Found");
+      }
 
+      const embed = new Discord.MessageEmbed()
+        .setColor(Member.displayHexColor)
+        .setFooter(config.text, config.logo)
 
-        const embed = new Discord.MessageEmbed()
-            .setColor(Member.displayHexColor)
-            .setFooter(config.text, config.logo)
+        .setAuthor(
+          `Userinfo`,
+          Member.user.displayAvatarURL({
+            dynamic: true,
+          })
+        )
+        .setTitle(`${Member.user.tag}    [${status}]`)
+        .setThumbnail(
+          Member.user.displayAvatarURL({
+            dynamic: false,
+          })
+        )
 
-            .setAuthor(`Userinfo`, Member.user.displayAvatarURL({
-                dynamic: true
-            }))
-            .setTitle(`${Member.user.tag}    [${status}]`)
-            .setThumbnail(Member.user.displayAvatarURL({
-                dynamic: false
-            }))
+        .addFields(
+          {
+            name: `🧍 Display Name`,
+            value: `\`\`\`${Member.displayName}\`\`\``,
+            inline: true,
+          },
+          {
+            name: `🆔 User ID`,
+            value: `\`\`\`${Member.user.id}\`\`\``,
+            inline: true,
+          },
+          {
+            name: `_ _`,
+            value: `_ _`,
+            inline: false,
+          },
+          {
+            name: `🤖 Bot?`,
+            value: `\`\`\`${Member.user.bot ? "✔ True" : "❌ False"}\`\`\``,
+            inline: true,
+          },
+          {
+            name: `📛 Profile Badges`,
+            value: `\`\`\`${
+              userFlags.length
+                ? userFlags.map((flag) => badges[flag]).join(" ")
+                : "None"
+            }\`\`\``,
+            inline: true,
+          },
+          {
+            name: "_ _",
+            value: "_ _",
+            inline: false,
+          },
+          {
+            name: "📜 Activity / Status",
+            value: userstatus,
+            inline: false,
+          },
 
-            .addFields(
+          {
+            name: "——————————————————————————————",
+            value: `_ _`,
+          },
 
-                {
-                    name: `🧍 Display Name`,
-                    value: `\`\`\`${Member.displayName}\`\`\``,
-                    inline: true,
-                }, {
-                    name: `🆔 User ID`,
-                    value: `\`\`\`${Member.user.id}\`\`\``,
-                    inline: true,
-                }, {
-                    name: `_ _`,
-                    value: `_ _`,
-                    inline: false
-                }, {
-                    name: `🤖 Bot?`,
-                    value: `\`\`\`${Member.user.bot ? "✔ True" : "❌ False"}\`\`\``,
-                    inline: true,
-                }, {
-                    name: `📛 Profile Badges`,
-                    value: `\`\`\`${userFlags.length ? userFlags.map(flag => badges[flag]).join(' ') : 'None'}\`\`\``,
-                    inline: true,
-                }, {
-                    name: "_ _",
-                    value: "_ _",
-                    inline: false
-                }, {
-                    name: "📜 Activity / Status",
-                    value: userstatus,
-                    inline: false
-                },
+          {
+            name: `Roles - [${Member.roles.cache.size}]`,
+            value:
+              roles.cache.size < 25
+                ? roles.cache
+                    .toArray()
+                    .map((role) => role.toString())
+                    .join(" ")
+                : roles.cache.size > 25
+                ? trimArray(roles.cache)
+                : "None",
+          },
+          {
+            name: `Key Permissions`,
+            value: `${permissions.join(`, `)}`,
+          },
+          {
+            name: `📆 Registration Date`,
+            value: `\`\`\`${moment(Member.user.createdAt).format(
+              "LL LTS"
+            )}\`\`\``,
+          },
+          {
+            name: "📅 Guild Join Date",
+            value: `\`\`\`${moment(Member.joinedAt).format("LL LTS")}\`\`\``,
+          }
+        );
 
-                {
-                    name: "——————————————————————————————",
-                    value: `_ _`
-                },
-
-                {
-                    name: `Roles - [${Member.roles.cache.size}]`,
-                    value: roles.cache.size < 25 ? roles.cache.toArray().map(role => role.toString()).join(' ') : roles.cache.size > 25 ? trimArray(roles.cache) : 'None'
-                }, {
-                    name: `Key Permissions`,
-                    value: `${permissions.join(`, `)}`
-                }, {
-                    name: `📆 Registration Date`,
-                    value: `\`\`\`${moment(Member.user.createdAt).format("LL LTS")}\`\`\``
-                }, {
-                    name: "📅 Guild Join Date",
-                    value: `\`\`\`${moment(Member.joinedAt).format("LL LTS")}\`\`\``
-                }
-            )
-
-        message.channel.send(embed)
+      message.channel.send(embed);
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
     }
-} // Format inspired by DisCruft Bot 
+  },
+}; // Format inspired by DisCruft Bot

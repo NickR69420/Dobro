@@ -15,6 +15,7 @@
 
 const Discord = require("discord.js");
 const config = require("../configuration/conf.json");
+const embedconfig = require("../configuration/embed.json")
 const cooldowns = new Map();
 const prefix = config.bot.prefix;
 const databaseconnect = config.bot.MongoDB;
@@ -38,6 +39,18 @@ try {
     let command = bot.commands.get(cmd);
     if (!command) command = bot.commands.get(bot.aliases.get(cmd))
 
+// Command Error Handling
+  bot.error = async function({Error}, message) {
+
+    const CommandError = new Discord.MessageEmbed()
+    .setAuthor(`❌ Error occured!`)
+    .setDescription(`**Command:** \`${command.name}\`\n\`\`\`${Error}\`\`\``)
+    .setFooter("Please contact a developer!", config.bot.logo)
+    .setColor(embedconfig.error)
+
+    message.channel.send(CommandError)
+  }
+
 // Cooldown
     if(!cooldowns.has(command.name)){
       cooldowns.set(command.name, new Discord.Collection());
@@ -60,7 +73,7 @@ try {
         .setFooter("Dobro", logo)
         .setColor('RED')
 
-          return message.channel.send(TimeLeftEmbed);
+          return message.channel.send(TimeLeftEmbed).then(m => m.delete({ timeout: 5000 }));
       }
   }
 
@@ -80,7 +93,7 @@ try {
      const embed = new Discord.MessageEmbed()
           .setTitle(`:x: Unknown command! Use \`${prefix}help\` for all of my commands!`)
           .setColor("FF0000");
-        return message.channel.send(embed);
+        return message.channel.send(embed).then(m => m.delete({ timeout: 15000 }));
     }
   });
 

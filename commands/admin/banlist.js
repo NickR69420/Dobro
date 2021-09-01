@@ -12,7 +12,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "banlist",
@@ -22,18 +22,30 @@ module.exports = {
   description: "Displays list of banned members.",
   permsneeded: "BAN_MEMBERS",
   run: async (bot, message, args) => {
+    try {
+      const fetchBans = message.guild.fetchBans();
+      const bannedMembers = (await fetchBans)
+        .map((member) => `\`${member.user.tag}\``)
+        .join("\n");
 
-    const fetchBans = message.guild.fetchBans();
-    const bannedMembers = (await fetchBans).map((member) => `\`${member.user.tag}\``)
-    .join("\n")
+      const banlist = new MessaeEmbed()
+        .setTitle("Banned Members")
+        .setDescription(bannedMembers)
+        .setFooter(
+          `Requested by ${message.author.username}`,
+          message.author.displayAvatarURL({ dynamic: true })
+        )
+        .setColor("RED");
 
-    const banlist = new MessageEmbed()
-    .setTitle("Banned Members")
-    .setDescription(bannedMembers)
-    .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
-    .setColor('RED')
-
-    message.channel.send(banlist)
-
-   }
-}
+      message.channel.send(banlist);
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
+    }
+  },
+};

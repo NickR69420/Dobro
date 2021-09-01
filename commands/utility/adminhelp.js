@@ -129,8 +129,14 @@ module.exports = {
           .setColor(roleColor);
         return message.channel.send(embed);
       }
-    } catch (err) {
-      console.log(err)
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
     }
   }
 }

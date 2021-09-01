@@ -20,9 +20,11 @@ const bot = new Discord.Client({
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
 const config = require('./configuration/conf.json');
+const embedconfig = require("./configuration/embed.json");
 
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
+
 
 // Updater.start();
 

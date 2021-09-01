@@ -12,7 +12,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 
 module.exports = {
   name: "purge",
@@ -21,15 +21,38 @@ module.exports = {
   description: "Clear messages in a channel.",
   permsneeded: "MANAGE_MESSAGES",
   run: async (bot, message, args) => {
+    try {
+      if (!args[0])
+        return message.channel.send(
+          "Please specify a number of messages to delete ranging from 1 - 99"
+        );
+      if (isNaN(args[0]))
+        return message.channel.send("Numbers are only allowed");
+      if (parseInt(args[0]) > 99)
+        return message.channel.send(
+          "The max amount of messages that I can delete is 1 - 99"
+        );
+      await message.channel
+        .bulkDelete(parseInt(args[0]) + 1)
+        .catch((err) => console.log(err));
+      message.channel
+        .send("Deleted " + args[0] + " messages.")
+        .then((m) => m.delete({ timeout: 2500 }));
 
-    if(!args[0]) return message.channel.send('Please specify a number of messages to delete ranging from 1 - 99')
-    if(isNaN(args[0])) return message.channel.send('Numbers are only allowed')
-    if(parseInt(args[0]) > 99) return message.channel.send('The max amount of messages that I can delete is 1 - 99')
-    await message.channel.bulkDelete(parseInt(args[0]) + 1)
-        .catch(err => console.log(err))
-    message.channel.send('Deleted ' + args[0]  + " messages.").then(m => m.delete({ timeout: 2500 }));
-
-    console.log(`${message.author.tag} Requested to delete ` + args[0] + ` messages in ${message.guild.name}`)
-     //logging action in console cuz why not!
-  }
-}
+      console.log(
+        `${message.author.tag} Requested to delete ` +
+          args[0] +
+          ` messages in ${message.guild.name}`
+      );
+      //logging action in console cuz why not!
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
+    }
+  },
+};

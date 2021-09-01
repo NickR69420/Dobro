@@ -12,7 +12,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require("discord.js");
 const Schema = require("../../models/modlogs");
 
 module.exports = {
@@ -23,20 +23,30 @@ module.exports = {
   description: "Setup ModLogs",
   permsneeded: "ADMINISTRATOR",
   run: async (bot, message, args) => {
-      if(!message.member.permissions.has('ADMINISTRATOR')) return;
+    try {
+      if (!message.member.permissions.has("ADMINISTRATOR")) return;
       const channel = message.mentions.channels.first() || message.channel;
 
-      Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
-         if(data) data.delete();
-         new Schema({
-            Guild: message.guild.id,
-            Channel: channel.id,
-         }).save();
-         const SetChannelEmbed = new MessageEmbed()
-         .setAuthor("Mod-Logs Set!", message.guild.iconURL({ dynamic: true })) 
-         .setDescription(`${channel} has been set as the Mod-Logs Channel.`)
-         .setColor("GREEN")
-         message.reply(SetChannelEmbed)
-      })
-   },
+      Schema.findOne({ Guild: message.guild.id }, async (err, data) => {
+        if (data) data.delete();
+        new Schema({
+          Guild: message.guild.id,
+          Channel: channel.id,
+        }).save();
+        const SetChannelEmbed = new MessageEmbed()
+          .setAuthor("Mod-Logs Set!", message.guild.iconURL({ dynamic: true }))
+          .setDescription(`${channel} has been set as the Mod-Logs Channel.`)
+          .setColor("GREEN");
+        message.reply(SetChannelEmbed);
+      });
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
+    }
+  },
 };

@@ -12,52 +12,64 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require("discord.js");
 const em = require("../../configuration/embed.json");
 
 module.exports = {
-    name: "unmute",
-    aliases: ["unmuted"],
-    usage: "unmute <@user>",
-    description: "Unmutes a provided user.",
-    permsneeded: "SEND_MESSAGES",
-    run : async(bot, message, args) => {
+  name: "unmute",
+  aliases: ["unmuted"],
+  usage: "unmute <@user>",
+  description: "Unmutes a provided user.",
+  permsneeded: "SEND_MESSAGES",
+  run: async (bot, message, args) => {
+    try {
+      const Member = message.mentions.members.first();
+      let avatar = Member.user.displayAvatarURL({ dynamic: true });
 
-        const Member = message.mentions.members.first();
-        let avatar = Member.user.displayAvatarURL({dynamic: true})
+      if (!Member) return message.channel.send("Member not found");
 
-        if(!Member) return message.channel.send('Member not found')
+      const role = message.guild.roles.cache.find((r) => r.name === "Muted");
 
-        const role = message.guild.roles.cache.find(r => r.name === 'Muted');
+      if (!Member.roles.cache.has(role.id))
+        return message
+          .reply("That user isn't muted!")
+          .then((msg) => msg.delete({ timeout: 3000 }));
 
-        if (!Member.roles.cache.has(role.id)) return message.reply("That user isn't muted!").then(msg => msg.delete({ timeout: 3000 }));
-            
-        await Member.roles.remove(role)
+      await Member.roles.remove(role);
 
-        const unmute = new MessageEmbed()
+      const unmute = new MessageEmbed()
         .setTitle("Member Unmuted!", message.guild.iconURL)
         .setDescription(`<@${Member.id}> has been **unmuted**`)
         .setColor(em.success)
         .setFooter(`ID: ${Member.id}`, avatar)
-        .setTimestamp()
+        .setTimestamp();
 
-        const unmuted = new MessageEmbed()
+      const unmuted = new MessageEmbed()
         .setTitle(`${message.guild.name}`, message.guild.iconURL)
-        .setDescription(
-          `You were unmuted in **${message.guild.name}**!`
-        )
+        .setDescription(`You were unmuted in **${message.guild.name}**!`)
         .setColor(em.success)
         .setTimestamp();
 
-        let user = message.mentions.users.first();
-        message.channel.send(unmute).then(user.send(unmuted))
+      let user = message.mentions.users.first();
+      message.channel.send(unmute).then(user.send(unmuted));
 
-        bot.modlogs({
-            Member: Member,
-            Action: "Unmuted",
-            Color: em.success,
-            Reason: "",
-        }, message)
-
+      bot.modlogs(
+        {
+          Member: Member,
+          Action: "Unmuted",
+          Color: em.success,
+          Reason: "",
+        },
+        message
+      );
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
     }
-}
+  },
+};

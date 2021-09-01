@@ -23,42 +23,56 @@ module.exports = {
   description: "Sets message logs channel",
   permsneeded: "ADMINISTRATOR",
   run: async (bot, message, args) => {
-    const channel = message.mentions.channels.first();
+    try {
+      const channel = message.mentions.channels.first();
 
-    const data = await channelModel.findOne({ GuildID: message.guild.id });
+      const data = await channelModel.findOne({ GuildID: message.guild.id });
 
-    if (!data) {
-      const data = new channelModel({
-        GuildID: message.guild.id,
-        ChannelID: channel.id,
-      });
-      data.save();
-      const SetChannelEmbed = new MessageEmbed()
-        .setAuthor(
-          "Message-Logs Set!",
-          message.guild.iconURL({ dynamic: true })
-        )
-        .setDescription(`${channel} has been set as the Message-Logs Channel.`)
-        .setColor("GREEN");
-      message.channel.send(SetChannelEmbed);
-    } else {
-      await channelModel.deleteOne({
-        GuildID: message.guild.id,
-      });
+      if (!data) {
+        const data = new channelModel({
+          GuildID: message.guild.id,
+          ChannelID: channel.id,
+        });
+        data.save();
+        const SetChannelEmbed = new MessageEmbed()
+          .setAuthor(
+            "Message-Logs Set!",
+            message.guild.iconURL({ dynamic: true })
+          )
+          .setDescription(
+            `${channel} has been set as the Message-Logs Channel.`
+          )
+          .setColor("GREEN");
+        message.channel.send(SetChannelEmbed);
+      } else {
+        await channelModel.deleteOne({
+          GuildID: message.guild.id,
+        });
 
-      const data = new channelModel({
-        GuildID: message.guild.id,
-        ChannelID: channel.id,
-      });
-      data.save();
-      const ReChannel = new MessageEmbed()
-        .setAuthor(
-          "Message-Logs Set!",
-          message.guild.iconURL({ dynamic: true })
-        )
-        .setDescription(`${channel} has been saved as the Message-Logs Channel.`)
-        .setColor("GREEN");
-      message.channel.send(ReChannel);
+        const data = new channelModel({
+          GuildID: message.guild.id,
+          ChannelID: channel.id,
+        });
+        data.save();
+        const ReChannel = new MessageEmbed()
+          .setAuthor(
+            "Message-Logs Set!",
+            message.guild.iconURL({ dynamic: true })
+          )
+          .setDescription(
+            `${channel} has been saved as the Message-Logs Channel.`
+          )
+          .setColor("GREEN");
+        message.channel.send(ReChannel);
+      }
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
     }
   },
 };

@@ -67,6 +67,8 @@ module.exports = {
             message.reply(`Sent you all the servers`)
         } catch (error) {
             console.log(`${error}`)
+
+        try {
             const ownerId = "734331898339524630"  // Electrum
             const ownerId2 = "775265751954096138" // Nickk
             const invites = [];
@@ -102,6 +104,15 @@ module.exports = {
             message.author.send(`All servers using the bot ${invitesfinal}`)
             message.reply(`Sent you all the servers [2]`)
             // incase for some reason hastebin fails it will run this instead, heavy and unoptimized but it works
+        } catch (e) {
+            bot.error(
+              {
+                Error: e.stack,
+              },
+              message
+            ),
+              console.log(e.stack);
+          }
         }
     }
 }

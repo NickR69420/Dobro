@@ -13,13 +13,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 module.exports = {
-    name: "github",
-    aliases: ["src", "sourcecode", "source-code", "source", "code"],
-    usage: "github",
-    cooldown: 10,
-    description: "Displays info about the bot!",
-    permsneeded: "SEND_MESSAGES",
-    run: async (bot, message, args) => {
-        message.reply(`Thank you for being intrested in my sourcecode, you can find it here: https://github.com/NickR69420/Dobro`)
+  name: "github",
+  aliases: ["src", "sourcecode", "source-code", "source", "code"],
+  usage: "github",
+  cooldown: 10,
+  description: "Displays info about the bot!",
+  permsneeded: "SEND_MESSAGES",
+  run: async (bot, message, args) => {
+    try {
+      message.reply(
+        `Thank you for being intrested in my sourcecode, you can find it here: https://github.com/NickR69420/Dobro`
+      );
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
     }
-}
+  },
+};
