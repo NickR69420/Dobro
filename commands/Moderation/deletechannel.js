@@ -21,10 +21,19 @@ module.exports = {
     description: "Deletes the channel.",
     permsneeded: "ADMINISTRATOR",
     run: async(bot, message, args) => {
-        
+try {
         message.channel.send(`This chat is going to be deleted in 5 seconds`)
         setTimeout(function(){ 
             message.channel.delete();
         }, 5000);
+    } catch (e) {
+        bot.error(
+          {
+            Error: e.stack,
+          },
+          message
+        ),
+          console.log(e.stack);
+      }
     }
 }

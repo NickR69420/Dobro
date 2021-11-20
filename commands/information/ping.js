@@ -12,38 +12,49 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const { MessageEmbed } = require('discord.js')
+const { MessageEmbed } = require("discord.js");
+const config = require("../../configuration/conf.json").bot;
+const ee = require("../../configuration/embed.json");
 
 module.exports = {
-    name: "ping",
-    usage: "ping",
-    cooldown: 2,
-    description: "Returns teh bot's ping!",
-    permsneeded: "SEND_MESSAGES",
-    run: async (bot, message, args) => {
-
-        const before = Date.now();
-        message.channel.send("Pinging...").then((msg) => {
-            const latency = Date.now() - before;
-            const wsLatency = bot.ws.ping;
-            const embed = new MessageEmbed()
-                .setAuthor("🏓 | PONG!", bot.user.displayAvatarURL())
-                .setColor("RANDOM")
-                .addFields({
-                    name: "Latency",
-                    value: `**\`${latency}\`** ms`,
-                    inline: true
-                }, {
-                    name: "API Latency",
-                    value: `**\`${wsLatency}\`** ms`,
-                    inline: true
-                })
-                .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
-            msg.edit(embed);
-            console.log(`Latency: ${latency} | API Latency: ${wsLatency} to Server -> ${message.guild.name}`)
-            console.log("===========================================================")
-            //i wanna know the ping too k ty
-
+  name: "ping",
+  usage: "ping",
+  aliases: ["latency", "pong", "ms"],
+  cooldown: 2,
+  description: "Returns teh bot's ping!",
+  permsneeded: "SEND_MESSAGES",
+  run: async (bot, message, args) => {
+    try {
+      var date = Date.now();
+      message.channel
+        .send({
+          embed: new MessageEmbed()
+            .setTitle(`🏓 Pinging....`)
+            .setColor("RANDOM"),
         })
+        .then((msg) => {
+          msg.delete().then(
+            message.channel.send({
+              embed: new MessageEmbed()
+                .setAuthor(`Pong 🏓`, config.logo)
+                .addField(
+                  "📶 Latency:",
+                  `\`${Math.round(Date.now() - date)}ms\``
+                )
+                .addField("🤖 API Latency:", `\`${Math.round(bot.ws.ping)}ms\``)
+                .setColor(ee.success)
+                .setTimestamp(),
+            })
+          );
+        });
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
     }
-}
+  },
+};

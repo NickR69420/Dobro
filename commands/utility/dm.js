@@ -18,32 +18,39 @@ module.exports = {
   name: "dm",
   aliases: ["dms", "message"],
   usage: "dm <@user> <message> [-s]",
-  cooldown: 30,
+  cooldown: 15,
   description: "Private message a user",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
 
     message.delete();
-    let user = message.mentions.users.first() || message.author
-    let avatar = user.displayAvatarURL({ dynamic: true })
 
+    let member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
     const str = args.slice(1).join(" ")
-    if (!user) return message.reply("Please mention a user!")
 
-    if (!str) return message.reply("Please provide content for your message!")
-    if (message.content.includes('-s')) {
-      user.send(str.replace("-s", " ")
-      ).catch(e => console.log("Error lol"))
-    } else {
-      user.send(`${message.author.tag}: ${str}`)
+    if (!member) return message.reply("Please mention a user!");
 
-    }
+    if (!str) return message.reply("Please provide content for your message!");
+
+    let avatar = member.user.displayAvatarURL({ size: 256 })
     const DMSENT = new Discord.MessageEmbed()
-      .setTitle(`SUCCESS!`)
-      .setDescription(`Message has been sent to ${user.tag}!`)
+      .setDescription(`Message has been sent to ${member.user.tag}!`)
       .setColor('GREEN')
-      .setThumbnail(avatar)
+      .setAuthor("Success!", avatar)
+      .setFooter(bot.user.username, bot.user.displayAvatarURL())
 
-    message.channel.send(DMSENT)
+    try {
+    if (message.content.includes('-s')) {
+      member.send(str.replace("-s", " ")
+      )
+    } else {
+      member.send(`${message.author.tag}: ${str}`,
+      )
+    }
+  } catch (e) {
+    return message.reply(":x: You cannot send a message to this user!")
+  }
+
+  message.channel.send(DMSENT)
   }
 }

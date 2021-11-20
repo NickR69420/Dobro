@@ -22,7 +22,7 @@ module.exports = {
     description: "Reloads all bot commands!",
     permsneeded: "ADMINISTRATOR",
     run: async (bot, message, args) => {
-
+try {
         const ownerId = "734331898339524630"  // Electrum
         const ownerId2 = "775265751954096138" // Nickk
 
@@ -54,5 +54,14 @@ module.exports = {
             console.log(`All Commands were reloaded!`)
             console.log(`===========================================================`)
         })
+    } catch (e) {
+        bot.error(
+          {
+            Error: e.stack,
+          },
+          message
+        ),
+          console.log(e.stack);
+      }
     },
 }

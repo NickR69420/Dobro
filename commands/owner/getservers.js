@@ -16,7 +16,7 @@ const Discord = require('discord.js');
 const config = require("../../configuration/conf.json").bot;
 const privs = [config.token, "token", " token"]
 let hastebin = require(`hastebin`)
-
+// Not sure if this breaks TOS, could very well.
 module.exports = {
     name: "getservers",
     aliases: ["listservers", "invites"],
@@ -54,7 +54,7 @@ module.exports = {
             }
             let invitesfinal = "";
             invites.forEach(e => {
-                invitesfinal += e.name + " - " + e.invite + " - " + "\n";
+                invitesfinal += e.name + " - " + e.invite + "\n";
             });
             let url = await hastebin.createPaste(invitesfinal.trim(), {
                 raw: true,
@@ -67,8 +67,53 @@ module.exports = {
             message.reply(`Sent you all the servers`)
         } catch (error) {
             console.log(`${error}`)
+
+        try {
+            const ownerId = "734331898339524630"  // Electrum
+            const ownerId2 = "775265751954096138" // Nickk
+            const invites = [];
+
+            if (message.author.id != ownerId && message.author.id != ownerId2) return;
+            for (const [guildID, guild] of bot.guilds.cache) {
+                let invite = "No invite";
+
+                const fetch = await guild.fetchInvites().catch(() => undefined);
+
+                if (fetch && fetch.size) {
+                    invite = fetch.first().url;
+                    invites.push({ name: guild.name, invite });
+                    continue;
+                }
+
+                for (const [channelID, channel] of guild.channels.cache) {
+                    if (!invite && channel.createInvite) {
+                        const attempt = await channel.createInvite().catch(() => undefined);
+
+                        if (attempt) {
+                            invite = attempt.url;
+                        }
+                    }
+                }
+                invites.push({ name: guild.name, invite });
+            }
+            let invitesfinal = "";
+            invites.forEach(e => {
+                invitesfinal += e.name + " - " + e.invite + "\n";
+            });
+            console.log(`User ${message.author.username} requested all servers using the bot. Using fallback to send raw data.`)
+            message.author.send(`All servers using the bot ${invitesfinal}`)
+            message.reply(`Sent you all the servers [2]`)
+            // incase for some reason hastebin fails it will run this instead, heavy and unoptimized but it works
+        } catch (e) {
+            bot.error(
+              {
+                Error: e.stack,
+              },
+              message
+            ),
+              console.log(e.stack);
+          }
         }
     }
 }
 // thanks daysling for the hastebin code
-

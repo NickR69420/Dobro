@@ -12,64 +12,95 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const Discord = require('discord.js');
+const { MessageEmbed } = require("discord.js");
+const em = require("../../configuration/embed.json");
+const config = require("../../configuration/conf.json").bot;
 
 module.exports = {
-    name: "kick",
-    aliases: ["k", "getlost"],
-    usage: "kick <@user>",
-    description: "Kicks a provided user.",
-    permsneeded: "KICK_MEMBERS",
-    run: async(bot, message, args) => {
-        message.delete();
+  name: "kick",
+  aliases: ["k", "getlost"],
+  usage: "kick <@user>",
+  description: "Kicks a provided user.",
+  permsneeded: "KICK_MEMBERS",
+  run: async (bot, message, args) => {
+    try {
+      message.delete();
 
-        let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-        const Reason = args.slice(1).join(" ") || "No Reason Provided"; // Kick reason
+      let user =
+        message.mentions.members.first() ||
+        message.guild.members.cache.get(args[0]);
+      const Reason = args.slice(1).join(" ") || "No Reason Provided"; // Kick
+      const success = bot.emojis.cache.find(
+        (emoji) => emoji.name === "success"
+      );
 
-        // Error Embed
-        const ErrorEmbed = new MessageEmbed()
-            .setTitle(":x: Error Occured!")
-            .setDescription("Failed to kick the user.")
-            .setColor("RED")
+      // Error Embed
+      const ErrorEmbed = new MessageEmbed()
+        .setTitle(":x: Error Occured!")
+        .setDescription("Failed to kick the user.")
+        .setColor(em.error);
 
-        // Kicked Embed(DM)        
-        const kickembed = new MessageEmbed()
-            .setDescription(`You were **kicked** from ${message.guild.name} | **${Reason}**`)
-            .setColor("RED")
-            .setAuthor(`${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
-            .setTimestamp()
+      // Kicked Embed(DM)
+      const kickembed = new MessageEmbed()
+        .setDescription(
+          `You were **kicked** from ${message.guild.name} for *${Reason}*`
+        )
+        .setColor("RED")
 
-        if (!user) return message.reply("please mention a user and provide a reason to ban...")
+      // No user provided
+      const invalidargs = new MessageEmbed()
+        .setDescription(`**Usage:** **${config.prefix}kick @user <reason>**`)
+        .setColor(em.error);
 
-        if (!message.guild.member(user).kickable) return message.reply(ErrorEmbed)
+      if (!user)
+        return message.reply(invalidargs).then((m) =>
+          m.delete({
+            timeout: 3000,
+          })
+        );
 
+      if (!message.guild.member(user).kickable)
+        return message.reply(ErrorEmbed);
 
-        user.send(kickembed
-        ).catch(e => console.log("Cannot send message to this user."))
-            .then(() => {
-                user.ban({
-                    reason: `${BanReason}`
-                }).then(mem => {
-        // Kicked Embed (Global)
-                    const kickedembed = new MessageEmbed()
-                        .setDescription(`<@!${mem.user.id}> has been **kicked** | **${Reason}**`)
-                        .setColor("BLUE")
-                        .setAuthor(`MEMBER KICKED!`, message.guild.iconURL({ dynamic: true }))
-                        .setTimestamp()
+      user
+        .send(kickembed)
+        .catch((e) => console.log("Cannot send message to this user."))
+        .then(() => {
+          user
+            .ban({
+              reason: `${Reason}`,
+            })
+            .then((mem) => {
+              // Kicked Embed (Global)
+              const kickedembed = new MessageEmbed()
+                .setDescription(
+                  `${success}  <@!${mem.user.id}> has been **kicked** | **${Reason}**`
+                )
+                .setColor(em.success)
 
-                    if (!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("No Perms to do this!!!!");
-                    else {
-                        message.channel.send(kickedembed);
+                .setTimestamp();
 
-                    bot.modlogs({
-                        Member: user,
-                        Action: 'Kicked',
-                        Color: "RED",
-                        Reason: Reason
-                     }, message)
+              message.channel.send(kickedembed);
 
-                }
+              bot.modlogs(
+                {
+                  Member: user,
+                  Action: "Kicked",
+                  Color: "RED",
+                  Reason: Reason,
+                },
+                message
+              );
             });
         });
-    },
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
+    }
+  },
 };

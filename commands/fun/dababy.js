@@ -23,7 +23,7 @@ module.exports = {
   description: "You know what this is....",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
-
+    try {
     const loading = bot.emojis.cache.find(emoji => emoji.name === "dababy");
     const member = message.mentions.users.first() || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args[0] ? args[0].toLowerCase() : undefined) || message.author;
     const loadingmsg = await message.reply(`${loading}`, { allowedMentions: { repliedUser: false } });
@@ -39,12 +39,21 @@ module.exports = {
     const attach = new Discord.MessageAttachment(canvas.toBuffer(), `Da${member.username}.jpg`);
     await loadingmsg.delete();
 
-    const uwu = { files: [attach], allowedMentions: { repliedUser: false } }
     const embed = new Discord.MessageEmbed()
       .setTitle("LESS GOOOOOOOOOOOOOOOOOO")
       .setColor('BLUE')
       .attachFiles(attach)
     message.channel.send(embed)
+    
+  } catch (e) {
+    bot.error(
+      {
+        Error: e.stack,
+      },
+      message
+    ),
+      console.log(e.stack);
+  }
     // i really like this command - electrum
   }
 }

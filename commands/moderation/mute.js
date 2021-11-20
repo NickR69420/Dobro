@@ -11,8 +11,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.const { MessageEmbed } = require("discord.js");
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+const { MessageEmbed } = require("discord.js");
 const ms = require("ms");
+const config = require("../../configuration/conf.json").bot;
+const em = require("../../configuration/embed.json");
 
 module.exports = {
   name: "mute",
@@ -21,111 +24,160 @@ module.exports = {
   description: "Mutes a provided user",
   permsneeded: "KICK_MEMBERS",
   run: async (bot, message, args) => {
-    let avatar = message.author.displayAvatarURL({ dynamic: true });
+    try {
+      message.delete();
 
-    if (!message.member.hasPermission("MANAGE_MESSAGES"))
-      return message.channel.send(
-        "You do not have permissions to use this command"
+      const Member =
+        message.mentions.members.first() ||
+        message.guild.members.cache.get(args[0]);
+      const time = args[1];
+      const reason = args.slice(2).join(" ");
+      const success = bot.emojis.cache.find(
+        (emoji) => emoji.name === "success"
       );
-    const Member =
-      message.mentions.members.first() ||
-      message.guild.members.cache.get(args[0]);
-    const time = args[1];
-    const reason = args.slice(2).join(" ");
-    if (!Member)
-      return message.channel.send(
-        "Must mention a member.\n`Ex: d!mute @dumbass [duration] <Reason>`"
-      );
-    if (!time)
-      return message.channel.send(
-        "Please specify a time.\n`d!mute @dumbass 1h Spam`"
-      );
-    const role = message.guild.roles.cache.find(
-      (role) => role.name.toLowerCase() === "muted"
-    );
-    if (!role) {
-      try {
-        message.channel.send(
-          "Muted role is not found, attempting to create muted role....."
+
+      // Missing Perms Error
+      const ErrorEmbed = new MessageEmbed()
+        .setTitle(":x: Error Occured!")
+        .setDescription("Failed to mute the user. | Missing Perms")
+        .setColor(em.error);
+
+      // No Member Provided
+      const invalidargs = new MessageEmbed()
+        .setTitle("Must mention a member.")
+        .setDescription(
+          `**Example:** **${config.prefix}mute @user [duration] <reason>**`
+        )
+        .setColor(em.error);
+
+      // No time Provided
+      const notime = new MessageEmbed()
+        .setTitle("Please specify a time.")
+        .setDescription(`Example: ${config.prefix}mute @user 1h Breaking Rules`)
+        .setColor(em.error);
+
+      if (!Member)
+        return message.reply(invalidargs).then((m) =>
+          m.delete({
+            timeout: 3000,
+          })
         );
 
-        let muterole = await message.guild.roles.create({
-          data: {
-            name: "muted",
-            permissions: [],
-          },
-        });
-        message.guild.channels.cache
-          .filter((c) => c.type === "text")
-          .forEach(async (channel, id) => {
-            await channel.createOverwrite(muterole, {
-              SEND_MESSAGES: false,
-              ADD_REACTIONS: false,
-            });
-          });
-        message.channel.send("Muted role has sucessfully been created.");
-      } catch (error) {
-        console.log(error);
-      }
-    }
+      if (!time) return message.channel.send(notime);
 
-    const mutedDM = new MessageEmbed()
-      .setDescription(
-        `You were **muted** in ${message.guild.name} | **${reason}**`
-      )
-      .setColor("RED")
-      .setAuthor(
-        `${message.guild.name}`,
-        message.guild.iconURL({ dynamic: true })
-      )
-      .setTimestamp();
+      if (!message.guild.member(Member).bannable)
+        return message.reply(ErrorEmbed).then((m) =>
+          m.delete({
+            timeout: 2500,
+          })
+        );
 
-    let role2 = message.guild.roles.cache.find(
-      (r) => r.name.toLowerCase() === "muted"
-    );
-    if (Member.roles.cache.has(role2.id))
-      return message.channel.send(
-        `${Member.displayName} has already been muted.`
+      const role = message.guild.roles.cache.find(
+        (role) => role.name === "Muted"
       );
+      if (!role) {
+        try {
+          message.channel.send(
+            "Muted role is not found, attempting to create muted role....."
+          );
 
-    Member.send(mutedDM).then(() => {
-      Member.roles.add(role2).then((mem) => {
-        const muted = new MessageEmbed()
-          .setTitle("Member Muted!", message.guild.iconURL)
-          .setDescription(
-            `<@${mem.user.id}> has been **muted** | **${reason}**`
-          )
-          .setColor("RED")
-          .setFooter(`ID: ${Member.id}`, avatar)
-          .setTimestamp();
-
-        if (!message.member.hasPermission("BAN_MEMBERS"))
-          return message.channel.send("No Perms to do this!!!!");
-        else {
-          message.channel.send(muted);
-
-          bot.modlogs({
-              Member: Member,
-              Action: "Muted",
-              Color: "ORANGE",
-              Reason: reason,
+          let muterole = await message.guild.roles.create({
+            data: {
+              name: "Muted",
+              permissions: [],
             },
-            message);
-
-          setTimeout(async () => {
-            await Member.roles.remove(role2);
-
-            const unmuted = new MessageEmbed()
-              .setTitle(`${message.guild.name}`, message.guild.iconURL)
-              .setDescription(
-                `Your mute has expired in ***${message.guild.name}**!`
-              )
-              .setColor("#7CFC00")
-              .setTimestamp();
-            Member.send(unmuted);
-          }, ms(time));
+          });
+          message.guild.channels.cache
+            .filter((c) => c.type === "text")
+            .forEach(async (channel, id) => {
+              await channel.createOverwrite(muterole, {
+                SEND_MESSAGES: false,
+                ADD_REACTIONS: false,
+              });
+            });
+          message.channel.send(
+            "Muted role has sucessfully been created. Please run the command again!"
+          );
+        } catch (error) {
+          message.reply(
+            `Something went wrong, please contact a developer!`, console.log(`Something went wrong while running the mute commmand in ${message.guild.name}`)
+          );
+          console.log(error);
+           // Todo, log what guild it happend in, to lazy to do rn
         }
+      }
+
+      ////////////////////////// muting part
+      const mutedDM = new MessageEmbed()
+        .setDescription(
+          `You were **muted** in ${message.guild.name} | **${reason}**`
+        )
+        .setColor("RED")
+        .setAuthor(
+          `${message.guild.name}`,
+          message.guild.iconURL({
+            dynamic: true,
+          })
+        )
+        .setTimestamp();
+
+      let mute = message.guild.roles.cache.find((m) => m.name === "Muted");
+
+      if (Member.roles.cache.has(mute.id))
+        return message.channel.send(
+          `${Member.displayName} has already been muted.`
+        );
+
+      Member.roles.add(mute).then((mem) => {
+        const muted = new MessageEmbed()
+          .setAuthor(
+            "Member Muted!",
+            Member.user.displayAvatarURL({
+              dynamic: true,
+            })
+          )
+          .setDescription(
+            `${success}  <@${mem.user.id}> has been **muted** | *${reason}*`
+          )
+          .setColor(em.success);
+
+        message.channel
+          .send(muted)
+          .then(
+            Member.send(mutedDM).catch((e) => console.log("Muted a member."))
+          );
+
+        bot.modlogs(
+          {
+            Member: Member,
+            Action: "Muted",
+            Color: "ORANGE",
+            Reason: reason,
+          },
+          message
+        );
+
+        setTimeout(async () => {
+          await Member.roles.remove(mute);
+
+          const unmuted = new MessageEmbed()
+            .setTitle(`${message.guild.name}`, message.guild.iconURL)
+            .setDescription(
+              `Your mute has expired in **${message.guild.name}**!`
+            )
+            .setColor("#7CFC00")
+            .setTimestamp();
+          Member.send(unmuted);
+        }, ms(time));
       });
-    });
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
+    }
   },
 };

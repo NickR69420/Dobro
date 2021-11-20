@@ -6,7 +6,7 @@ module.exports = (bot) => {
         console.log(`Loaded all commands!`)
         console.log(`===========================================================`)
         console.log("Bot is online");
-        console.log(`${bot.user.tag} is now in ${bot.guilds.cache.size} servers!`)
+        console.log(`${bot.user.tag} is now in ${bot.guilds.cache.size} guilds!`)
         console.log(`Bot started in ${moment.duration(bot.uptime).format("S")} seconds`)
         console.log(`===========================================================`)
     });

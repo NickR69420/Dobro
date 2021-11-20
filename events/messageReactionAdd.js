@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-	const TicketData = require('../models/TicketData');
-	const prefix = require("../configuration/conf.json").bot.prefix;
-	const cooldown = new Set();
-	const { MessageEmbed, MessageCollector } = require('discord.js');
-=======
 // This file is part of Dobro
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,14 +12,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// const TicketData = require('../models/TicketData');
-	// const prefix = require("../configuration/conf.json").bot.prefix;
-	// const cooldown = new Set();
-	// const { MessageEmbed, MessageCollector } = require('discord.js');
->>>>>>> 61fad08db3fde1ec6a9551f0eed790024a7d5e15
+const TicketData = require('../models/TicketData');
+const prefix = require("../configuration/conf.json").bot.prefix;
+const cooldown = new Set();
+const { MessageEmbed, MessageCollector } = require('discord.js');
 
-	module.exports = async (bot) => {
-			bot.on('messageReactionAdd', async(reaction, user) => {
+module.exports = async (bot) => {
+	bot.on('messageReactionAdd', async (reaction, user) => {
 
 		if (user.bot) return;
 
@@ -78,17 +71,17 @@
 		}
 	}
 
-	,async function checkIfClose(bot, reaction, user, successMsg, channel) {
-		const filter = m => m.content.toLowerCase() === `${prefix}close`
-		const collector = new MessageCollector(channel, filter);
+		, async function checkIfClose(bot, reaction, user, successMsg, channel) {
+			const filter = m => m.content.toLowerCase() === `${prefix}close`
+			const collector = new MessageCollector(channel, filter);
 
-		collector.on('collect', async msg => {
-			msg.channel.send(`This channel will be deleted in **10** seconds.`);
-			await collector.stop();
-			setTimeout(function () {
-				channel.delete();
-						}, 10000);
+			collector.on('collect', async msg => {
+				msg.channel.send(`This channel will be deleted in **10** seconds.`);
+				await collector.stop();
+				setTimeout(function () {
+					channel.delete();
+				}, 10000);
 
 			})
 		})
-	}
+}

@@ -18,29 +18,30 @@ const Canvas = require('discord-canvas');
 module.exports = {
   name: "canvas",
   run: async (bot, message, args) => {
+    let user = message.author;
+    // const user = user.user;
+            const image = new Canvas.Welcome()
+                .setUsername(user.username)
+                .setDiscriminator(user.discriminator)
+                .setMemberCount("69")
+                .setGuildName("Server")
+                .setAvatar(user.displayAvatarURL({ format: "png" }))
+                .setColor("border", "#154360")
+                .setColor("username-box", "#5499C7")
+                .setColor("discriminator-box", "#5499C7")
+                .setColor("message-box", "#3393FF")
+                .setColor("title", "#3498DB")
+                .setColor("avatar", "#3393FF")
+                .setBackground(
+                    "https://i.redd.it/6z9rly4ljd8x.png"
+                )
+                .toAttachment();
 
-    const image = new Canvas.Goodbye()
-      .setUsername("xixi52")
-      .setDiscriminator("0001")
-      .setMemberCount("140")
-      .setGuildName("Server DEV")
-      .setAvatar(message.author.displayAvatarURL({ format: "png" }))
-      .setColor("border", "#8015EA")
-      .setColor("username-box", "#8015EA")
-      .setColor("discriminator-box", "#8015EA")
-      .setColor("message-box", "#8015EA")
-      .setColor("title", "#8015EA")
-      .setColor("avatar", "#8015EA")
-      .setBackground(
-        "https://i.pinimg.com/originals/fd/8f/8d/fd8f8da060afe72035e078e5fe661452.png"
-      )
-      .toAttachment();
+            const attachment = new MessageAttachment(
+                (await image).toBuffer(),
+                "welcome-image.png"
+            );
 
-    const attachment = new MessageAttachment(
-      (await image).toBuffer(),
-      "goodbye-image.png"
-    );
-
-    message.channel.send(attachment);
+            message.channel.send(attachment)
   },
 };

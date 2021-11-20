@@ -12,27 +12,34 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const Discord = require('discord.js')
+const Discord = require("discord.js");
 
 module.exports = {
-    name: "avatar",
-    aliases: ["av", "pfp"],
-    usage: "avatar [@user]",
-    cooldown: 5,
-    description: "displays user's avatar",
-    permsneeded: "SEND_MESSAGES",
-    run: async (bot, message, args) => {
+  name: "avatar",
+  aliases: ["av", "pfp"],
+  usage: "avatar [@user]",
+  cooldown: 5,
+  description: "displays user's avatar",
+  permsneeded: "SEND_MESSAGES",
+  run: async (bot, message, args) => {
+    try {
+      let user = message.mentions.users.first() || message.author;
+      let avatar = user.displayAvatarURL({ dynamic: true, size: 512 });
 
-        let user = message.mentions.users.first() || message.author
-        let avatar = user.displayAvatarURL({ dynamic: true })
+      const embed = new Discord.MessageEmbed()
+        .setTitle(`${user.username}'s Avatar`)
+        .setImage(avatar)
+        .setColor("RANDOM")
 
-        const embed = new Discord.MessageEmbed()
-            .setTitle(`${user.username}'s Avatar`)
-            .setImage(avatar)
-            .setColor('RANDOM')
-            .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
-
-        message.channel.send(embed);
-
+      message.channel.send(embed);
+    } catch (e) {
+      bot.error(
+        {
+          Error: e.stack,
+        },
+        message
+      ),
+        console.log(e.stack);
     }
-}
+  },
+};

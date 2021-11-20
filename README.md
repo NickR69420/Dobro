@@ -19,11 +19,18 @@ You can just rename the exampleconf.json to conf.json
 
 For support, please contact Nickk#0007 or ELECTRUM#0729 on Discord.
 
-Join the [Discord Server](https://discord.gg/qD8GxsuWZ2)
+
+# License
+
+All files are under GNU GENERAL PUBLIC license, for more info see [here](http://www.gnu.org/licenses/)
 
 # Partners
 People who add my bot to their Discord Server automatically become Partners!
 
-- [DaSweetSMP](https://discord.gg/4evHSPqapC)
+- [DaSweet](https://discord.gg/4evHSPqapC)
 - [Azgoria SMP](https://discord.gg/gYHM8jcHEB)
 - [xBlued's House](https://discord.gg/bE7NyE7Kbg)
+<<<<<<< Updated upstream
+=======
+- [Digital Devil Saga](https://discord.gg/y2TSapmCNQ)
+>>>>>>> Stashed changes

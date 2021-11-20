@@ -14,16 +14,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 const Discord = require('discord.js');
+// const Updater = require('./updater.js');
 const bot = new Discord.Client({
-     disableEveryone: false,
-     partials: ['MESSAGE', 'CHANNEL', 'REACTION'] 
-    });    
-const fs = require('fs');
+    disableEveryone: false,
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION']
+});
 const config = require('./configuration/conf.json');
+const embedconfig = require("./configuration/embed.json");
 
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 
+
+// Updater.start();
 
 ["loader"].forEach(handler => {
     require(`./handlers/${handler}`)(bot);
@@ -48,7 +51,7 @@ bot.aliases = new Discord.Collection();
     require(`./events/${handler}`)(bot)
 });
 
-// Goodbye Event
+//  Goodbye Event
 ["goodbye.js"].forEach(handler => {
     require(`./events/${handler}`)(bot)
 });
@@ -67,5 +70,10 @@ bot.aliases = new Discord.Collection();
 ["ready.js"].forEach(handler => {
     require(`./events/${handler}`)(bot)
 });
+
+// // Error Logging/Handling
+// ["error.js"].forEach(handler => {
+//     require(`./events/${handler}`)(bot)
+// });
 
 bot.login(config.bot.token)

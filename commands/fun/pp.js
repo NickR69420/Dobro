@@ -23,8 +23,9 @@ module.exports = {
   description: "How big is your dick?",
   permsneeded: "SEND_MESSAGES",
   run: async (bot, message, args) => {
+    try {
 
-    let randomPPs = [`8=D`, `8==D`, `8=====D`, `8=======D`, `8===D`, `8=========D`, `8D`]
+    let randomPPs = [`8=D`, `8==D`, `8=====D`, `8=======D`, `8===D`, `8=========D`, `8D`, `8=======D`, `8====D`]
     let user = message.mentions.users.first() || message.author
     let PPs = [`${randomPPs[Math.floor(Math.random() * randomPPs.length)]}`]
 
@@ -33,7 +34,17 @@ module.exports = {
       .setTitle('`PP Size Machine`')
       .addField(`${user.username}'s Dick`, `${PPs}`, false)
       .setFooter(`Requested by ${message.author.username}`, config.logo)
+      .setColor("RANDOM")
 
     message.channel.send(ppembed)
+  } catch (e) {
+    bot.error(
+      {
+        Error: e.stack,
+      },
+      message
+    ),
+      console.log(e.stack);
+  }
   }
 }

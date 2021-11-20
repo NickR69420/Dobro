@@ -12,25 +12,38 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-const Discord = require('discord.js');
 const figlet = require('figlet');
 
 module.exports = {
     name: "ascii",
     aliases: ["art", "textart"],
     usage: "ascii [text]",
-    cooldown: 15,
+    cooldown: 5,
     description: "Converts text to ascii!",
     permsneeded: "SEND_MESSAGES",
     run: async (bot, message, args) => {
+        try {
 
-        figlet.text(
-            args.join(' '),
-            {
-                font: 'Doom',
-            },
-            async (err, data) => {
-                message.channel.send(`\`\`\`${data}\`\`\``);
-            })
+            text = args.join(' ')
+
+            if (!text) return message.reply("Please provide text to convert!")
+
+            figlet.text(
+                text,
+                {   
+                    font: 'Doom',
+                },
+                async (err, data) => {
+                    message.channel.send(`\`\`\`${data}\`\`\``);
+                })
+        } catch (e) {
+            bot.error(
+                {
+                    Error: e.stack,
+                },
+                message
+            ),
+                console.log(e.stack);
+        }
     }
 }
